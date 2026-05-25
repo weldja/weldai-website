@@ -23,8 +23,8 @@
 
 body {
   font-family: 'DM Sans', sans-serif;
-  background: var(--navy);
-  color: var(--white);
+  background: #f0f5ff;
+  color: #1a2438;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -32,18 +32,6 @@ body {
   justify-content: center;
   padding: 2rem;
   overflow-x: hidden;
-}
-
-/* Background grid */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(37,99,199,0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(37,99,199,0.05) 1px, transparent 1px);
-  background-size: 40px 40px;
-  pointer-events: none;
 }
 
 .demo-wrap {
@@ -64,14 +52,15 @@ body::before {
   font-family: 'DM Serif Display', serif;
   font-size: 1.6rem;
   letter-spacing: -0.02em;
+  color: #0d1b2a;
   margin-bottom: 0.5rem;
 }
 
-.demo-header .logo span { color: #93b8ff; }
+.demo-header .logo span { color: #2563c7; }
 
 .demo-header p {
   font-size: 0.9rem;
-  color: var(--text-dim);
+  color: #5a6a82;
 }
 
 /* Browser chrome */
@@ -413,7 +402,7 @@ body::before {
   align-items: center;
   gap: 0.4rem;
   font-size: 0.78rem;
-  color: #4a6a8a;
+  color: #5a6a82;
 }
 
 .privacy-item .dot-green {
@@ -454,12 +443,12 @@ body::before {
 
 .demo-cta .ghost {
   background: transparent;
-  border: 1px solid var(--border);
-  color: var(--text-dim);
+  border: 1px solid #d4dff0;
+  color: #5a6a82;
   margin-right: 0;
 }
 
-.demo-cta .ghost:hover { border-color: rgba(255,255,255,0.2); color: white; }
+.demo-cta .ghost:hover { border-color: #2563c7; color: #2563c7; }
 
 /* Animations */
 @keyframes fadeUp {
@@ -512,21 +501,21 @@ body::before {
 }
 
 .scenario-btn {
-  background: var(--surface);
-  border: 1px solid var(--border);
+  background: white;
+  border: 1px solid #d4dff0;
   border-radius: 100px;
   padding: 0.4rem 1rem;
   font-size: 0.78rem;
-  color: var(--text-dim);
+  color: #5a6a82;
   cursor: pointer;
   transition: all 0.2s;
   font-family: 'DM Sans', sans-serif;
 }
 
 .scenario-btn:hover, .scenario-btn.active {
-  background: rgba(37,99,199,0.2);
-  border-color: rgba(37,99,199,0.4);
-  color: #93b8ff;
+  background: #e8f0fb;
+  border-color: #2563c7;
+  color: #2563c7;
 }
 </style>
 </head>
