@@ -7,599 +7,267 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 :root {
   --navy: #0a1628;
   --blue: #1a4fa3;
   --blue-mid: #2563c7;
-  --blue-glow: rgba(37,99,199,0.4);
   --green: #22c55e;
-  --green-dim: rgba(34,197,94,0.15);
+  --green-dim: rgba(34,197,94,0.12);
   --white: #ffffff;
-  --text-dim: #8fa8c8;
-  --border: rgba(255,255,255,0.08);
-  --surface: rgba(255,255,255,0.04);
+  --text: #1a2438;
+  --muted: #5a6a82;
+  --border: #d4dff0;
+  --pale: #f0f5ff;
+  --surface: #f8faff;
 }
 
 body {
   font-family: 'DM Sans', sans-serif;
-  background: #f0f5ff;
-  color: #1a2438;
+  background: var(--pale);
+  color: var(--text);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
-  overflow-x: hidden;
-}
-
-.demo-wrap {
-  width: 100%;
-  max-width: 860px;
-  position: relative;
+  padding: 2rem 1rem;
 }
 
 /* Header */
 .demo-header {
   text-align: center;
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.5rem;
   opacity: 0;
-  animation: fadeUp 0.8s ease 0.2s forwards;
+  animation: fadeUp 0.6s ease 0.2s forwards;
 }
-
-.demo-header .logo {
-  font-family: 'DM Serif Display', serif;
-  font-size: 1.6rem;
-  letter-spacing: -0.02em;
-  color: #0d1b2a;
-  margin-bottom: 0.5rem;
-}
-
-.demo-header .logo span { color: #2563c7; }
-
-.demo-header p {
-  font-size: 0.9rem;
-  color: #5a6a82;
-}
-
-/* Browser chrome */
-.browser {
-  background: #ffffff;
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow:
-    0 0 0 1px #d4dff0,
-    0 20px 60px rgba(26,79,163,0.12);
-  opacity: 0;
-  animation: fadeUp 0.8s ease 0.5s forwards;
-}
-
-.browser-bar {
-  background: #f0f5ff;
-  padding: 0.75rem 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  border-bottom: 1px solid var(--border);
-}
-
-.dot { width: 10px; height: 10px; border-radius: 50%; }
-
-.browser-url {
-  flex: 1;
-  background: rgba(255,255,255,0.05);
-  border-radius: 6px;
-  padding: 0.3rem 0.75rem;
-  font-family: 'DM Mono', monospace;
-  font-size: 0.72rem;
-  color: #8fa8c8;
-  margin: 0 0.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-
-.lock-icon { color: var(--green); font-size: 0.65rem; }
-
-/* App layout */
-.app-layout {
-  display: grid;
-  grid-template-columns: 220px 1fr;
-  min-height: 480px;
-}
-
-/* Sidebar */
-.sidebar {
-  background: #f8faff;
-  border-right: 1px solid #e0eaf8;
-  padding: 1.25rem;
-}
-
-.sidebar-brand {
-  margin-bottom: 1.25rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid #e0eaf8;
-}
-
-.sidebar-brand-name {
-  font-family: 'DM Serif Display', serif;
-  font-size: 0.95rem;
-  color: #1a4fa3;
-  margin-bottom: 0.15rem;
-}
-
-.sidebar-brand-sub {
-  font-size: 0.7rem;
-  color: #8fa8c8;
-}
-
-.sidebar-section {
-  margin-bottom: 1rem;
-}
-
-.sidebar-label {
-  font-size: 0.65rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #8fa8c8;
-  margin-bottom: 0.5rem;
-}
-
-.sidebar-files {
-  background: rgba(34,197,94,0.08);
-  border: 1px solid rgba(34,197,94,0.2);
-  border-radius: 6px;
-  padding: 0.4rem 0.6rem;
-  font-size: 0.72rem;
-  color: var(--green);
-  margin-bottom: 0.75rem;
-}
-
-.sidebar-file-list {
-  margin-top: 0.4rem;
-}
-
-.sidebar-file {
-  font-size: 0.68rem;
-  color: #5a7a9a;
-  padding: 0.15rem 0;
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-}
-
-.sidebar-btn-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 0.4rem;
-  margin-bottom: 1rem;
-}
-
-.sidebar-btn {
-  background: white;
-  border: 1px solid #d4dff0;
-  border-radius: 5px;
-  padding: 0.35rem 0.2rem;
-  font-size: 0.65rem;
-  color: #5a6a82;
-  text-align: center;
-  cursor: pointer;
-}
-
-.sidebar-suggested {
-  margin-top: 0.5rem;
-}
-
-.suggested-q {
-  background: #e8f0fb;
-  border: 1px solid #c0d4f0;
-  border-radius: 6px;
-  padding: 0.4rem 0.6rem;
-  font-size: 0.68rem;
-  color: #1a4fa3;
-  margin-bottom: 0.4rem;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-/* Main chat area */
-.chat-area {
-  display: flex;
-  flex-direction: column;
-  background: #ffffff;
-  position: relative;
-}
-
-.chat-tabs {
-  display: flex;
-  border-bottom: 1px solid #e0eaf8;
-  padding: 0 1.25rem;
-}
-
-.chat-tab {
-  padding: 0.6rem 0.75rem;
-  font-size: 0.75rem;
-  color: #8fa8c8;
-  border-bottom: 2px solid transparent;
-  margin-bottom: -1px;
-}
-
-.chat-tab.active {
-  color: #2563c7;
-  border-bottom-color: var(--blue-mid);
-}
-
-.chat-messages {
-  flex: 1;
-  padding: 1.25rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  min-height: 360px;
-}
-
-/* Messages */
-.msg-user {
-  display: flex;
-  justify-content: flex-end;
-  opacity: 0;
-}
-
-.msg-user .bubble {
-  background: var(--blue-mid);
-  color: white;
-  padding: 0.6rem 0.9rem;
-  border-radius: 12px 12px 2px 12px;
-  font-size: 0.82rem;
-  max-width: 70%;
-  line-height: 1.5;
-}
-
-.msg-ai {
-  display: flex;
-  gap: 0.6rem;
-  opacity: 0;
-}
-
-.ai-avatar {
-  width: 28px;
-  height: 28px;
-  background: var(--blue-mid);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.7rem;
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-
-.msg-ai .bubble {
-  background: #f0f5ff;
-  border: 1px solid #d4dff0;
-  padding: 0.7rem 0.9rem;
-  border-radius: 2px 12px 12px 12px;
-  font-size: 0.82rem;
-  max-width: 80%;
-  line-height: 1.6;
-  color: #1a2438;
-}
-
-.source-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  background: var(--green-dim);
-  border: 1px solid rgba(34,197,94,0.25);
-  border-radius: 5px;
-  padding: 0.25rem 0.5rem;
-  font-size: 0.68rem;
-  color: var(--green);
-  margin-top: 0.5rem;
-}
-
-.msg-meta {
-  font-size: 0.65rem;
-  color: #8fa8c8;
-  margin-top: 0.4rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.cached-badge {
-  background: rgba(250,204,21,0.1);
-  border: 1px solid rgba(250,204,21,0.2);
-  color: #facc15;
-  border-radius: 4px;
-  padding: 0.1rem 0.35rem;
-  font-size: 0.62rem;
-}
-
-/* Typing indicator */
-.typing {
-  display: flex;
-  gap: 0.6rem;
-  opacity: 0;
-}
-
-.typing-dots {
-  background: #f0f5ff;
-  border: 1px solid #d4dff0;
-  padding: 0.7rem 0.9rem;
-  border-radius: 2px 12px 12px 12px;
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-}
-
-.typing-dot {
-  width: 6px;
-  height: 6px;
-  background: #4a6a8a;
-  border-radius: 50%;
-  animation: typingBounce 1.2s infinite;
-}
-
-.typing-dot:nth-child(2) { animation-delay: 0.2s; }
-.typing-dot:nth-child(3) { animation-delay: 0.4s; }
-
-@keyframes typingBounce {
-  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
-  30% { transform: translateY(-4px); opacity: 1; }
-}
-
-/* Chat input */
-.chat-input-wrap {
-  padding: 0.75rem 1.25rem;
-  border-top: 1px solid #e0eaf8;
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-
-.chat-input {
-  flex: 1;
-  background: #f8faff;
-  border: 1px solid #d4dff0;
-  border-radius: 8px;
-  padding: 0.55rem 0.9rem;
-  font-size: 0.8rem;
-  color: #8fa8c8;
-  font-family: 'DM Sans', sans-serif;
-}
-
-
-.chat-send {
-  width: 32px;
-  height: 32px;
-  background: var(--blue-mid);
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.8rem;
-  cursor: pointer;
-  flex-shrink: 0;
-}
-
-/* Privacy bar */
-.privacy-bar {
-  margin-top: 1.5rem;
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  flex-wrap: wrap;
-  opacity: 0;
-  animation: fadeUp 0.8s ease 1s forwards;
-}
-
-.privacy-item {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-size: 0.78rem;
-  color: #5a6a82;
-}
-
-.privacy-item .dot-green {
-  width: 6px;
-  height: 6px;
-  background: var(--green);
-  border-radius: 50%;
-  animation: pulse-green 2s infinite;
-}
-
-@keyframes pulse-green {
-  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(34,197,94,0.4); }
-  50% { opacity: 0.7; box-shadow: 0 0 0 4px rgba(34,197,94,0); }
-}
-
-/* CTA */
-.demo-cta {
-  text-align: center;
-  margin-top: 2rem;
-  opacity: 0;
-  animation: fadeUp 0.8s ease 1.2s forwards;
-}
-
-.demo-cta a {
-  display: inline-block;
-  background: var(--blue-mid);
-  color: white;
-  padding: 0.75rem 2rem;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  text-decoration: none;
-  transition: all 0.2s;
-  margin-right: 1rem;
-}
-
-.demo-cta a:hover { background: var(--blue); transform: translateY(-1px); }
-
-.demo-cta .ghost {
-  background: transparent;
-  border: 1px solid #d4dff0;
-  color: #5a6a82;
-  margin-right: 0;
-}
-
-.demo-cta .ghost:hover { border-color: #2563c7; color: #2563c7; }
-
-/* Animations */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.show { animation: fadeUp 0.5s ease forwards; }
-
-/* Replay button */
-.replay-btn {
-  position: absolute;
-  top: 0.75rem;
-  right: 0.75rem;
-  background: #f0f5ff;
-  border: 1px solid #d4dff0;
-  border-radius: 6px;
-  padding: 0.3rem 0.7rem;
-  font-size: 0.7rem;
-  color: #5a6a82;
-  cursor: pointer;
-  transition: all 0.2s;
-  z-index: 10;
-}
-
-.replay-btn:hover { color: #2563c7; border-color: #2563c7; }
-
-/* Streaming text cursor */
-.cursor {
-  display: inline-block;
-  width: 2px;
-  height: 0.85em;
-  background: #2563c7;
-  margin-left: 1px;
-  vertical-align: middle;
-  animation: blink 0.8s infinite;
-}
-
-@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+.logo { font-family: 'DM Serif Display', serif; font-size: 1.5rem; color: var(--navy); letter-spacing: -0.02em; }
+.logo span { color: var(--blue-mid); }
+.demo-header p { font-size: 0.88rem; color: var(--muted); margin-top: 0.3rem; }
 
 /* Scenario selector */
 .scenario-bar {
-  display: flex;
-  justify-content: center;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
-  opacity: 0;
-  animation: fadeUp 0.8s ease 0.8s forwards;
-  flex-wrap: wrap;
+  display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 1.25rem; flex-wrap: wrap;
+  opacity: 0; animation: fadeUp 0.6s ease 0.4s forwards;
 }
-
 .scenario-btn {
-  background: white;
-  border: 1px solid #d4dff0;
-  border-radius: 100px;
-  padding: 0.4rem 1rem;
-  font-size: 0.78rem;
-  color: #5a6a82;
-  cursor: pointer;
-  transition: all 0.2s;
-  font-family: 'DM Sans', sans-serif;
+  background: white; border: 1px solid var(--border); border-radius: 100px;
+  padding: 0.4rem 1rem; font-size: 0.78rem; color: var(--muted);
+  cursor: pointer; transition: all 0.2s; font-family: 'DM Sans', sans-serif;
 }
+.scenario-btn.active { background: var(--blue-mid); border-color: var(--blue-mid); color: white; }
 
-.scenario-btn:hover, .scenario-btn.active {
-  background: #e8f0fb;
-  border-color: #2563c7;
-  color: #2563c7;
+/* Browser */
+.browser {
+  width: 100%; max-width: 820px;
+  background: white; border: 1px solid var(--border); border-radius: 14px;
+  overflow: hidden; box-shadow: 0 8px 40px rgba(26,79,163,0.12);
+  opacity: 0; animation: fadeUp 0.6s ease 0.6s forwards;
+  position: relative;
 }
+.browser-bar {
+  background: #f0f5ff; padding: 0.6rem 1rem;
+  display: flex; align-items: center; gap: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.dot { width: 9px; height: 9px; border-radius: 50%; }
+.browser-url {
+  flex: 1; background: white; border: 1px solid var(--border); border-radius: 5px;
+  padding: 0.25rem 0.75rem; font-family: 'DM Mono', monospace; font-size: 0.7rem;
+  color: var(--muted); margin: 0 0.5rem; display: flex; align-items: center; gap: 0.4rem;
+}
+.lock { color: var(--green); font-size: 0.6rem; }
+.replay-btn {
+  background: white; border: 1px solid var(--border); border-radius: 5px;
+  padding: 0.25rem 0.6rem; font-size: 0.68rem; color: var(--muted);
+  cursor: pointer; transition: all 0.2s; white-space: nowrap;
+}
+.replay-btn:hover { border-color: var(--blue-mid); color: var(--blue-mid); }
 
-  /* ── Mobile ── */
-  @media (max-width: 600px) {
-    body { padding: 1rem; }
-    .demo-header .logo { font-size: 1.3rem; }
-    .scenario-bar { gap: 0.35rem; }
-    .scenario-btn { padding: 0.3rem 0.65rem; font-size: 0.72rem; }
-    .app-layout { grid-template-columns: 1fr; }
-    .sidebar { display: none; }
-    .browser { border-radius: 10px; }
-    .chat-messages { min-height: 260px; padding: 0.75rem; }
-    .msg-user .bubble { font-size: 0.78rem; max-width: 88%; }
-    .msg-ai .bubble { font-size: 0.78rem; max-width: 92%; }
-    .ai-avatar { width: 24px; height: 24px; font-size: 0.6rem; }
-    .chat-input-wrap { padding: 0.5rem 0.75rem; }
-    .privacy-bar { gap: 0.6rem; }
-    .privacy-item { font-size: 0.7rem; }
-    .demo-cta { margin-top: 1.25rem; }
-    .demo-cta a { padding: 0.65rem 1.25rem; font-size: 0.82rem; margin-right: 0.5rem; }
-  }
+/* App layout */
+.app-layout { display: grid; grid-template-columns: 200px 1fr; min-height: 500px; }
+
+/* Sidebar */
+.sidebar { background: var(--surface); border-right: 1px solid var(--border); padding: 1rem; }
+.brand-name { font-family: 'DM Serif Display', serif; font-size: 0.9rem; color: var(--blue); margin-bottom: 0.15rem; }
+.brand-sub { font-size: 0.65rem; color: var(--muted); margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border); }
+.sidebar-label { font-size: 0.6rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #aab; margin-bottom: 0.4rem; margin-top: 0.75rem; }
+
+/* File list */
+.file-list { margin-bottom: 0.75rem; }
+.file-item {
+  display: flex; align-items: center; gap: 0.4rem;
+  font-size: 0.68rem; color: var(--muted); padding: 0.2rem 0;
+  border-radius: 4px; transition: all 0.3s;
+}
+.file-item.indexing { color: var(--blue-mid); }
+.file-item.indexed { color: var(--green); }
+.file-item.new-file { color: #f59e0b; }
+.file-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border); flex-shrink: 0; transition: background 0.3s; }
+.file-item.indexing .file-dot { background: var(--blue-mid); animation: pulseDot 1s infinite; }
+.file-item.indexed .file-dot { background: var(--green); }
+.file-item.new-file .file-dot { background: #f59e0b; }
+@keyframes pulseDot { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+/* Progress bar */
+.progress-wrap { margin: 0.5rem 0; }
+.progress-label { font-size: 0.65rem; color: var(--muted); margin-bottom: 0.25rem; display: flex; justify-content: space-between; }
+.progress-track { background: var(--border); border-radius: 100px; height: 4px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--blue-mid); border-radius: 100px; width: 0%; transition: width 0.3s ease; }
+.progress-fill.done { background: var(--green); }
+
+/* Status badge */
+.status-badge {
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  font-size: 0.65rem; padding: 0.25rem 0.5rem; border-radius: 4px;
+  margin-top: 0.5rem;
+}
+.status-badge.indexing { background: rgba(37,99,199,0.1); color: var(--blue-mid); border: 1px solid rgba(37,99,199,0.2); }
+.status-badge.ready { background: var(--green-dim); color: #16a34a; border: 1px solid rgba(34,197,94,0.2); }
+.status-badge.updating { background: rgba(245,158,11,0.1); color: #d97706; border: 1px solid rgba(245,158,11,0.2); }
+.status-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+.status-dot.pulse { animation: pulseDot 1s infinite; }
+
+.sidebar-btn-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.3rem; margin: 0.5rem 0; }
+.sidebar-btn {
+  background: white; border: 1px solid var(--border); border-radius: 4px;
+  padding: 0.3rem 0.2rem; font-size: 0.6rem; color: var(--muted); text-align: center;
+  transition: all 0.2s; cursor: pointer;
+}
+.sidebar-btn.active { background: var(--blue-mid); border-color: var(--blue-mid); color: white; }
+
+.suggested-q {
+  background: var(--pale); border: 1px solid var(--border); border-radius: 5px;
+  padding: 0.35rem 0.5rem; font-size: 0.65rem; color: var(--blue);
+  margin-bottom: 0.3rem; cursor: pointer; transition: background 0.2s; line-height: 1.4;
+}
+.suggested-q:hover { background: #e0eaf8; }
+
+/* Chat area */
+.chat-area { display: flex; flex-direction: column; }
+.chat-tabs { display: flex; border-bottom: 1px solid var(--border); padding: 0 1rem; }
+.chat-tab { padding: 0.55rem 0.65rem; font-size: 0.72rem; color: var(--muted); border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.chat-tab.active { color: var(--blue-mid); border-bottom-color: var(--blue-mid); }
+
+.chat-messages { flex: 1; padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem; min-height: 340px; }
+
+/* Phase banner */
+.phase-banner {
+  background: var(--pale); border: 1px solid var(--border); border-radius: 8px;
+  padding: 1rem 1.25rem; text-align: center; margin: auto 0;
+}
+.phase-banner .phase-icon { font-size: 1.75rem; margin-bottom: 0.5rem; }
+.phase-banner h3 { font-size: 0.9rem; font-weight: 500; color: var(--navy); margin-bottom: 0.3rem; }
+.phase-banner p { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+.phase-banner .phase-progress { margin-top: 0.75rem; }
+
+/* Messages */
+.msg-user { display: flex; justify-content: flex-end; opacity: 0; }
+.msg-user .bubble { background: var(--blue-mid); color: white; padding: 0.55rem 0.85rem; border-radius: 10px 10px 2px 10px; font-size: 0.8rem; max-width: 72%; line-height: 1.5; }
+.msg-ai { display: flex; gap: 0.5rem; opacity: 0; }
+.ai-avatar { width: 26px; height: 26px; background: var(--blue-mid); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; color: white; flex-shrink: 0; margin-top: 2px; }
+.msg-ai .bubble { background: var(--pale); border: 1px solid var(--border); padding: 0.6rem 0.85rem; border-radius: 2px 10px 10px 10px; font-size: 0.8rem; max-width: 80%; line-height: 1.6; color: var(--text); }
+.source-badge { display: inline-flex; align-items: center; gap: 0.3rem; background: var(--green-dim); border: 1px solid rgba(34,197,94,0.2); border-radius: 4px; padding: 0.2rem 0.5rem; font-size: 0.65rem; color: #16a34a; margin-top: 0.4rem; }
+.msg-meta { font-size: 0.62rem; color: #aab; margin-top: 0.3rem; display: flex; align-items: center; gap: 0.4rem; }
+.cached-badge { background: rgba(250,204,21,0.1); border: 1px solid rgba(250,204,21,0.25); color: #b45309; border-radius: 3px; padding: 0.08rem 0.3rem; font-size: 0.6rem; }
+
+/* Thinking */
+.typing { display: flex; gap: 0.5rem; opacity: 0; }
+.typing-dots { background: var(--pale); border: 1px solid var(--border); padding: 0.6rem 0.85rem; border-radius: 2px 10px 10px 10px; display: flex; align-items: center; gap: 0.25rem; }
+.typing-dot { width: 5px; height: 5px; background: var(--muted); border-radius: 50%; animation: bounce 1.2s infinite; }
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes bounce { 0%,60%,100%{transform:translateY(0);opacity:0.4} 30%{transform:translateY(-4px);opacity:1} }
+
+/* Input */
+.chat-input-wrap { padding: 0.6rem 1rem; border-top: 1px solid var(--border); display: flex; gap: 0.5rem; }
+.chat-input { flex: 1; background: var(--surface); border: 1px solid var(--border); border-radius: 7px; padding: 0.5rem 0.75rem; font-size: 0.78rem; color: var(--muted); font-family: 'DM Sans', sans-serif; }
+.chat-send { width: 30px; height: 30px; background: var(--blue-mid); border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: white; cursor: pointer; flex-shrink: 0; }
+
+/* Privacy bar */
+.privacy-bar {
+  display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;
+  margin-top: 1.25rem; padding: 0.75rem 1rem;
+  background: white; border: 1px solid var(--border); border-radius: 10px;
+  opacity: 0; animation: fadeUp 0.6s ease 0.8s forwards;
+  max-width: 820px; width: 100%;
+}
+.privacy-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; color: var(--muted); }
+.green-dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: pulseDot 2s infinite; }
+
+/* CTA */
+.demo-cta { text-align: center; margin-top: 1.25rem; opacity: 0; animation: fadeUp 0.6s ease 1s forwards; }
+.demo-cta a { display: inline-block; background: var(--blue-mid); color: white; padding: 0.7rem 1.75rem; border-radius: 8px; font-size: 0.88rem; font-weight: 500; text-decoration: none; margin: 0 0.4rem; transition: all 0.2s; }
+.demo-cta a:hover { background: var(--blue); transform: translateY(-1px); }
+.demo-cta .ghost { background: white; color: var(--muted); border: 1px solid var(--border); }
+.demo-cta .ghost:hover { border-color: var(--blue-mid); color: var(--blue-mid); }
+
+/* Text cursor */
+.cursor { display: inline-block; width: 2px; height: 0.85em; background: var(--blue-mid); margin-left: 1px; vertical-align: middle; animation: blink 0.7s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+.show { animation: fadeUp 0.35s ease forwards; }
+
+/* Mobile */
+@media (max-width: 600px) {
+  body { padding: 1rem 0.75rem; }
+  .app-layout { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+  .chat-messages { min-height: 260px; }
+  .privacy-bar { gap: 0.75rem; }
+  .privacy-item { font-size: 0.7rem; }
+}
 </style>
 </head>
 <body>
 
-<div class="demo-wrap">
+<div style="width:100%;max-width:820px;">
 
   <div class="demo-header">
     <div class="logo">Weld<span>AI</span></div>
-    <p>See how your team would use it — live interactive demo</p>
+    <p>Watch how it works — from indexing your documents to answering questions</p>
   </div>
 
   <div class="scenario-bar">
-    <button class="scenario-btn active" onclick="loadScenario('solicitors')">⚖️ Solicitors</button>
-    <button class="scenario-btn" onclick="loadScenario('accountants')">🏛️ Accountants</button>
-    <button class="scenario-btn" onclick="loadScenario('hr')">👥 HR Firm</button>
+    <button class="scenario-btn active" onclick="switchScenario('solicitors',this)">⚖️ Solicitors</button>
+    <button class="scenario-btn" onclick="switchScenario('accountants',this)">🏛️ Accountants</button>
+    <button class="scenario-btn" onclick="switchScenario('hr',this)">👥 HR Firm</button>
   </div>
 
-  <div class="browser" style="position:relative;">
-    <button class="replay-btn" onclick="replay()">↺ Replay</button>
-
+  <div class="browser">
     <div class="browser-bar">
       <div class="dot" style="background:#ff5f57"></div>
       <div class="dot" style="background:#febc2e"></div>
       <div class="dot" style="background:#28c840"></div>
       <div class="browser-url">
-        <span class="lock-icon">🔒</span>
-        <span id="url-text">https://your-server — Document Assistant</span>
+        <span class="lock">🔒</span>
+        <span id="url-bar">https://server — Document Assistant</span>
       </div>
+      <button class="replay-btn" onclick="replayDemo()">↺ Replay</button>
     </div>
 
     <div class="app-layout">
       <!-- Sidebar -->
       <div class="sidebar">
-        <div class="sidebar-brand">
-          <div class="sidebar-brand-name" id="brand-name">Smith & Jones Solicitors</div>
-          <div class="sidebar-brand-sub">Document Assistant</div>
+        <div class="brand-name" id="s-brand">Smith & Jones Solicitors</div>
+        <div class="brand-sub">Document Assistant</div>
+
+        <div class="sidebar-label">Documents</div>
+        <div class="file-list" id="file-list"></div>
+        <div class="progress-wrap" id="progress-wrap" style="display:none">
+          <div class="progress-label"><span id="progress-label-text">Indexing...</span><span id="progress-pct">0%</span></div>
+          <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+        </div>
+        <div id="status-badge"></div>
+
+        <div class="sidebar-btn-row" style="margin-top:0.75rem;">
+          <div class="sidebar-btn" id="btn-init">🚀 Init</div>
+          <div class="sidebar-btn" id="btn-update">⚡ Smart</div>
+          <div class="sidebar-btn" id="btn-full">🔄 Full</div>
         </div>
 
-        <div class="sidebar-section">
-          <div class="sidebar-label">Documents</div>
-          <div class="sidebar-files" id="files-count">📄 6 file(s) loaded</div>
-          <div class="sidebar-file-list" id="file-list">
-            <div class="sidebar-file">📋 Client_Retention_Policy.pdf</div>
-            <div class="sidebar-file">📋 Staff_Handbook_2024.docx</div>
-            <div class="sidebar-file">📋 Compliance_Manual_v3.pdf</div>
-            <div class="sidebar-file">📋 Fee_Schedule_2025.xlsx</div>
-          </div>
-        </div>
-
-        <div class="sidebar-btn-row">
-          <div class="sidebar-btn">🚀 Init</div>
-          <div class="sidebar-btn">⚡ Update</div>
-          <div class="sidebar-btn">🔄 Full</div>
-        </div>
-
-        <div class="sidebar-section">
-          <div class="sidebar-label">💡 Suggested questions</div>
-          <div class="sidebar-suggested" id="suggested-questions">
-            <div class="suggested-q">What is our client data retention policy?</div>
-            <div class="suggested-q">What is the notice period for senior staff?</div>
-            <div class="suggested-q">What are our standard fee rates?</div>
-          </div>
-        </div>
+        <div class="sidebar-label" style="margin-top:0.75rem;">Suggested questions</div>
+        <div id="suggested-qs"></div>
       </div>
 
       <!-- Chat -->
@@ -609,13 +277,9 @@ body {
           <div class="chat-tab">🔎 Search</div>
           <div class="chat-tab">ℹ️ About</div>
         </div>
-
-        <div class="chat-messages" id="chat-messages">
-          <!-- Messages injected by JS -->
-        </div>
-
+        <div class="chat-messages" id="chat-messages"></div>
         <div class="chat-input-wrap">
-          <div class="chat-input" id="chat-input-display">Ask Document Assistant a question...</div>
+          <div class="chat-input" id="chat-input">Ask Document Assistant a question...</div>
           <div class="chat-send">↑</div>
         </div>
       </div>
@@ -623,10 +287,10 @@ body {
   </div>
 
   <div class="privacy-bar">
-    <div class="privacy-item"><div class="dot-green"></div> No internet connection used</div>
-    <div class="privacy-item"><div class="dot-green"></div> Data stays on your server</div>
-    <div class="privacy-item"><div class="dot-green"></div> Zero third-party API calls</div>
-    <div class="privacy-item"><div class="dot-green"></div> GDPR compliant by design</div>
+    <div class="privacy-item"><div class="green-dot"></div> No internet used</div>
+    <div class="privacy-item"><div class="green-dot"></div> Data stays on your server</div>
+    <div class="privacy-item"><div class="green-dot"></div> Zero third-party API calls</div>
+    <div class="privacy-item"><div class="green-dot"></div> GDPR compliant</div>
   </div>
 
   <div class="demo-cta">
@@ -640,217 +304,365 @@ body {
 const scenarios = {
   solicitors: {
     brand: "Smith & Jones Solicitors",
-    files: ["📋 Client_Retention_Policy.pdf", "📋 Staff_Handbook_2024.docx", "📋 Compliance_Manual_v3.pdf", "📋 Fee_Schedule_2025.xlsx"],
-    suggested: ["What is our client data retention policy?", "What is the notice period for senior staff?", "What are our standard fee rates?"],
-    conversations: [
+    files: [
+      "Client_Retention_Policy.pdf",
+      "Staff_Handbook_2024.docx",
+      "Compliance_Manual_v3.pdf",
+      "Fee_Schedule_2025.xlsx",
+      "SRA_Guidelines.pdf",
+    ],
+    newFile: "AML_Policy_2026.pdf",
+    suggested: [
+      "What is our client data retention policy?",
+      "What is the notice period for senior staff?",
+      "What are our standard fee rates?",
+    ],
+    qa: [
       {
         q: "What is our client data retention policy?",
         a: "Client data must be retained for a minimum of 7 years following the conclusion of the matter, in accordance with SRA requirements. Physical files should be stored securely and digitised copies backed up quarterly.",
-        source: "📄 Client_Retention_Policy.pdf · p.4",
-        time: "12.4s"
+        source: "Client_Retention_Policy.pdf · p.4",
+        time: "13.2s",
       },
       {
         q: "What is the notice period for senior staff?",
         a: "Senior staff at Grade 4 and above are entitled to 3 months' notice from either party, as set out in Section 6.2 of the Employee Handbook. This applies to all fee earners at Associate level or above.",
-        source: "📄 Staff_Handbook_2024.docx · p.18",
+        source: "Staff_Handbook_2024.docx · p.18",
         time: "0.1s",
-        cached: true
-      }
-    ]
+        cached: true,
+      },
+    ],
   },
   accountants: {
     brand: "Acme Accountants Ltd",
-    files: ["📋 HMRC_Compliance_Guide.pdf", "📋 Client_Onboarding_Process.docx", "📋 Fee_Structure_2025.xlsx", "📋 Staff_Procedures.pdf"],
-    suggested: ["What are our fees for self-assessment returns?", "How do we onboard a new limited company client?", "What is our HMRC submission deadline process?"],
-    conversations: [
+    files: [
+      "HMRC_Compliance_Guide.pdf",
+      "Client_Onboarding_Process.docx",
+      "Fee_Structure_2025.xlsx",
+      "Staff_Procedures.pdf",
+      "AML_Checklist.pdf",
+    ],
+    newFile: "MTD_Guidelines_2026.pdf",
+    suggested: [
+      "What are our fees for self-assessment returns?",
+      "How do we onboard a new limited company client?",
+      "What is our HMRC submission deadline process?",
+    ],
+    qa: [
       {
         q: "What are our fees for self-assessment returns?",
-        a: "Self-assessment returns are charged at £350 + VAT for standard returns and £550 + VAT for returns including rental income or capital gains. Discounts of 10% apply for clients with 3 or more services.",
-        source: "📄 Fee_Structure_2025.xlsx · Sheet 1",
-        time: "14.1s"
+        a: "Self-assessment returns are charged at £350 + VAT for standard returns and £550 + VAT for returns including rental income or capital gains. A 10% discount applies for clients with 3 or more services.",
+        source: "Fee_Structure_2025.xlsx · Sheet 1",
+        time: "14.1s",
       },
       {
         q: "How do we onboard a new limited company client?",
-        a: "New limited company onboarding requires: 1) Completed client engagement letter signed by all directors, 2) Certified ID for each director, 3) Certificate of incorporation, 4) Previous year accounts if available. AML checks must be completed within 5 working days.",
-        source: "📄 Client_Onboarding_Process.docx · p.2",
+        a: "New limited company onboarding requires: 1) Completed engagement letter signed by all directors, 2) Certified ID for each director, 3) Certificate of incorporation, 4) Previous year accounts if available. AML checks must be completed within 5 working days.",
+        source: "Client_Onboarding_Process.docx · p.2",
         time: "0.1s",
-        cached: true
-      }
-    ]
+        cached: true,
+      },
+    ],
   },
   hr: {
     brand: "PeopleFirst HR Consulting",
-    files: ["📋 Employee_Handbook_v4.pdf", "📋 Disciplinary_Procedures.docx", "📋 Absence_Policy_2024.pdf", "📋 Salary_Bands_2025.xlsx"],
-    suggested: ["What is our annual leave entitlement?", "What are the steps for a disciplinary hearing?", "What is the sick pay policy?"],
-    conversations: [
+    files: [
+      "Employee_Handbook_v4.pdf",
+      "Disciplinary_Procedures.docx",
+      "Absence_Policy_2024.pdf",
+      "Salary_Bands_2025.xlsx",
+      "Recruitment_Guide.pdf",
+    ],
+    newFile: "Hybrid_Working_Policy_2026.pdf",
+    suggested: [
+      "What is our annual leave entitlement?",
+      "What are the steps for a disciplinary hearing?",
+      "What is the sick pay policy?",
+    ],
+    qa: [
       {
         q: "What is our annual leave entitlement?",
-        a: "Full-time employees are entitled to 28 days annual leave per year inclusive of bank holidays (pro-rated for part-time). Employees may carry forward up to 5 days into the following leave year with manager approval. Leave must be requested via the HR portal with at least 2 weeks notice.",
-        source: "📄 Employee_Handbook_v4.pdf · p.12",
-        time: "11.8s"
+        a: "Full-time employees are entitled to 28 days annual leave per year inclusive of bank holidays, pro-rated for part-time staff. Up to 5 days may be carried forward with manager approval. Leave must be requested via the HR portal with at least 2 weeks notice.",
+        source: "Employee_Handbook_v4.pdf · p.12",
+        time: "11.8s",
       },
       {
         q: "What are the steps for a disciplinary hearing?",
         a: "A disciplinary hearing must follow these steps: 1) Written invitation with minimum 48 hours notice, 2) Right to be accompanied by a colleague or trade union rep, 3) Hearing conducted by a manager not involved in the investigation, 4) Written outcome within 5 working days, 5) Right of appeal within 10 working days.",
-        source: "📄 Disciplinary_Procedures.docx · p.6",
+        source: "Disciplinary_Procedures.docx · p.6",
         time: "0.1s",
-        cached: true
-      }
-    ]
-  }
+        cached: true,
+      },
+    ],
+  },
 };
 
-let currentScenario = 'solicitors';
+let current = 'solicitors';
 let animating = false;
 
-function loadScenario(name) {
-  if (animating) return;
-  currentScenario = name;
-  document.querySelectorAll('.scenario-btn').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
-  const s = scenarios[name];
-  document.getElementById('brand-name').textContent = s.brand;
-  document.getElementById('files-count').textContent = `📄 ${s.files.length} file(s) loaded`;
-  const fl = document.getElementById('file-list');
-  fl.innerHTML = s.files.map(f => `<div class="sidebar-file">${f}</div>`).join('');
-  const sq = document.getElementById('suggested-questions');
-  sq.innerHTML = s.suggested.map(q => `<div class="suggested-q">${q}</div>`).join('');
-  document.getElementById('chat-messages').innerHTML = '';
-  document.getElementById('chat-input-display').textContent = 'Ask Document Assistant a question...';
-  replay();
-}
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
-function replay() {
-  if (animating) return;
-  const msgs = document.getElementById('chat-messages');
-  msgs.innerHTML = '';
-  document.getElementById('chat-input-display').textContent = 'Ask Document Assistant a question...';
-  runDemo();
-}
-
-async function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
-
-async function typeText(el, text, speed = 18) {
-  el.innerHTML = '';
+async function typeText(el, text, speed = 35) {
+  el.textContent = '';
   const cursor = document.createElement('span');
   cursor.className = 'cursor';
   el.appendChild(cursor);
-  for (let i = 0; i < text.length; i++) {
-    const span = document.createElement('span');
-    span.textContent = text[i];
-    el.insertBefore(span, cursor);
+  for (const ch of text) {
+    const s = document.createElement('span');
+    s.textContent = ch;
+    el.insertBefore(s, cursor);
     await sleep(speed + Math.random() * 10);
   }
   cursor.remove();
 }
 
 async function streamText(el, text, speed = 22) {
-  const words = text.split(' ');
   el.innerHTML = '';
   const cursor = document.createElement('span');
   cursor.className = 'cursor';
   el.appendChild(cursor);
-  for (const word of words) {
-    const span = document.createElement('span');
-    span.textContent = word + ' ';
-    el.insertBefore(span, cursor);
-    await sleep(speed + Math.random() * 15);
+  for (const word of text.split(' ')) {
+    const s = document.createElement('span');
+    s.textContent = word + ' ';
+    el.insertBefore(s, cursor);
+    await sleep(speed + Math.random() * 12);
   }
   cursor.remove();
 }
 
+function setStatus(type, text) {
+  const el = document.getElementById('status-badge');
+  el.innerHTML = `<div class="status-badge ${type}"><div class="status-dot ${type !== 'ready' ? 'pulse' : ''}"></div>${text}</div>`;
+}
+
+function setBtn(id, active) {
+  ['btn-init','btn-update','btn-full'].forEach(b => document.getElementById(b).classList.remove('active'));
+  if (id) document.getElementById(id).classList.add('active');
+}
+
+async function animateProgress(labelText, duration, color = '') {
+  const wrap = document.getElementById('progress-wrap');
+  const fill = document.getElementById('progress-fill');
+  const label = document.getElementById('progress-label-text');
+  const pct = document.getElementById('progress-pct');
+  wrap.style.display = 'block';
+  fill.style.width = '0%';
+  fill.className = 'progress-fill' + (color ? ' ' + color : '');
+  label.textContent = labelText;
+  const steps = 40;
+  for (let i = 0; i <= steps; i++) {
+    const p = Math.round((i / steps) * 100);
+    fill.style.width = p + '%';
+    pct.textContent = p + '%';
+    await sleep(duration / steps);
+  }
+}
+
 async function runDemo() {
   animating = true;
+  const s = scenarios[current];
   const msgs = document.getElementById('chat-messages');
-  const inputEl = document.getElementById('chat-input-display');
-  const s = scenarios[currentScenario];
+  const inputEl = document.getElementById('chat-input');
+
+  // Reset
+  msgs.innerHTML = '';
+  inputEl.textContent = 'Ask Document Assistant a question...';
+  document.getElementById('status-badge').innerHTML = '';
+  document.getElementById('progress-wrap').style.display = 'none';
+  setBtn(null);
+
+  // Set brand + suggested
+  document.getElementById('s-brand').textContent = s.brand;
+  document.getElementById('suggested-qs').innerHTML = s.suggested.map(q =>
+    `<div class="suggested-q">${q}</div>`).join('');
+
+  // ── Phase 1: Show files, start Full index ──
+  const fileListEl = document.getElementById('file-list');
+  fileListEl.innerHTML = '';
+
+  // Show files one by one
+  for (const f of s.files) {
+    const div = document.createElement('div');
+    div.className = 'file-item';
+    div.innerHTML = `<div class="file-dot"></div><span>${f}</span>`;
+    fileListEl.appendChild(div);
+    await sleep(120);
+  }
+
+  await sleep(400);
+
+  // Show phase banner — indexing
+  msgs.innerHTML = `
+    <div class="phase-banner" id="phase-banner">
+      <div class="phase-icon">📂</div>
+      <h3>Indexing your documents...</h3>
+      <p>Weld AI reads and understands all ${s.files.length} documents on your server. This happens once — then answers are instant.</p>
+      <div class="phase-progress">
+        <div class="progress-label" style="font-size:0.7rem;color:var(--muted);margin-bottom:0.25rem;display:flex;justify-content:space-between;">
+          <span id="index-label">Reading files...</span><span id="index-pct">0%</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="index-fill" style="width:0%"></div></div>
+      </div>
+    </div>`;
+
+  setBtn('btn-full');
+  setStatus('indexing', 'Full index running...');
+
+  // Animate files indexing
+  const fileDivs = fileListEl.querySelectorAll('.file-item');
+  const indexFill = document.getElementById('index-fill');
+  const indexPct = document.getElementById('index-pct');
+  const indexLabel = document.getElementById('index-label');
+
+  for (let i = 0; i < fileDivs.length; i++) {
+    fileDivs[i].className = 'file-item indexing';
+    indexLabel.textContent = s.files[i];
+    const pct = Math.round(((i + 1) / fileDivs.length) * 100);
+    indexFill.style.width = pct + '%';
+    indexPct.textContent = pct + '%';
+    await sleep(320);
+    fileDivs[i].className = 'file-item indexed';
+  }
+
+  indexFill.className = 'progress-fill done';
+  indexLabel.textContent = `${s.files.length} files · ${Math.floor(Math.random()*800)+600} chunks indexed`;
+  indexPct.textContent = '100%';
 
   await sleep(600);
+  setStatus('ready', 'Ready — ask a question');
+  setBtn(null);
 
-  for (let ci = 0; ci < s.conversations.length; ci++) {
-    const conv = s.conversations[ci];
+  // ── Phase 2: Show ready banner ──
+  document.getElementById('phase-banner').innerHTML = `
+    <div class="phase-icon">✅</div>
+    <h3>Indexed and ready</h3>
+    <p>${s.files.length} documents indexed privately on your server. No data was sent anywhere. Now watch how staff use it...</p>`;
 
-    // Type in input
-    await typeText(inputEl, conv.q, 35);
-    await sleep(400);
+  await sleep(1200);
 
-    // User message
+  // ── Phase 3: Chat Q&A ──
+  msgs.innerHTML = '';
+
+  for (let ci = 0; ci < s.qa.length; ci++) {
+    const conv = s.qa[ci];
+
+    await typeText(inputEl, conv.q, 32);
+    await sleep(350);
+
     const userMsg = document.createElement('div');
-    userMsg.className = 'msg-user';
+    userMsg.className = 'msg-user show';
     userMsg.innerHTML = `<div class="bubble">${conv.q}</div>`;
     msgs.appendChild(userMsg);
-    userMsg.style.animation = 'fadeUp 0.3s ease forwards';
     inputEl.textContent = 'Ask Document Assistant a question...';
+    msgs.scrollTop = msgs.scrollHeight;
 
-    await sleep(300);
+    await sleep(280);
 
     if (conv.cached) {
-      // Instant cached response
       const aiMsg = document.createElement('div');
-      aiMsg.className = 'msg-ai';
+      aiMsg.className = 'msg-ai show';
       aiMsg.innerHTML = `
         <div class="ai-avatar">AI</div>
         <div>
-          <div class="bubble" id="stream-${ci}"></div>
-          <div class="source-badge">${conv.source}</div>
-          <div class="msg-meta">
-            <span class="cached-badge">⚡ cached</span>
-            <span>⏱ ${conv.time}</span>
-          </div>
+          <div class="bubble" id="ai-text-${ci}"></div>
+          <div class="source-badge">📄 ${conv.source}</div>
+          <div class="msg-meta"><span class="cached-badge">⚡ cached</span><span>⏱ ${conv.time}</span></div>
         </div>`;
       msgs.appendChild(aiMsg);
-      aiMsg.style.animation = 'fadeUp 0.3s ease forwards';
-      await streamText(document.getElementById(`stream-${ci}`), conv.a, 8);
+      await streamText(document.getElementById(`ai-text-${ci}`), conv.a, 8);
     } else {
-      // Typing indicator
       const typingEl = document.createElement('div');
-      typingEl.className = 'typing';
+      typingEl.className = 'typing show';
       typingEl.innerHTML = `
         <div class="ai-avatar">AI</div>
         <div class="typing-dots">
-          <div class="typing-dot"></div>
-          <div class="typing-dot"></div>
-          <div class="typing-dot"></div>
+          <div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>
         </div>`;
       msgs.appendChild(typingEl);
-      typingEl.style.animation = 'fadeUp 0.3s ease forwards';
+      msgs.scrollTop = msgs.scrollHeight;
 
-      // Show thinking timer
       let elapsed = 0;
       const timer = setInterval(() => {
         elapsed += 0.1;
         inputEl.textContent = `Thinking... ${elapsed.toFixed(1)}s`;
       }, 100);
-
-      await sleep(2800);
+      await sleep(2600);
       clearInterval(timer);
       inputEl.textContent = 'Ask Document Assistant a question...';
       typingEl.remove();
 
-      // AI response with streaming
       const aiMsg = document.createElement('div');
-      aiMsg.className = 'msg-ai';
+      aiMsg.className = 'msg-ai show';
       aiMsg.innerHTML = `
         <div class="ai-avatar">AI</div>
         <div>
-          <div class="bubble" id="stream-${ci}"></div>
-          <div class="source-badge">${conv.source}</div>
+          <div class="bubble" id="ai-text-${ci}"></div>
+          <div class="source-badge">📄 ${conv.source}</div>
           <div class="msg-meta"><span>⏱ ${conv.time}</span></div>
         </div>`;
       msgs.appendChild(aiMsg);
-      aiMsg.style.animation = 'fadeUp 0.3s ease forwards';
-      await streamText(document.getElementById(`stream-${ci}`), conv.a, 20);
+      await streamText(document.getElementById(`ai-text-${ci}`), conv.a, 20);
     }
 
     msgs.scrollTop = msgs.scrollHeight;
-    await sleep(ci < s.conversations.length - 1 ? 1500 : 500);
+    await sleep(ci < s.qa.length - 1 ? 1400 : 600);
   }
+
+  // ── Phase 4: Smart Update ──
+  await sleep(800);
+
+  // Add new file
+  const newDiv = document.createElement('div');
+  newDiv.className = 'file-item new-file show';
+  newDiv.innerHTML = `<div class="file-dot"></div><span>${s.newFile} ✦ new</span>`;
+  fileListEl.appendChild(newDiv);
+
+  // Show smart update banner
+  const updateBanner = document.createElement('div');
+  updateBanner.className = 'phase-banner show';
+  updateBanner.style.marginTop = 'auto';
+  updateBanner.innerHTML = `
+    <div class="phase-icon">⚡</div>
+    <h3>New document detected</h3>
+    <p><strong>${s.newFile}</strong> was added to the docs folder. Smart Update only re-indexes what's new — takes seconds, not minutes.</p>`;
+  msgs.appendChild(updateBanner);
+  msgs.scrollTop = msgs.scrollHeight;
+
+  setBtn('btn-update');
+  setStatus('updating', 'Smart Update running...');
+  await sleep(400);
+
+  newDiv.className = 'file-item indexing';
+  await sleep(1200);
+  newDiv.className = 'file-item indexed';
+  newDiv.querySelector('span').textContent = s.newFile + ' ✓';
+
+  await sleep(400);
+  setStatus('ready', 'Updated — all documents ready');
+  setBtn(null);
+
+  updateBanner.innerHTML = `
+    <div class="phase-icon">🔒</div>
+    <h3>Everything runs on your server</h3>
+    <p>Every step — indexing, searching, answering — happened entirely on your own machine. No data left your building.</p>`;
 
   animating = false;
 }
 
-// Auto-start
-window.addEventListener('load', () => setTimeout(runDemo, 1200));
+function switchScenario(name, btn) {
+  if (animating) return;
+  current = name;
+  document.querySelectorAll('.scenario-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  replayDemo();
+}
+
+function replayDemo() {
+  if (animating) return;
+  runDemo();
+}
+
+window.addEventListener('load', () => setTimeout(runDemo, 800));
 </script>
 </body>
 </html>
