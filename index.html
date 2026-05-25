@@ -167,10 +167,33 @@
   @media (max-width: 768px) {
     .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
     .mockup-wrap { display: none; }
-    .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
     nav ul { display: none; }
     .trust-bar { gap: 1rem; }
     .compare-table th, .compare-table td { padding: 0.75rem 1rem; font-size: 0.8rem; }
+    .steps { grid-template-columns: 1fr; }
+    .features-grid { grid-template-columns: 1fr; }
+    .privacy-points { grid-template-columns: 1fr; }
+    .for-grid { grid-template-columns: 1fr 1fr; }
+    section { padding: 60px 5vw; }
+    div[style*="grid-template-columns:1fr 1fr"],
+    div[style*="grid-template-columns: 1fr 1fr"] {
+      grid-template-columns: 1fr !important;
+      gap: 2rem !important;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .for-grid { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 2rem; }
+    .section-title { font-size: 1.6rem; }
+    .compare-table { display: block; overflow-x: auto; }
+    .compare-table th, .compare-table td { padding: 0.5rem 0.6rem; font-size: 0.72rem; }
+    .trust-bar { flex-direction: column; align-items: flex-start; padding-left: 1rem; }
+    .hero-actions { flex-direction: column; }
+    .hero-actions a { text-align: center; }
+    .hero-proof { flex-direction: column; gap: 0.5rem; }
+    section { padding: 50px 4vw; }
   }
 </style>
 </head>
