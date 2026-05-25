@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weld AI — See It In Action</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy: #0a1628;
+  --blue: #1a4fa3;
+  --blue-mid: #2563c7;
+  --blue-glow: rgba(37,99,199,0.4);
+  --green: #22c55e;
+  --green-dim: rgba(34,197,94,0.15);
+  --white: #ffffff;
+  --text-dim: #8fa8c8;
+  --border: rgba(255,255,255,0.08);
+  --surface: rgba(255,255,255,0.04);
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--navy);
+  color: var(--white);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  overflow-x: hidden;
+}
+
+/* Background grid */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(37,99,199,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(37,99,199,0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+
+.demo-wrap {
+  width: 100%;
+  max-width: 860px;
+  position: relative;
+}
+
+/* Header */
+.demo-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.2s forwards;
+}
+
+.demo-header .logo {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.6rem;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.5rem;
+}
+
+.demo-header .logo span { color: #93b8ff; }
+
+.demo-header p {
+  font-size: 0.9rem;
+  color: var(--text-dim);
+}
+
+/* Browser chrome */
+.browser {
+  background: #0f1e35;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(37,99,199,0.2),
+    0 40px 80px rgba(0,0,0,0.6),
+    0 0 60px rgba(37,99,199,0.1);
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.5s forwards;
+}
+
+.browser-bar {
+  background: #0d1929;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.dot { width: 10px; height: 10px; border-radius: 50%; }
+
+.browser-url {
+  flex: 1;
+  background: rgba(255,255,255,0.05);
+  border-radius: 6px;
+  padding: 0.3rem 0.75rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem;
+  color: #4a7a9a;
+  margin: 0 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.lock-icon { color: var(--green); font-size: 0.65rem; }
+
+/* App layout */
+.app-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  min-height: 480px;
+}
+
+/* Sidebar */
+.sidebar {
+  background: #0d1929;
+  border-right: 1px solid var(--border);
+  padding: 1.25rem;
+}
+
+.sidebar-brand {
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.sidebar-brand-name {
+  font-family: 'DM Serif Display', serif;
+  font-size: 0.95rem;
+  color: #93b8ff;
+  margin-bottom: 0.15rem;
+}
+
+.sidebar-brand-sub {
+  font-size: 0.7rem;
+  color: #4a6a8a;
+}
+
+.sidebar-section {
+  margin-bottom: 1rem;
+}
+
+.sidebar-label {
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #4a6a8a;
+  margin-bottom: 0.5rem;
+}
+
+.sidebar-files {
+  background: rgba(34,197,94,0.08);
+  border: 1px solid rgba(34,197,94,0.2);
+  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.72rem;
+  color: var(--green);
+  margin-bottom: 0.75rem;
+}
+
+.sidebar-file-list {
+  margin-top: 0.4rem;
+}
+
+.sidebar-file {
+  font-size: 0.68rem;
+  color: #4a6a8a;
+  padding: 0.15rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.sidebar-btn-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.sidebar-btn {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 0.35rem 0.2rem;
+  font-size: 0.65rem;
+  color: #8fa8c8;
+  text-align: center;
+  cursor: pointer;
+}
+
+.sidebar-suggested {
+  margin-top: 0.5rem;
+}
+
+.suggested-q {
+  background: rgba(37,99,199,0.1);
+  border: 1px solid rgba(37,99,199,0.2);
+  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.68rem;
+  color: #93b8ff;
+  margin-bottom: 0.4rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+/* Main chat area */
+.chat-area {
+  display: flex;
+  flex-direction: column;
+  background: #0f1e35;
+  position: relative;
+}
+
+.chat-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  padding: 0 1.25rem;
+}
+
+.chat-tab {
+  padding: 0.6rem 0.75rem;
+  font-size: 0.75rem;
+  color: #4a6a8a;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+
+.chat-tab.active {
+  color: #93b8ff;
+  border-bottom-color: var(--blue-mid);
+}
+
+.chat-messages {
+  flex: 1;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-height: 360px;
+}
+
+/* Messages */
+.msg-user {
+  display: flex;
+  justify-content: flex-end;
+  opacity: 0;
+}
+
+.msg-user .bubble {
+  background: var(--blue-mid);
+  color: white;
+  padding: 0.6rem 0.9rem;
+  border-radius: 12px 12px 2px 12px;
+  font-size: 0.82rem;
+  max-width: 70%;
+  line-height: 1.5;
+}
+
+.msg-ai {
+  display: flex;
+  gap: 0.6rem;
+  opacity: 0;
+}
+
+.ai-avatar {
+  width: 28px;
+  height: 28px;
+  background: var(--blue-mid);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.msg-ai .bubble {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 0.7rem 0.9rem;
+  border-radius: 2px 12px 12px 12px;
+  font-size: 0.82rem;
+  max-width: 80%;
+  line-height: 1.6;
+  color: #c8daf0;
+}
+
+.source-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: var(--green-dim);
+  border: 1px solid rgba(34,197,94,0.25);
+  border-radius: 5px;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.68rem;
+  color: var(--green);
+  margin-top: 0.5rem;
+}
+
+.msg-meta {
+  font-size: 0.65rem;
+  color: #4a6a8a;
+  margin-top: 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cached-badge {
+  background: rgba(250,204,21,0.1);
+  border: 1px solid rgba(250,204,21,0.2);
+  color: #facc15;
+  border-radius: 4px;
+  padding: 0.1rem 0.35rem;
+  font-size: 0.62rem;
+}
+
+/* Typing indicator */
+.typing {
+  display: flex;
+  gap: 0.6rem;
+  opacity: 0;
+}
+
+.typing-dots {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 0.7rem 0.9rem;
+  border-radius: 2px 12px 12px 12px;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.typing-dot {
+  width: 6px;
+  height: 6px;
+  background: #4a6a8a;
+  border-radius: 50%;
+  animation: typingBounce 1.2s infinite;
+}
+
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typingBounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30% { transform: translateY(-4px); opacity: 1; }
+}
+
+/* Chat input */
+.chat-input-wrap {
+  padding: 0.75rem 1.25rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.chat-input {
+  flex: 1;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.55rem 0.9rem;
+  font-size: 0.8rem;
+  color: #8fa8c8;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.chat-send {
+  width: 32px;
+  height: 32px;
+  background: var(--blue-mid);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* Privacy bar */
+.privacy-bar {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 1s forwards;
+}
+
+.privacy-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  color: #4a6a8a;
+}
+
+.privacy-item .dot-green {
+  width: 6px;
+  height: 6px;
+  background: var(--green);
+  border-radius: 50%;
+  animation: pulse-green 2s infinite;
+}
+
+@keyframes pulse-green {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(34,197,94,0.4); }
+  50% { opacity: 0.7; box-shadow: 0 0 0 4px rgba(34,197,94,0); }
+}
+
+/* CTA */
+.demo-cta {
+  text-align: center;
+  margin-top: 2rem;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 1.2s forwards;
+}
+
+.demo-cta a {
+  display: inline-block;
+  background: var(--blue-mid);
+  color: white;
+  padding: 0.75rem 2rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s;
+  margin-right: 1rem;
+}
+
+.demo-cta a:hover { background: var(--blue); transform: translateY(-1px); }
+
+.demo-cta .ghost {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  margin-right: 0;
+}
+
+.demo-cta .ghost:hover { border-color: rgba(255,255,255,0.2); color: white; }
+
+/* Animations */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.show { animation: fadeUp 0.5s ease forwards; }
+
+/* Replay button */
+.replay-btn {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.3rem 0.7rem;
+  font-size: 0.7rem;
+  color: #4a6a8a;
+  cursor: pointer;
+  transition: all 0.2s;
+  z-index: 10;
+}
+
+.replay-btn:hover { color: white; border-color: rgba(255,255,255,0.2); }
+
+/* Streaming text cursor */
+.cursor {
+  display: inline-block;
+  width: 2px;
+  height: 0.85em;
+  background: #93b8ff;
+  margin-left: 1px;
+  vertical-align: middle;
+  animation: blink 0.8s infinite;
+}
+
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+/* Scenario selector */
+.scenario-bar {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.8s forwards;
+  flex-wrap: wrap;
+}
+
+.scenario-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 0.4rem 1rem;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.scenario-btn:hover, .scenario-btn.active {
+  background: rgba(37,99,199,0.2);
+  border-color: rgba(37,99,199,0.4);
+  color: #93b8ff;
+}
+</style>
+</head>
+<body>
+
+<div class="demo-wrap">
+
+  <div class="demo-header">
+    <div class="logo">Weld<span>AI</span></div>
+    <p>See how your team would use it — live interactive demo</p>
+  </div>
+
+  <div class="scenario-bar">
+    <button class="scenario-btn active" onclick="loadScenario('solicitors')">⚖️ Solicitors</button>
+    <button class="scenario-btn" onclick="loadScenario('accountants')">🏛️ Accountants</button>
+    <button class="scenario-btn" onclick="loadScenario('hr')">👥 HR Firm</button>
+  </div>
+
+  <div class="browser" style="position:relative;">
+    <button class="replay-btn" onclick="replay()">↺ Replay</button>
+
+    <div class="browser-bar">
+      <div class="dot" style="background:#ff5f57"></div>
+      <div class="dot" style="background:#febc2e"></div>
+      <div class="dot" style="background:#28c840"></div>
+      <div class="browser-url">
+        <span class="lock-icon">🔒</span>
+        <span id="url-text">https://your-server — Document Assistant</span>
+      </div>
+    </div>
+
+    <div class="app-layout">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div class="sidebar-brand">
+          <div class="sidebar-brand-name" id="brand-name">Smith & Jones Solicitors</div>
+          <div class="sidebar-brand-sub">Document Assistant</div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-label">Documents</div>
+          <div class="sidebar-files" id="files-count">📄 6 file(s) loaded</div>
+          <div class="sidebar-file-list" id="file-list">
+            <div class="sidebar-file">📋 Client_Retention_Policy.pdf</div>
+            <div class="sidebar-file">📋 Staff_Handbook_2024.docx</div>
+            <div class="sidebar-file">📋 Compliance_Manual_v3.pdf</div>
+            <div class="sidebar-file">📋 Fee_Schedule_2025.xlsx</div>
+          </div>
+        </div>
+
+        <div class="sidebar-btn-row">
+          <div class="sidebar-btn">🚀 Init</div>
+          <div class="sidebar-btn">⚡ Update</div>
+          <div class="sidebar-btn">🔄 Full</div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-label">💡 Suggested questions</div>
+          <div class="sidebar-suggested" id="suggested-questions">
+            <div class="suggested-q">What is our client data retention policy?</div>
+            <div class="suggested-q">What is the notice period for senior staff?</div>
+            <div class="suggested-q">What are our standard fee rates?</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chat -->
+      <div class="chat-area">
+        <div class="chat-tabs">
+          <div class="chat-tab active">💬 Chat</div>
+          <div class="chat-tab">🔎 Search</div>
+          <div class="chat-tab">ℹ️ About</div>
+        </div>
+
+        <div class="chat-messages" id="chat-messages">
+          <!-- Messages injected by JS -->
+        </div>
+
+        <div class="chat-input-wrap">
+          <div class="chat-input" id="chat-input-display">Ask Document Assistant a question...</div>
+          <div class="chat-send">↑</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="privacy-bar">
+    <div class="privacy-item"><div class="dot-green"></div> No internet connection used</div>
+    <div class="privacy-item"><div class="dot-green"></div> Data stays on your server</div>
+    <div class="privacy-item"><div class="dot-green"></div> Zero third-party API calls</div>
+    <div class="privacy-item"><div class="dot-green"></div> GDPR compliant by design</div>
+  </div>
+
+  <div class="demo-cta">
+    <a href="https://weldai.uk/#contact">Book a free demo →</a>
+    <a href="https://weldai.uk" class="ghost">Learn more</a>
+  </div>
+
+</div>
+
+<script>
+const scenarios = {
+  solicitors: {
+    brand: "Smith & Jones Solicitors",
+    files: ["📋 Client_Retention_Policy.pdf", "📋 Staff_Handbook_2024.docx", "📋 Compliance_Manual_v3.pdf", "📋 Fee_Schedule_2025.xlsx"],
+    suggested: ["What is our client data retention policy?", "What is the notice period for senior staff?", "What are our standard fee rates?"],
+    conversations: [
+      {
+        q: "What is our client data retention policy?",
+        a: "Client data must be retained for a minimum of 7 years following the conclusion of the matter, in accordance with SRA requirements. Physical files should be stored securely and digitised copies backed up quarterly.",
+        source: "📄 Client_Retention_Policy.pdf · p.4",
+        time: "12.4s"
+      },
+      {
+        q: "What is the notice period for senior staff?",
+        a: "Senior staff at Grade 4 and above are entitled to 3 months' notice from either party, as set out in Section 6.2 of the Employee Handbook. This applies to all fee earners at Associate level or above.",
+        source: "📄 Staff_Handbook_2024.docx · p.18",
+        time: "0.1s",
+        cached: true
+      }
+    ]
+  },
+  accountants: {
+    brand: "Acme Accountants Ltd",
+    files: ["📋 HMRC_Compliance_Guide.pdf", "📋 Client_Onboarding_Process.docx", "📋 Fee_Structure_2025.xlsx", "📋 Staff_Procedures.pdf"],
+    suggested: ["What are our fees for self-assessment returns?", "How do we onboard a new limited company client?", "What is our HMRC submission deadline process?"],
+    conversations: [
+      {
+        q: "What are our fees for self-assessment returns?",
+        a: "Self-assessment returns are charged at £350 + VAT for standard returns and £550 + VAT for returns including rental income or capital gains. Discounts of 10% apply for clients with 3 or more services.",
+        source: "📄 Fee_Structure_2025.xlsx · Sheet 1",
+        time: "14.1s"
+      },
+      {
+        q: "How do we onboard a new limited company client?",
+        a: "New limited company onboarding requires: 1) Completed client engagement letter signed by all directors, 2) Certified ID for each director, 3) Certificate of incorporation, 4) Previous year accounts if available. AML checks must be completed within 5 working days.",
+        source: "📄 Client_Onboarding_Process.docx · p.2",
+        time: "0.1s",
+        cached: true
+      }
+    ]
+  },
+  hr: {
+    brand: "PeopleFirst HR Consulting",
+    files: ["📋 Employee_Handbook_v4.pdf", "📋 Disciplinary_Procedures.docx", "📋 Absence_Policy_2024.pdf", "📋 Salary_Bands_2025.xlsx"],
+    suggested: ["What is our annual leave entitlement?", "What are the steps for a disciplinary hearing?", "What is the sick pay policy?"],
+    conversations: [
+      {
+        q: "What is our annual leave entitlement?",
+        a: "Full-time employees are entitled to 28 days annual leave per year inclusive of bank holidays (pro-rated for part-time). Employees may carry forward up to 5 days into the following leave year with manager approval. Leave must be requested via the HR portal with at least 2 weeks notice.",
+        source: "📄 Employee_Handbook_v4.pdf · p.12",
+        time: "11.8s"
+      },
+      {
+        q: "What are the steps for a disciplinary hearing?",
+        a: "A disciplinary hearing must follow these steps: 1) Written invitation with minimum 48 hours notice, 2) Right to be accompanied by a colleague or trade union rep, 3) Hearing conducted by a manager not involved in the investigation, 4) Written outcome within 5 working days, 5) Right of appeal within 10 working days.",
+        source: "📄 Disciplinary_Procedures.docx · p.6",
+        time: "0.1s",
+        cached: true
+      }
+    ]
+  }
+};
+
+let currentScenario = 'solicitors';
+let animating = false;
+
+function loadScenario(name) {
+  if (animating) return;
+  currentScenario = name;
+  document.querySelectorAll('.scenario-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  const s = scenarios[name];
+  document.getElementById('brand-name').textContent = s.brand;
+  document.getElementById('files-count').textContent = `📄 ${s.files.length} file(s) loaded`;
+  const fl = document.getElementById('file-list');
+  fl.innerHTML = s.files.map(f => `<div class="sidebar-file">${f}</div>`).join('');
+  const sq = document.getElementById('suggested-questions');
+  sq.innerHTML = s.suggested.map(q => `<div class="suggested-q">${q}</div>`).join('');
+  document.getElementById('chat-messages').innerHTML = '';
+  document.getElementById('chat-input-display').textContent = 'Ask Document Assistant a question...';
+  replay();
+}
+
+function replay() {
+  if (animating) return;
+  const msgs = document.getElementById('chat-messages');
+  msgs.innerHTML = '';
+  document.getElementById('chat-input-display').textContent = 'Ask Document Assistant a question...';
+  runDemo();
+}
+
+async function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+async function typeText(el, text, speed = 18) {
+  el.innerHTML = '';
+  const cursor = document.createElement('span');
+  cursor.className = 'cursor';
+  el.appendChild(cursor);
+  for (let i = 0; i < text.length; i++) {
+    const span = document.createElement('span');
+    span.textContent = text[i];
+    el.insertBefore(span, cursor);
+    await sleep(speed + Math.random() * 10);
+  }
+  cursor.remove();
+}
+
+async function streamText(el, text, speed = 22) {
+  const words = text.split(' ');
+  el.innerHTML = '';
+  const cursor = document.createElement('span');
+  cursor.className = 'cursor';
+  el.appendChild(cursor);
+  for (const word of words) {
+    const span = document.createElement('span');
+    span.textContent = word + ' ';
+    el.insertBefore(span, cursor);
+    await sleep(speed + Math.random() * 15);
+  }
+  cursor.remove();
+}
+
+async function runDemo() {
+  animating = true;
+  const msgs = document.getElementById('chat-messages');
+  const inputEl = document.getElementById('chat-input-display');
+  const s = scenarios[currentScenario];
+
+  await sleep(600);
+
+  for (let ci = 0; ci < s.conversations.length; ci++) {
+    const conv = s.conversations[ci];
+
+    // Type in input
+    await typeText(inputEl, conv.q, 35);
+    await sleep(400);
+
+    // User message
+    const userMsg = document.createElement('div');
+    userMsg.className = 'msg-user';
+    userMsg.innerHTML = `<div class="bubble">${conv.q}</div>`;
+    msgs.appendChild(userMsg);
+    userMsg.style.animation = 'fadeUp 0.3s ease forwards';
+    inputEl.textContent = 'Ask Document Assistant a question...';
+
+    await sleep(300);
+
+    if (conv.cached) {
+      // Instant cached response
+      const aiMsg = document.createElement('div');
+      aiMsg.className = 'msg-ai';
+      aiMsg.innerHTML = `
+        <div class="ai-avatar">AI</div>
+        <div>
+          <div class="bubble" id="stream-${ci}"></div>
+          <div class="source-badge">${conv.source}</div>
+          <div class="msg-meta">
+            <span class="cached-badge">⚡ cached</span>
+            <span>⏱ ${conv.time}</span>
+          </div>
+        </div>`;
+      msgs.appendChild(aiMsg);
+      aiMsg.style.animation = 'fadeUp 0.3s ease forwards';
+      await streamText(document.getElementById(`stream-${ci}`), conv.a, 8);
+    } else {
+      // Typing indicator
+      const typingEl = document.createElement('div');
+      typingEl.className = 'typing';
+      typingEl.innerHTML = `
+        <div class="ai-avatar">AI</div>
+        <div class="typing-dots">
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+        </div>`;
+      msgs.appendChild(typingEl);
+      typingEl.style.animation = 'fadeUp 0.3s ease forwards';
+
+      // Show thinking timer
+      let elapsed = 0;
+      const timer = setInterval(() => {
+        elapsed += 0.1;
+        inputEl.textContent = `Thinking... ${elapsed.toFixed(1)}s`;
+      }, 100);
+
+      await sleep(2800);
+      clearInterval(timer);
+      inputEl.textContent = 'Ask Document Assistant a question...';
+      typingEl.remove();
+
+      // AI response with streaming
+      const aiMsg = document.createElement('div');
+      aiMsg.className = 'msg-ai';
+      aiMsg.innerHTML = `
+        <div class="ai-avatar">AI</div>
+        <div>
+          <div class="bubble" id="stream-${ci}"></div>
+          <div class="source-badge">${conv.source}</div>
+          <div class="msg-meta"><span>⏱ ${conv.time}</span></div>
+        </div>`;
+      msgs.appendChild(aiMsg);
+      aiMsg.style.animation = 'fadeUp 0.3s ease forwards';
+      await streamText(document.getElementById(`stream-${ci}`), conv.a, 20);
+    }
+
+    msgs.scrollTop = msgs.scrollHeight;
+    await sleep(ci < s.conversations.length - 1 ? 1500 : 500);
+  }
+
+  animating = false;
+}
+
+// Auto-start
+window.addEventListener('load', () => setTimeout(runDemo, 1200));
+</script>
+</body>
+</html>
