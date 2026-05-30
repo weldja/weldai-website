@@ -165,7 +165,7 @@ body {
 .msg-user .bubble { background: var(--blue-mid); color: white; padding: 0.55rem 0.85rem; border-radius: 10px 10px 2px 10px; font-size: 0.8rem; max-width: 72%; line-height: 1.5; }
 .msg-ai { display: flex; gap: 0.5rem; opacity: 0; }
 .ai-avatar { width: 26px; height: 26px; background: var(--blue-mid); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; color: white; flex-shrink: 0; margin-top: 2px; }
-.msg-ai .bubble { background: var(--pale); border: 1px solid var(--border); padding: 0.6rem 0.85rem; border-radius: 2px 10px 10px 10px; font-size: 0.8rem; max-width: 80%; line-height: 1.6; color: var(--text); }
+.msg-ai .bubble { background: var(--pale); border: 1px solid var(--border); border-left: 3px solid var(--blue-mid); padding: 0.6rem 0.85rem; border-radius: 2px 10px 10px 10px; font-size: 0.8rem; max-width: 80%; line-height: 1.6; color: var(--text); }
 .source-badge { display: inline-flex; align-items: center; gap: 0.3rem; background: var(--green-dim); border: 1px solid rgba(34,197,94,0.2); border-radius: 4px; padding: 0.2rem 0.5rem; font-size: 0.65rem; color: #16a34a; margin-top: 0.4rem; }
 .msg-meta { font-size: 0.62rem; color: #aab; margin-top: 0.3rem; display: flex; align-items: center; gap: 0.4rem; }
 .cached-badge { background: rgba(250,204,21,0.1); border: 1px solid rgba(250,204,21,0.25); color: #b45309; border-radius: 3px; padding: 0.08rem 0.3rem; font-size: 0.6rem; }
@@ -261,9 +261,9 @@ body {
         <div id="status-badge"></div>
 
         <div class="sidebar-btn-row" style="margin-top:0.75rem;">
-          <div class="sidebar-btn" id="btn-init">🚀 Init</div>
-          <div class="sidebar-btn" id="btn-update">⚡ Smart</div>
-          <div class="sidebar-btn" id="btn-full">🔄 Full</div>
+          <div class="sidebar-btn" id="btn-init">▶ Connect</div>
+          <div class="sidebar-btn" id="btn-update">↻ Refresh</div>
+          <div class="sidebar-btn" id="btn-full">⊕ Build Index</div>
         </div>
 
         <div class="sidebar-label" style="margin-top:0.75rem;">Suggested questions</div>
@@ -287,10 +287,10 @@ body {
   </div>
 
   <div class="privacy-bar">
-    <div class="privacy-item"><div class="green-dot"></div> No internet used</div>
-    <div class="privacy-item"><div class="green-dot"></div> Data stays on your server</div>
-    <div class="privacy-item"><div class="green-dot"></div> Zero third-party API calls</div>
-    <div class="privacy-item"><div class="green-dot"></div> GDPR compliant</div>
+    <div class="privacy-item"><div class="green-dot"></div> Documents stay on your server</div>
+    <div class="privacy-item"><div class="green-dot"></div> Powered by Claude AI</div>
+    <div class="privacy-item"><div class="green-dot"></div> Not used for AI training</div>
+    <div class="privacy-item"><div class="green-dot"></div> HTTPS encrypted</div>
   </div>
 
   <div class="demo-cta">
@@ -328,8 +328,14 @@ const scenarios = {
         q: "What is the notice period for senior staff?",
         a: "Senior staff at Grade 4 and above are entitled to 3 months' notice from either party, as set out in Section 6.2 of the Employee Handbook. This applies to all fee earners at Associate level or above.",
         source: "Staff_Handbook_2024.docx · p.18",
-        time: "0.1s",
-        cached: true,
+        time: "1.8s",
+      },
+      {
+        q: "Can you give me more detail on the first one?",
+        a: "On client data retention: files must be stored in a secure, fire-resistant cabinet or encrypted digital store. The 7-year period starts from matter closure — not from the last correspondence. After expiry, files must be destroyed securely with a certificate of destruction retained.",
+        source: "Client_Retention_Policy.pdf · p.5",
+        time: "2.4s",
+        followup: true,
       },
     ],
   },
@@ -562,7 +568,7 @@ async function runDemo() {
       const aiMsg = document.createElement('div');
       aiMsg.className = 'msg-ai show';
       aiMsg.innerHTML = `
-        <div class="ai-avatar">AI</div>
+        <div class="ai-avatar">✦</div>
         <div>
           <div class="bubble" id="ai-text-${ci}"></div>
           <div class="source-badge">📄 ${conv.source}</div>
@@ -574,7 +580,7 @@ async function runDemo() {
       const typingEl = document.createElement('div');
       typingEl.className = 'typing show';
       typingEl.innerHTML = `
-        <div class="ai-avatar">AI</div>
+        <div class="ai-avatar">✦</div>
         <div class="typing-dots">
           <div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>
         </div>`;
@@ -594,11 +600,14 @@ async function runDemo() {
       const aiMsg = document.createElement('div');
       aiMsg.className = 'msg-ai show';
       aiMsg.innerHTML = `
-        <div class="ai-avatar">AI</div>
+        <div class="ai-avatar">✦</div>
         <div>
           <div class="bubble" id="ai-text-${ci}"></div>
           <div class="source-badge">📄 ${conv.source}</div>
-          <div class="msg-meta"><span>⏱ ${conv.time}</span></div>
+          <div class="msg-meta">
+            ${conv.followup ? '<span class="cached-badge" style="background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.25);color:#16a34a">🕐 follow-up understood</span>' : ''}
+            <span>⏱ ${conv.time}</span>
+          </div>
         </div>`;
       msgs.appendChild(aiMsg);
       await streamText(document.getElementById(`ai-text-${ci}`), conv.a, 20);
@@ -644,7 +653,7 @@ async function runDemo() {
   updateBanner.innerHTML = `
     <div class="phase-icon">🔒</div>
     <h3>Everything runs on your server</h3>
-    <p>Every step — indexing, searching, answering — happened entirely on your own machine. No data left your building.</p>`;
+    <p>Your documents stay on your server. Only the question and relevant text excerpts are sent to Claude AI to generate the answer — Anthropic never trains on your data.</p>`;
 
   animating = false;
 }
