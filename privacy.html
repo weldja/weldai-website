@@ -19,6 +19,13 @@ p{color:#3D5166;margin-bottom:1rem;font-size:0.95rem}
 ul{color:#3D5166;font-size:0.95rem;margin:0 0 1rem 1.5rem}
 ul li{margin-bottom:0.4rem}
 .highlight{background:#EBF3FB;border-left:3px solid #185FA5;border-radius:0 8px 8px 0;padding:14px 18px;margin:1.5rem 0;font-size:0.92rem;color:#0F3F72}
+.warn{background:#FFF7ED;border-left:3px solid #D97706;border-radius:0 8px 8px 0;padding:14px 18px;margin:1.5rem 0;font-size:0.92rem;color:#92400E}
+table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.9rem}
+th{background:#185FA5;color:#fff;padding:10px 14px;text-align:left;font-weight:600}
+td{padding:10px 14px;border-bottom:1px solid #DDE8F2;color:#3D5166;vertical-align:top}
+tr:nth-child(even) td{background:#F7FAFD}
+.check{color:#059669;font-weight:700}
+.cross{color:#EF4444;font-weight:700}
 footer{background:#0D1B2A;color:rgba(255,255,255,0.5);padding:24px 2rem;text-align:center;font-size:0.82rem}
 footer a{color:rgba(255,255,255,0.7);text-decoration:none}
 </style>
@@ -33,75 +40,80 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
   <p class="meta">Last updated: May 2026 &nbsp;·&nbsp; Weld AI &nbsp;·&nbsp; York, England</p>
 
   <div class="highlight">
-    <strong>Summary:</strong> Weld AI installs software on your own server. Your documents never leave your server. We collect only the minimum personal data needed to provide our services.
+    <strong>Plain English summary:</strong> Your documents never leave your server. Only your question and a few relevant paragraphs are sent to Claude AI per query. Anthropic does not train on your data. We collect only the minimum personal data needed to provide our services.
   </div>
 
   <h2>1. Who we are</h2>
-  <p>Weld AI is a software installation and consulting service based in York, England. We provide private AI document assistant software for small and medium-sized businesses. Contact: <a href="mailto:hello@weldai.uk">hello@weldai.uk</a></p>
+  <p>Weld AI is a software installation and consulting service based in York, England. We provide private AI document assistant software for small and medium-sized businesses.</p>
+  <p>Contact: <a href="mailto:hello@weldai.uk">hello@weldai.uk</a> &nbsp;·&nbsp; <a href="https://weldai.uk">weldai.uk</a></p>
 
-  <h2>2. What data we collect</h2>
+  <h2>2. How the Weld AI software handles your data</h2>
+  <p>The Weld AI software is installed and runs entirely on <strong>your own server</strong>. The following table shows exactly what stays on your server and what is sent externally:</p>
+
+  <table>
+    <thead><tr><th>Data</th><th>Stays on your server</th><th>Sent externally</th></tr></thead>
+    <tbody>
+      <tr><td>Your documents (PDF, Word, Excel etc.)</td><td class="check">✓ Always</td><td class="cross">✗ Never</td></tr>
+      <tr><td>Document index (vector database)</td><td class="check">✓ Always</td><td class="cross">✗ Never</td></tr>
+      <tr><td>Conversation history</td><td class="check">✓ Always</td><td class="cross">✗ Never</td></tr>
+      <tr><td>Your Anthropic API key</td><td class="check">✓ Always</td><td class="cross">✗ Never sent to Weld AI</td></tr>
+      <tr><td>Your question (per query)</td><td></td><td>Sent to Anthropic Claude API only</td></tr>
+      <tr><td>Relevant document excerpts (per query)</td><td></td><td>2–3 paragraphs sent to Anthropic Claude API only</td></tr>
+      <tr><td>Usage analytics / telemetry</td><td class="check">✓ None collected</td><td class="cross">✗ Never</td></tr>
+    </tbody>
+  </table>
+
+  <p>Weld AI does not have access to your documents, queries, conversation history, or API key at any time.</p>
+
+  <h2>3. Anthropic Claude API</h2>
+  <p>When using the Claude API integration, your questions and relevant document excerpts are sent to Anthropic's API to generate answers. Anthropic makes the following commitments:</p>
+  <ul>
+    <li><strong>No training on API data</strong> — Anthropic's Terms of Service explicitly prohibit using API inputs and outputs to train their AI models. Your queries are processed and discarded.</li>
+    <li><strong>SOC 2 Type II certified</strong> — enterprise-grade security certification.</li>
+    <li><strong>HTTPS encrypted</strong> — all communication is TLS encrypted in transit.</li>
+    <li><strong>GDPR compliant</strong> — Anthropic operates under a Data Processing Agreement with Standard Contractual Clauses for EU/UK data.</li>
+  </ul>
+  <p>For full details, see <a href="https://www.anthropic.com/legal/privacy" target="_blank">Anthropic's Privacy Policy</a> and <a href="https://www.anthropic.com/legal" target="_blank">API Terms of Service</a>.</p>
+
+  <div class="warn">
+    <strong>For solicitors and regulated firms:</strong> As the data controller, your firm remains responsible for ensuring that sending document excerpts to Anthropic's API is consistent with your client confidentiality obligations. We recommend reviewing Anthropic's Data Processing Agreement before processing client-specific documents.
+  </div>
+
+  <h2>4. What personal data we collect about you</h2>
   <p>When you use our website or contact us, we may collect:</p>
   <ul>
     <li>Your name, email address, and company name (when you submit an enquiry)</li>
-    <li>Basic website analytics (page views, general location) via privacy-respecting tools</li>
+    <li>Basic website analytics (page views, general location)</li>
     <li>Email correspondence you send to us</li>
   </ul>
   <p>We do <strong>not</strong> collect payment information directly — payments are handled by third-party processors.</p>
 
-  <h2>3. How the Weld AI software handles your data</h2>
-  <p>The Weld AI software we install operates entirely on <strong>your own server</strong>. This means:</p>
-  <ul>
-    <li>Your documents are stored and processed on your own infrastructure</li>
-    <li>We do not have access to your documents, queries, or conversation history</li>
-    <li>No documents are uploaded to Weld AI servers at any time</li>
-  </ul>
-  <p>When using the Claude API integration, your questions and relevant document excerpts are sent to Anthropic's API to generate answers. Anthropic's Terms of Service explicitly prohibit using API inputs to train their AI models. For full details, see <a href="https://www.anthropic.com/legal/privacy" target="_blank">Anthropic's Privacy Policy</a>.</p>
-
-  <h2>4. How we use your data</h2>
+  <h2>5. How we use your data</h2>
   <ul>
     <li>To respond to your enquiries and provide our services</li>
-    <li>To send service-related communications (installation updates, support)</li>
+    <li>To send service-related communications</li>
     <li>To improve our website and services</li>
   </ul>
-  <p>We will never sell your personal data to third parties or use it for unsolicited marketing.</p>
+  <p>We will never sell your personal data or use it for unsolicited marketing.</p>
 
-  <h2>5. Legal basis for processing (UK GDPR)</h2>
+  <h2>6. Legal basis for processing (UK GDPR)</h2>
   <ul>
     <li><strong>Contract:</strong> Processing necessary to provide the services you've requested</li>
     <li><strong>Legitimate interests:</strong> Improving our services, responding to enquiries</li>
-    <li><strong>Consent:</strong> Where you have explicitly opted in to communications</li>
+    <li><strong>Consent:</strong> Where you have explicitly opted in</li>
   </ul>
 
-  <h2>6. Data retention</h2>
-  <p>We retain enquiry data for up to 2 years. Email correspondence is retained for up to 6 years for legal and contractual purposes. You may request deletion of your data at any time.</p>
+  <h2>7. Data retention</h2>
+  <p>We retain enquiry data for up to 2 years. Email correspondence is retained for up to 6 years for legal and contractual purposes.</p>
 
-  <h2>7. Your rights</h2>
-  <p>Under UK GDPR, you have the right to:</p>
-  <ul>
-    <li>Access the personal data we hold about you</li>
-    <li>Request correction of inaccurate data</li>
-    <li>Request deletion of your data</li>
-    <li>Object to processing of your data</li>
-    <li>Data portability</li>
-    <li>Lodge a complaint with the ICO (ico.org.uk)</li>
-  </ul>
-  <p>To exercise any of these rights, contact: <a href="mailto:hello@weldai.uk">hello@weldai.uk</a></p>
+  <h2>8. Your rights</h2>
+  <p>Under UK GDPR, you have the right to access, correct, delete, or port your personal data, and to lodge a complaint with the ICO at <a href="https://ico.org.uk" target="_blank">ico.org.uk</a>. Contact: <a href="mailto:hello@weldai.uk">hello@weldai.uk</a></p>
 
-  <h2>8. Cookies</h2>
-  <p>Our website uses only essential cookies required for basic functionality. We do not use advertising or tracking cookies.</p>
+  <h2>9. Cookies</h2>
+  <p>Our website uses only essential cookies. We do not use advertising or tracking cookies.</p>
 
-  <h2>9. Third-party services</h2>
-  <ul>
-    <li><strong>Anthropic Claude API</strong> — used for AI-powered answers within the installed software. See <a href="https://www.anthropic.com/legal/privacy" target="_blank">Anthropic's Privacy Policy</a>.</li>
-    <li><strong>Email hosting</strong> — enquiry emails processed via our email provider</li>
-  </ul>
-
-  <h2>10. Changes to this policy</h2>
-  <p>We may update this policy from time to time. The date at the top of this page will reflect the most recent update. Continued use of our services constitutes acceptance of the updated policy.</p>
-
-  <h2>11. Contact</h2>
-  <p>For any privacy-related questions:<br>
-  Email: <a href="mailto:hello@weldai.uk">hello@weldai.uk</a><br>
+  <h2>10. Contact</h2>
+  <p>Email: <a href="mailto:hello@weldai.uk">hello@weldai.uk</a><br>
   Website: <a href="https://weldai.uk">weldai.uk</a><br>
   Location: York, England, United Kingdom</p>
 </div>
