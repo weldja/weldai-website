@@ -1,396 +1,470 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Weld AI — Private AI Assistant for Small Business</title>
-<meta name="description" content="Ask questions across all your company documents. Runs entirely on your own server — your data never leaves your premises.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --navy: #0d1b2a;
-    --blue: #1a4fa3;
-    --blue-mid: #2563c7;
-    --blue-light: #e8f0fb;
-    --blue-pale: #f0f5ff;
-    --white: #ffffff;
-    --text: #1a2438;
-    --muted: #5a6a82;
-    --border: #d4dff0;
-    --green: #16a34a;
-    --red: #dc2626;
-  }
-  html { scroll-behavior: smooth; }
-  body { font-family: 'DM Sans', sans-serif; color: var(--text); background: var(--white); overflow-x: hidden; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Ask questions across all your company documents. Powered by Claude AI — the fastest, highest-quality responses available — with your documents always staying on your own server." />
+  <title>Weld AI — Private AI Assistant for Small Business</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0 5vw; height: 64px;
-    background: rgba(255,255,255,0.95); backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-  }
-  .logo { font-family: 'DM Serif Display', serif; font-size: 1.4rem; color: var(--navy); text-decoration: none; letter-spacing: -0.02em; }
-  .logo span { color: var(--blue-mid); }
-  .logo-sub { font-size: 0.7rem; font-family: 'DM Sans', sans-serif; font-weight: 400; color: var(--muted); display: block; margin-top: -2px; letter-spacing: 0; }
-  nav ul { list-style: none; display: flex; gap: 2rem; align-items: center; }
-  nav ul a { text-decoration: none; color: var(--muted); font-size: 0.9rem; transition: color 0.2s; }
-  nav ul a:hover { color: var(--blue-mid); }
-  .nav-cta { background: var(--blue-mid); color: var(--white) !important; padding: 0.5rem 1.25rem; border-radius: 6px; font-weight: 500 !important; transition: background 0.2s !important; }
-  .nav-cta:hover { background: var(--blue) !important; }
-
-  .hero { min-height: 100vh; display: flex; align-items: center; padding: 80px 5vw 60px; background: var(--navy); position: relative; overflow: hidden; }
-  .hero::before { content: ''; position: absolute; top: -200px; right: -200px; width: 700px; height: 700px; background: radial-gradient(circle, rgba(37,99,199,0.25) 0%, transparent 70%); pointer-events: none; }
-  .hero-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; width: 100%; position: relative; z-index: 1; }
-  .hero-label { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(37,99,199,0.2); border: 1px solid rgba(37,99,199,0.4); color: #93b8ff; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.35rem 0.9rem; border-radius: 100px; margin-bottom: 1.5rem; }
-  .hero-label::before { content: ''; width: 6px; height: 6px; background: #93b8ff; border-radius: 50%; animation: pulse 2s infinite; }
-  @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.3); } }
-  .hero h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2.2rem, 4vw, 3.6rem); line-height: 1.12; color: var(--white); letter-spacing: -0.02em; margin-bottom: 1.25rem; }
-  .hero h1 em { font-style: italic; color: #93b8ff; }
-  .hero p { font-size: 1.05rem; line-height: 1.7; color: #8fa8c8; margin-bottom: 2rem; max-width: 460px; }
-  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem; }
-  .btn-primary { background: var(--blue-mid); color: white; padding: 0.85rem 2rem; border-radius: 8px; font-size: 0.95rem; font-weight: 500; text-decoration: none; transition: all 0.2s; }
-  .btn-primary:hover { background: #1a4fa3; transform: translateY(-1px); }
-  .btn-ghost { color: #8fa8c8; padding: 0.85rem 2rem; border-radius: 8px; font-size: 0.95rem; text-decoration: none; transition: all 0.2s; border: 1px solid rgba(255,255,255,0.15); }
-  .btn-ghost:hover { color: white; border-color: rgba(255,255,255,0.3); }
-  .hero-proof { display: flex; gap: 1.5rem; flex-wrap: wrap; }
-  .hero-proof-item { font-size: 0.8rem; color: #6a8aab; display: flex; align-items: center; gap: 0.4rem; }
-  .hero-proof-item::before { content: '✓'; color: #4ade80; font-weight: 500; }
-
-  .mockup-wrap { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; overflow: hidden; }
-  .mockup-bar { background: rgba(255,255,255,0.08); padding: 0.75rem 1rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.08); }
-  .mockup-dot { width: 10px; height: 10px; border-radius: 50%; }
-  .mockup-url { flex: 1; background: rgba(255,255,255,0.06); border-radius: 6px; padding: 0.3rem 0.8rem; font-size: 0.75rem; color: #6a8aab; margin-left: 0.5rem; display: flex; align-items: center; gap: 0.4rem; }
-  .mockup-url::before { content: '🔒'; font-size: 0.65rem; }
-  .mockup-body { padding: 1.5rem; }
-  .mockup-brand { font-family: 'DM Serif Display', serif; color: #93b8ff; font-size: 1rem; margin-bottom: 0.2rem; }
-  .mockup-tag { font-size: 0.75rem; color: #5a7a9a; margin-bottom: 1.25rem; }
-  .mockup-chat { display: flex; flex-direction: column; gap: 0.75rem; }
-  .mockup-msg { padding: 0.65rem 1rem; border-radius: 10px; font-size: 0.8rem; line-height: 1.5; max-width: 85%; }
-  .mockup-msg.user { background: var(--blue-mid); color: white; align-self: flex-end; }
-  .mockup-msg.ai { background: rgba(255,255,255,0.08); color: #b0c8e0; border: 1px solid rgba(255,255,255,0.08); }
-  .mockup-source { font-size: 0.7rem; color: #4a7a4a; background: rgba(74,154,74,0.12); border: 1px solid rgba(74,154,74,0.2); border-radius: 6px; padding: 0.3rem 0.7rem; display: inline-block; margin-top: 0.25rem; }
-  .mockup-timing { font-size: 0.68rem; color: #5a7a9a; margin-top: 0.5rem; }
-
-  .trust-bar { background: var(--blue-pale); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 1.25rem 5vw; display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap; }
-  .trust-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--muted); }
-
-  section { padding: 100px 5vw; }
-  .section-inner { max-width: 1100px; margin: 0 auto; }
-  .section-label { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--blue-mid); margin-bottom: 1rem; }
-  .section-title { font-family: 'DM Serif Display', serif; font-size: clamp(1.8rem, 3vw, 2.8rem); line-height: 1.15; letter-spacing: -0.02em; color: var(--navy); margin-bottom: 1.25rem; }
-  .section-sub { font-size: 1.05rem; color: var(--muted); line-height: 1.7; max-width: 580px; }
-
-  /* FOR SECTION */
-  .for-section { background: var(--white); }
-  .for-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; margin-top: 3rem; }
-  .for-card { background: var(--blue-pale); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem 1.25rem; text-align: center; transition: transform 0.2s, border-color 0.2s; }
-  .for-card:hover { transform: translateY(-3px); border-color: var(--blue-mid); }
-  .for-icon { font-size: 1.75rem; margin-bottom: 0.75rem; display: block; }
-  .for-card h3 { font-size: 0.9rem; font-weight: 500; color: var(--navy); }
-
-  /* HOW */
-  .how { background: var(--blue-pale); }
-  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; margin-top: 4rem; }
-  .step { padding: 2rem; border: 1px solid var(--border); border-radius: 12px; background: var(--white); transition: border-color 0.2s, transform 0.2s; }
-  .step:hover { border-color: var(--blue-mid); transform: translateY(-3px); }
-  .step-num { font-family: 'DM Serif Display', serif; font-size: 2.5rem; color: var(--blue-light); line-height: 1; margin-bottom: 1rem; }
-  .step h3 { font-size: 1rem; font-weight: 500; color: var(--navy); margin-bottom: 0.5rem; }
-  .step p { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
-
-  /* COMPARISON */
-  .compare-section { background: var(--navy); }
-  .compare-section .section-title { color: var(--white); }
-  .compare-section .section-sub { color: #8fa8c8; }
-  .compare-section .section-label { color: #93b8ff; }
-  .compare-table { width: 100%; border-collapse: collapse; margin-top: 3rem; border-radius: 12px; overflow: hidden; }
-  .compare-table th { padding: 1rem 1.5rem; text-align: left; font-size: 0.85rem; font-weight: 500; }
-  .compare-table th:first-child { color: #6a8aab; background: rgba(255,255,255,0.03); }
-  .compare-table th:nth-child(2) { background: rgba(37,99,199,0.3); color: #93b8ff; border-bottom: 2px solid var(--blue-mid); }
-  .compare-table th:nth-child(3) { background: rgba(255,255,255,0.05); color: #6a8aab; }
-  .compare-table td { padding: 0.9rem 1.5rem; font-size: 0.875rem; border-top: 1px solid rgba(255,255,255,0.06); }
-  .compare-table td:first-child { color: #8fa8c8; background: rgba(255,255,255,0.03); }
-  .compare-table td:nth-child(2) { background: rgba(37,99,199,0.12); color: var(--white); font-weight: 500; }
-  .compare-table td:nth-child(3) { background: rgba(255,255,255,0.02); color: #5a7a9a; }
-  .yes { color: #4ade80 !important; }
-  .no { color: #f87171 !important; }
-  .partial { color: #fbbf24 !important; }
-
-  /* FEATURES */
-  .features-section { background: var(--white); }
-  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 4rem; }
-  .feature-card { background: var(--blue-pale); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; transition: transform 0.2s; }
-  .feature-card:hover { transform: translateY(-3px); }
-  .feature-icon { font-size: 1.75rem; margin-bottom: 1rem; display: block; }
-  .feature-card h3 { font-size: 1rem; font-weight: 500; color: var(--navy); margin-bottom: 0.5rem; }
-  .feature-card p { font-size: 0.875rem; color: var(--muted); line-height: 1.65; }
-
-  /* PRIVACY */
-  .privacy-section { background: var(--blue-pale); }
-  .privacy-points { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
-  .privacy-point { display: flex; gap: 1rem; align-items: flex-start; }
-  .privacy-check { width: 24px; height: 24px; background: rgba(37,99,199,0.15); border: 1px solid rgba(37,99,199,0.3); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: var(--blue-mid); flex-shrink: 0; margin-top: 2px; }
-  .privacy-point h4 { font-size: 0.95rem; font-weight: 500; color: var(--navy); margin-bottom: 0.3rem; }
-  .privacy-point p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
-
-  /* CTA */
-  .cta-section { background: var(--blue-mid); text-align: center; padding: 80px 5vw; }
-  .cta-section h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.8rem, 3vw, 2.8rem); color: white; margin-bottom: 1rem; letter-spacing: -0.02em; }
-  .cta-section p { color: rgba(255,255,255,0.8); font-size: 1.05rem; margin-bottom: 2.5rem; }
-  .btn-white { background: white; color: var(--blue-mid); padding: 0.9rem 2.5rem; border-radius: 8px; font-size: 1rem; font-weight: 500; text-decoration: none; display: inline-block; transition: all 0.2s; }
-  .btn-white:hover { background: var(--blue-pale); transform: translateY(-1px); }
-
-  /* CONTACT */
-  .contact-section { background: var(--white); }
-  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start; margin-top: 4rem; }
-  .contact-form { display: flex; flex-direction: column; gap: 1rem; }
-  .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
-  .form-group label { font-size: 0.85rem; font-weight: 500; color: var(--navy); }
-  .form-group input, .form-group textarea, .form-group select { padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: 8px; font-size: 0.9rem; font-family: 'DM Sans', sans-serif; color: var(--text); background: var(--white); transition: border-color 0.2s; outline: none; }
-  .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--blue-mid); }
-  .form-group textarea { resize: vertical; min-height: 120px; }
-  .btn-submit { background: var(--blue-mid); color: white; padding: 0.85rem 2rem; border: none; border-radius: 8px; font-size: 0.95rem; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: background 0.2s; align-self: flex-start; }
-  .btn-submit:hover { background: var(--blue); }
-  .contact-info h3 { font-family: 'DM Serif Display', serif; font-size: 1.5rem; color: var(--navy); margin-bottom: 1rem; }
-  .contact-info p { font-size: 0.95rem; color: var(--muted); line-height: 1.7; margin-bottom: 1.5rem; }
-  .contact-detail { display: flex; align-items: center; gap: 0.75rem; font-size: 0.9rem; color: var(--muted); margin-bottom: 0.75rem; }
-  .contact-detail a { color: var(--blue-mid); text-decoration: none; }
-
-  footer { background: var(--navy); padding: 3rem 5vw; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
-  footer p { font-size: 0.8rem; color: #4a6a8a; }
-
-  .fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
-  .fade-up.visible { opacity: 1; transform: translateY(0); }
-
-  @media (max-width: 768px) {
-    .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
-    .mockup-wrap { display: none; }
-    .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
-    nav ul { display: none; }
-    .trust-bar { gap: 1rem; }
-    .compare-table th, .compare-table td { padding: 0.75rem 1rem; font-size: 0.8rem; }
-    .steps { grid-template-columns: 1fr; }
-    .features-grid { grid-template-columns: 1fr; }
-    .privacy-points { grid-template-columns: 1fr; }
-    .for-grid { grid-template-columns: 1fr 1fr; }
-    section { padding: 60px 5vw; }
-    div[style*="grid-template-columns:1fr 1fr"],
-    div[style*="grid-template-columns: 1fr 1fr"] {
-      grid-template-columns: 1fr !important;
-      gap: 2rem !important;
+    :root {
+      --blue:       #185FA5;
+      --blue-light: #E8F0FB;
+      --blue-dark:  #0E3D6E;
+      --ink:        #1A1A2E;
+      --mid:        #4A5568;
+      --light:      #F7F9FC;
+      --white:      #FFFFFF;
+      --green:      #0E7A5A;
+      --amber:      #B45309;
+      --border:     #DDE3ED;
+      --radius:     10px;
+      --serif:      'DM Serif Display', Georgia, serif;
+      --sans:       'DM Sans', system-ui, sans-serif;
     }
-  }
 
-  @media (max-width: 480px) {
-    .for-grid { grid-template-columns: 1fr; }
-    .hero h1 { font-size: 2rem; }
-    .section-title { font-size: 1.6rem; }
-    .compare-table { display: block; overflow-x: auto; }
-    .compare-table th, .compare-table td { padding: 0.5rem 0.6rem; font-size: 0.72rem; }
-    .trust-bar { flex-direction: column; align-items: flex-start; padding-left: 1rem; }
-    .hero-actions { flex-direction: column; }
-    .hero-actions a { text-align: center; }
-    .hero-proof { flex-direction: column; gap: 0.5rem; }
-    section { padding: 50px 4vw; }
-  }
-</style>
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      color: var(--ink);
+      background: var(--white);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 60px;
+    }
+    .nav-logo { font-family: var(--serif); font-size: 1.25rem; color: var(--blue); text-decoration: none; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { text-decoration: none; color: var(--mid); font-size: 0.9rem; font-weight: 500; transition: color .2s; }
+    .nav-links a:hover { color: var(--blue); }
+    .nav-cta { background: var(--blue); color: #fff; padding: 0.45rem 1.1rem; border-radius: 6px; font-size: 0.9rem; font-weight: 500; text-decoration: none; transition: background .2s; }
+    .nav-cta:hover { background: var(--blue-dark); }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(160deg, var(--blue-dark) 0%, var(--blue) 60%, #2a7fd4 100%);
+      color: #fff;
+      padding: 5rem 2rem 4rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(255,255,255,0.06) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 999px;
+      padding: 0.3rem 0.9rem;
+      font-size: 0.8rem; font-weight: 500;
+      margin-bottom: 1.5rem;
+      backdrop-filter: blur(4px);
+    }
+    .hero h1 {
+      font-family: var(--serif);
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      line-height: 1.15;
+      max-width: 780px;
+      margin: 0 auto 1.25rem;
+    }
+    .hero h1 em { font-style: italic; color: #9ECFFF; }
+    .hero p {
+      max-width: 580px;
+      margin: 0 auto 2.5rem;
+      font-size: 1.1rem;
+      opacity: 0.88;
+      font-weight: 300;
+    }
+    .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: #fff; color: var(--blue);
+      padding: 0.75rem 1.75rem; border-radius: 8px;
+      font-weight: 600; text-decoration: none; font-size: 0.95rem;
+      transition: transform .15s, box-shadow .15s;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+    }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
+    .btn-secondary {
+      background: rgba(255,255,255,0.12); color: #fff;
+      border: 1px solid rgba(255,255,255,0.3);
+      padding: 0.75rem 1.75rem; border-radius: 8px;
+      font-weight: 500; text-decoration: none; font-size: 0.95rem;
+      transition: background .2s;
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.2); }
+    .hero-pills {
+      display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;
+      margin-top: 2.5rem;
+      font-size: 0.85rem; opacity: 0.8;
+    }
+    .hero-pills span::before { content: '✓  '; }
+
+    /* ── Mock UI ── */
+    .mock-wrap {
+      background: var(--light);
+      padding: 3rem 2rem;
+      display: flex; justify-content: center;
+    }
+    .mock {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.08);
+      width: 100%; max-width: 560px;
+      overflow: hidden;
+    }
+    .mock-header {
+      background: var(--blue);
+      color: #fff;
+      padding: 0.75rem 1rem;
+      font-size: 0.8rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .mock-header strong { font-family: var(--serif); font-size: 1rem; }
+    .mock-body { padding: 1.25rem; display: flex; flex-direction: column; gap: 1rem; }
+    .mock-q {
+      background: var(--blue); color: #fff;
+      padding: 0.65rem 1rem; border-radius: 8px 8px 2px 8px;
+      font-size: 0.9rem; align-self: flex-end; max-width: 85%;
+    }
+    .mock-a {
+      background: var(--light);
+      border-left: 3px solid var(--blue);
+      padding: 0.75rem 1rem;
+      border-radius: 2px 8px 8px 8px;
+      font-size: 0.88rem; max-width: 92%;
+    }
+    .mock-source {
+      font-size: 0.75rem; color: var(--blue);
+      margin-top: 0.4rem; font-weight: 500;
+    }
+    .mock-meta { font-size: 0.75rem; color: var(--mid); margin-top: 0.25rem; }
+    .mock-badge {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      background: #EAF5F0; color: var(--green);
+      border: 1px solid #B6DDD0;
+      border-radius: 999px; padding: 0.2rem 0.6rem;
+      font-size: 0.72rem; font-weight: 600;
+      margin-top: 0.5rem;
+    }
+
+    /* ── Sections ── */
+    section { padding: 5rem 2rem; }
+    .container { max-width: 1060px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.78rem; font-weight: 600; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--blue);
+      margin-bottom: 0.75rem;
+    }
+    h2 {
+      font-family: var(--serif);
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      line-height: 1.2;
+      margin-bottom: 1.25rem;
+    }
+    .lead { font-size: 1.05rem; color: var(--mid); max-width: 640px; }
+
+    /* ── How it works ── */
+    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; margin-top: 3rem; }
+    .step { position: relative; }
+    .step-num {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--blue); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem; font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    .step h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.4rem; }
+    .step p { font-size: 0.9rem; color: var(--mid); }
+
+    /* ── Pain points ── */
+    .pain-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-top: 2.5rem; }
+    .pain-card {
+      background: var(--light);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+    }
+    .pain-icon { font-size: 1.75rem; margin-bottom: 0.75rem; }
+    .pain-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.4rem; }
+    .pain-card p { font-size: 0.88rem; color: var(--mid); }
+
+    /* ── LLM options ── */
+    .llm-section { background: var(--light); }
+    .llm-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2.5rem; }
+    .llm-card {
+      background: #fff;
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      position: relative;
+    }
+    .llm-card.featured { border-color: var(--blue); }
+    .llm-badge {
+      position: absolute; top: -12px; left: 1.25rem;
+      background: var(--blue); color: #fff;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: .06em;
+      padding: 0.2rem 0.7rem; border-radius: 999px;
+    }
+    .llm-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .llm-card .llm-sub { font-size: 0.82rem; color: var(--mid); margin-bottom: 1rem; }
+    .llm-card ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .llm-card li { font-size: 0.88rem; display: flex; gap: 0.5rem; }
+    .llm-card li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; }
+    .llm-card li.minus::before { content: '–'; color: var(--mid); }
+
+    /* ── Privacy ── */
+    .privacy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; margin-top: 2.5rem; }
+    .privacy-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      display: flex; gap: 1rem; align-items: flex-start;
+    }
+    .privacy-icon { font-size: 1.5rem; flex-shrink: 0; margin-top: 2px; }
+    .privacy-card h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.25rem; }
+    .privacy-card p { font-size: 0.85rem; color: var(--mid); }
+
+    /* ── Comparison ── */
+    .compare-section { background: var(--ink); color: #fff; }
+    .compare-section h2 { color: #fff; }
+    .compare-section .lead { color: rgba(255,255,255,0.65); }
+    .compare-table {
+      width: 100%; border-collapse: collapse;
+      margin-top: 2.5rem;
+      font-size: 0.9rem;
+    }
+    .compare-table th {
+      padding: 1rem 1.25rem;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+    }
+    .compare-table th:not(:first-child) { text-align: center; }
+    .compare-table td {
+      padding: 0.85rem 1.25rem;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      color: rgba(255,255,255,0.8);
+    }
+    .compare-table td:not(:first-child) { text-align: center; }
+    .compare-table tr:last-child td { border-bottom: none; }
+    .compare-table .yes { color: #6EE7B7; font-weight: 600; }
+    .compare-table .no  { color: #FCA5A5; }
+    .compare-table .par { color: #FCD34D; }
+    .col-weld { background: rgba(24,95,165,0.2); }
+
+    /* ── Features ── */
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-top: 2.5rem; }
+    .feature-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      transition: box-shadow .2s, transform .2s;
+    }
+    .feature-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.08); transform: translateY(-2px); }
+    .feature-icon { font-size: 1.75rem; margin-bottom: 0.75rem; }
+    .feature-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.4rem; }
+    .feature-card p { font-size: 0.88rem; color: var(--mid); }
+
+    /* ── Industries ── */
+    .industries-section { background: var(--light); }
+    .industry-grid { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
+    .industry-pill {
+      background: #fff; border: 1px solid var(--border);
+      border-radius: 999px; padding: 0.5rem 1.1rem;
+      font-size: 0.88rem; font-weight: 500;
+    }
+
+    /* ── CTA ── */
+    .cta-section {
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue));
+      color: #fff; text-align: center;
+    }
+    .cta-section h2 { color: #fff; }
+    .cta-section p { color: rgba(255,255,255,0.8); max-width: 500px; margin: 0 auto 2rem; }
+
+    /* ── Contact ── */
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 3rem; }
+    @media (max-width: 700px) { .contact-grid { grid-template-columns: 1fr; gap: 2rem; } }
+    .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-group label { font-size: 0.85rem; font-weight: 500; }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.65rem 0.9rem;
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      color: var(--ink);
+      transition: border-color .2s;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { outline: none; border-color: var(--blue); }
+    .form-group textarea { min-height: 100px; resize: vertical; }
+    .btn-submit {
+      background: var(--blue); color: #fff;
+      border: none; border-radius: 8px;
+      padding: 0.8rem 1.5rem;
+      font-family: var(--sans); font-size: 0.95rem; font-weight: 600;
+      cursor: pointer; transition: background .2s;
+      align-self: flex-start;
+    }
+    .btn-submit:hover { background: var(--blue-dark); }
+    .contact-info { display: flex; flex-direction: column; gap: 1.5rem; }
+    .contact-info h3 { font-family: var(--serif); font-size: 1.3rem; margin-bottom: 0.5rem; }
+    .contact-info p { font-size: 0.9rem; color: var(--mid); }
+    .contact-detail { display: flex; align-items: center; gap: 0.6rem; font-size: 0.9rem; }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--ink); color: rgba(255,255,255,0.5);
+      text-align: center; padding: 2rem;
+      font-size: 0.82rem;
+    }
+    footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
+
+    /* ── Dividers ── */
+    .alt-bg { background: var(--light); }
+
+    @media (max-width: 640px) {
+      nav { padding: 0 1rem; }
+      .nav-links { display: none; }
+      section { padding: 3.5rem 1.25rem; }
+      .hero { padding: 3.5rem 1.25rem 3rem; }
+    }
+  </style>
 </head>
 <body>
 
+<!-- ── Navigation ── -->
 <nav>
-  <a href="#" class="logo">
-    Weld<span>AI</span>
-    <span class="logo-sub">Private AI for small business</span>
-  </a>
-  <ul>
+  <a href="#" class="nav-logo">WeldAI</a>
+  <ul class="nav-links">
     <li><a href="#for">Who it's for</a></li>
     <li><a href="#how">How it works</a></li>
+    <li><a href="#llm">AI options</a></li>
     <li><a href="#compare">vs ChatGPT</a></li>
-    <li><a href="demo.html">▶ Demo</a></li>
-    <li><a href="#contact" class="nav-cta">Book a demo</a></li>
+    <li><a href="https://www.weldai.uk/demo.html">▶ Demo</a></li>
   </ul>
+  <a href="#contact" class="nav-cta">Book a demo</a>
 </nav>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-inner">
-    <div>
-      <div class="hero-label">Private AI for small business</div>
-      <h1>A private ChatGPT for <em>your</em> company documents</h1>
-      <p>Staff ask questions in plain English and get instant answers with sources cited — without your data ever leaving your building. Replaces folder searching, colleague interruptions, and hours lost to "I know it's somewhere..."</p>
-      <div class="hero-actions">
-        <a href="#contact" class="btn-primary">Book a free demo</a>
-        <a href="demo.html" class="btn-ghost">▶ Watch demo</a>
-      </div>
-      <div class="hero-proof">
-        <span class="hero-proof-item">No cloud required</span>
-        <span class="hero-proof-item">Data stays on your server</span>
-        <span class="hero-proof-item">Installed in one day</span>
-      </div>
-    </div>
-
-    <div class="mockup-wrap">
-      <div class="mockup-bar">
-        <div class="mockup-dot" style="background:#ff5f57"></div>
-        <div class="mockup-dot" style="background:#febc2e"></div>
-        <div class="mockup-dot" style="background:#28c840"></div>
-        <div class="mockup-url">https://your-server — Document Assistant</div>
-      </div>
-      <div class="mockup-body">
-        <div class="mockup-brand">Smith & Jones Solicitors</div>
-        <div class="mockup-tag">Document Assistant</div>
-        <div class="mockup-chat">
-          <div class="mockup-msg user">What is our client data retention policy?</div>
-          <div class="mockup-msg ai">
-            Client data must be retained for a minimum of 7 years following the end of the matter, in accordance with SRA requirements.
-            <div class="mockup-source">📄 Data Policy v3.2.pdf · p.4</div>
-          </div>
-          <div class="mockup-timing">⏱ 13.2s · 3 sources · ⚡ cached next time</div>
-          <div class="mockup-msg user">What is our notice period for senior staff?</div>
-          <div class="mockup-msg ai">
-            Senior staff (Grade 4 and above) are entitled to 3 months notice, as per the Employee Handbook section 6.2.
-            <div class="mockup-source">📄 Employee Handbook 2024.docx · p.18</div>
-          </div>
-        </div>
-      </div>
-    </div>
+<!-- ── Hero ── -->
+<section class="hero" id="top">
+  <div class="hero-badge">🤖 Now powered by Claude AI — the world's leading business AI</div>
+  <h1>A private AI assistant for <em>your</em> company documents</h1>
+  <p>Staff ask questions in plain English and get instant, accurate answers with sources cited — powered by Claude AI, with your documents always staying on your own server.</p>
+  <div class="hero-btns">
+    <a href="#contact" class="btn-primary">Book a free demo</a>
+    <a href="https://www.weldai.uk/demo.html" class="btn-secondary">▶ Watch demo</a>
+  </div>
+  <div class="hero-pills">
+    <span>Documents stay on your server</span>
+    <span>Installed in one day</span>
+    <span>Claude or fully local — your choice</span>
   </div>
 </section>
 
-<!-- TRUST BAR -->
-<div class="trust-bar">
-  <div class="trust-item">🔒 Data never leaves your server</div>
-  <div class="trust-item">📄 PDF · Word · Excel · PowerPoint · CSV</div>
-  <div class="trust-item">⚡ No internet required</div>
-  <div class="trust-item">🏢 Works on your existing hardware</div>
-  <div class="trust-item">✅ GDPR compliant by design</div>
+<!-- ── Mock UI ── -->
+<div class="mock-wrap">
+  <div class="mock">
+    <div class="mock-header">
+      🔒 <strong>Smith &amp; Jones Solicitors</strong> — Document Assistant
+    </div>
+    <div class="mock-body">
+      <div class="mock-q">What is our client data retention policy?</div>
+      <div>
+        <div class="mock-a">
+          Client data must be retained for a minimum of 7 years following the end of the matter, in accordance with SRA requirements.
+        </div>
+        <div class="mock-source">📄 Data Policy v3.2.pdf · p.4</div>
+        <div class="mock-meta">⏱ 1.8s · 3 sources</div>
+        <div class="mock-badge">🤖 Powered by Claude API</div>
+      </div>
+      <div class="mock-q">What is our notice period for senior staff?</div>
+      <div>
+        <div class="mock-a">
+          Senior staff (Grade 4 and above) are entitled to 3 months notice, as per the Employee Handbook section 6.2.
+        </div>
+        <div class="mock-source">📄 Employee Handbook 2024.docx · p.18</div>
+        <div class="mock-meta">⏱ 2.1s · 2 sources · ⚡ cached next time</div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<!-- PAIN -->
-<section style="background:var(--white);padding:80px 5vw;">
-  <div class="section-inner" style="max-width:1100px;margin:0 auto;">
+<!-- ── Pain points ── -->
+<section id="for">
+  <div class="container">
     <div class="section-label">Sound familiar?</div>
-    <h2 class="section-title">Staff waste hours finding information that already exists</h2>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;margin-top:3rem;">
-      <div style="padding:1.5rem;background:var(--blue-pale);border:1px solid var(--border);border-radius:12px;">
-        <div style="font-size:1.5rem;margin-bottom:0.75rem;">🔍</div>
-        <h3 style="font-size:0.95rem;font-weight:500;color:var(--navy);margin-bottom:0.5rem;">"I know it's in a document somewhere..."</h3>
-        <p style="font-size:0.875rem;color:var(--muted);line-height:1.6;">Staff spend 20-30 minutes digging through folders looking for a policy, contract clause, or procedure they know exists.</p>
+    <h2>Staff waste hours finding information that already exists</h2>
+    <p class="lead">Weld AI reads and understands all your business documents — then answers any question in seconds, with the exact source cited.</p>
+    <div class="pain-grid">
+      <div class="pain-card">
+        <div class="pain-icon">🔍</div>
+        <h3>"I know it's in a document somewhere..."</h3>
+        <p>Staff spend 20–30 minutes digging through folders looking for a policy, contract clause, or procedure they know exists.</p>
       </div>
-      <div style="padding:1.5rem;background:var(--blue-pale);border:1px solid var(--border);border-radius:12px;">
-        <div style="font-size:1.5rem;margin-bottom:0.75rem;">🔁</div>
-        <h3 style="font-size:0.95rem;font-weight:500;color:var(--navy);margin-bottom:0.5rem;">"Can you just forward me that email again?"</h3>
-        <p style="font-size:0.875rem;color:var(--muted);line-height:1.6;">The same questions get asked repeatedly because nobody can find the authoritative answer quickly.</p>
+      <div class="pain-card">
+        <div class="pain-icon">🔁</div>
+        <h3>"Can you just forward me that email again?"</h3>
+        <p>The same questions get asked repeatedly because nobody can find the authoritative answer quickly.</p>
       </div>
-      <div style="padding:1.5rem;background:var(--blue-pale);border:1px solid var(--border);border-radius:12px;">
-        <div style="font-size:1.5rem;margin-bottom:0.75rem;">😟</div>
-        <h3 style="font-size:0.95rem;font-weight:500;color:var(--navy);margin-bottom:0.5rem;">"I can't use ChatGPT — our data is confidential"</h3>
-        <p style="font-size:0.875rem;color:var(--muted);line-height:1.6;">Cloud AI tools would help, but you can't risk uploading client contracts, financial data, or HR files to an external service.</p>
-      </div>
-    </div>
-    <div style="text-align:center;margin-top:3rem;padding:2rem;background:var(--blue-mid);border-radius:12px;">
-      <p style="color:white;font-size:1.1rem;font-weight:500;margin-bottom:0.5rem;">Weld AI solves all three — privately, on your own server.</p>
-      <p style="color:rgba(255,255,255,0.75);font-size:0.9rem;">Ask: "What is our refund policy?" · "How do I onboard a new client?" · "Where is the supplier contract template?" — answered instantly with sources.</p>
-      <p style="color:rgba(255,255,255,0.6);font-size:0.85rem;margin-top:1rem;border-top:1px solid rgba(255,255,255,0.15);padding-top:1rem;">Unlike Windows file search or SharePoint, Weld AI understands the <em>meaning</em> of your question — not just the keywords. No more digging through results hoping the right document appears.</p>
-      <a href="demo.html" style="display:inline-block;margin-top:1.25rem;background:white;color:var(--blue-mid);padding:0.7rem 1.75rem;border-radius:8px;font-size:0.9rem;font-weight:500;text-decoration:none;">&#9654; See it in action</a>
-    </div>
-  </div>
-</section>
-
-<!-- AI CREDIBILITY -->
-<section style="background:var(--navy);padding:80px 5vw;">
-  <div class="section-inner" style="max-width:1100px;margin:0 auto;">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;">
-      <div>
-        <div class="section-label" style="color:#93b8ff;">The AI credibility problem</div>
-        <h2 style="font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,3vw,2.6rem);line-height:1.15;letter-spacing:-0.02em;color:white;margin-bottom:1.25rem;">Your clients expect you to use AI.<br><em style="color:#93b8ff;font-style:italic;">Your obligations say you can't risk their data.</em></h2>
-        <p style="font-size:1.05rem;color:#8fa8c8;line-height:1.7;margin-bottom:2rem;">Small businesses are under growing pressure to adopt AI. But for solicitors, accountants, and HR firms — uploading client data to ChatGPT or Copilot is a serious compliance risk.</p>
-        <div style="background:rgba(37,99,199,0.15);border:1px solid rgba(37,99,199,0.3);border-radius:12px;padding:1.5rem;">
-          <p style="color:white;font-size:1.05rem;font-weight:500;margin-bottom:0.5rem;">Weld AI lets you do both.</p>
-          <p style="color:#8fa8c8;font-size:0.9rem;line-height:1.6;">Tell clients and prospects: <em style="color:#93b8ff;">"We use AI — and your data never leaves our systems."</em> That's a statement your competitors using public AI tools simply cannot make.</p>
-        </div>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:1.25rem;">
-        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.5rem;">
-          <div style="font-size:1.25rem;margin-bottom:0.5rem;">😰</div>
-          <h4 style="font-size:0.9rem;font-weight:500;color:white;margin-bottom:0.4rem;">Not using AI at all</h4>
-          <p style="font-size:0.82rem;color:#5a7a9a;line-height:1.6;">Increasingly looks behind the times to clients and new hires expecting modern tools.</p>
-        </div>
-        <div style="background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.2);border-radius:12px;padding:1.5rem;">
-          <div style="font-size:1.25rem;margin-bottom:0.5rem;">⚠️</div>
-          <h4 style="font-size:0.9rem;font-weight:500;color:#fca5a5;margin-bottom:0.4rem;">Using ChatGPT or Copilot</h4>
-          <p style="font-size:0.82rem;color:#9a6a6a;line-height:1.6;">Client data processed by third-party servers. Potential GDPR breach. ICO enforcement risk.</p>
-        </div>
-        <div style="background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.25);border-radius:12px;padding:1.5rem;">
-          <div style="font-size:1.25rem;margin-bottom:0.5rem;">✅</div>
-          <h4 style="font-size:0.9rem;font-weight:500;color:#86efac;margin-bottom:0.4rem;">Using Weld AI</h4>
-          <p style="font-size:0.82rem;color:#4a8a6a;line-height:1.6;">AI-powered. Fully private. Compliant. A genuine competitive advantage you can communicate to clients.</p>
-        </div>
+      <div class="pain-card">
+        <div class="pain-icon">😟</div>
+        <h3>"I can't use ChatGPT — our data is confidential"</h3>
+        <p>Cloud AI tools would help, but you can't risk uploading client contracts, financial data, or HR files to an unknown external service.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- WHO IT'S FOR -->
-<section class="for-section" id="for">
-  <div class="section-inner">
-    <div class="section-label">Perfect for</div>
-    <h2 class="section-title">Built for businesses with lots of documents</h2>
-    <p class="section-sub">If your team wastes time searching through files, policies, contracts, or manuals — Weld AI gives them instant answers.</p>
-    <div class="for-grid">
-      <div class="for-card fade-up">
-        <span class="for-icon">🏛️</span>
-        <h3>Accountancy practices</h3>
-      </div>
-      <div class="for-card fade-up">
-        <span class="for-icon">⚖️</span>
-        <h3>Solicitors & legal firms</h3>
-      </div>
-      <div class="for-card fade-up">
-        <span class="for-icon">👥</span>
-        <h3>HR consultancies</h3>
-      </div>
-      <div class="for-card fade-up">
-        <span class="for-icon">🏥</span>
-        <h3>Healthcare practices</h3>
-      </div>
-      <div class="for-card fade-up">
-        <span class="for-icon">🔧</span>
-        <h3>Engineering firms</h3>
-      </div>
-      <div class="for-card fade-up">
-        <span class="for-icon">📊</span>
-        <h3>Insurance brokers</h3>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- HOW IT WORKS -->
-<section class="how" id="how">
-  <div class="section-inner">
+<!-- ── How it works ── -->
+<section id="how" class="alt-bg">
+  <div class="container">
     <div class="section-label">Simple setup</div>
-    <h2 class="section-title">Up and running in a single day</h2>
-    <p class="section-sub">We come on-site, install everything, and have your team asking questions the same day. No IT project required.</p>
+    <h2>Up and running in a single day</h2>
+    <p class="lead">We come on-site, install everything, and have your team asking questions the same day. No IT project required.</p>
     <div class="steps">
-      <div class="step fade-up">
+      <div class="step">
         <div class="step-num">01</div>
         <h3>We install on your server</h3>
         <p>We visit your premises and install on your existing Windows or Linux server. No cloud accounts, no subscriptions, no data migration.</p>
       </div>
-      <div class="step fade-up">
+      <div class="step">
         <div class="step-num">02</div>
         <h3>Load your documents</h3>
         <p>Copy your policies, contracts, manuals, and reports into a shared folder. Any format — PDF, Word, Excel, PowerPoint.</p>
       </div>
-      <div class="step fade-up">
+      <div class="step">
         <div class="step-num">03</div>
         <h3>Index once, search forever</h3>
-        <p>Click one button and the AI reads and understands all your documents. Add new files any time with a Smart Update — no need to rebuild everything.</p>
+        <p>Click one button and the AI reads and understands all your documents. Add new files any time with a Smart Update.</p>
       </div>
-      <div class="step fade-up">
+      <div class="step">
         <div class="step-num">04</div>
         <h3>Ask anything in plain English</h3>
         <p>Open a browser on any device, type your question, get an answer with the exact source document and page number cited.</p>
@@ -399,100 +473,208 @@
   </div>
 </section>
 
-<!-- COMPARISON -->
-<section class="compare-section" id="compare">
-  <div class="section-inner">
-    <div class="section-label">Why not ChatGPT or Copilot?</div>
-    <h2 class="section-title">The private alternative to cloud AI</h2>
-    <p class="section-sub">Cloud AI tools are powerful but send your data to external servers. For businesses handling confidential client information, that's a serious risk.</p>
-    <table class="compare-table">
-      <thead>
-        <tr>
-          <th></th>
-          <th>🔒 Weld AI</th>
-          <th>ChatGPT / Copilot</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Data stays on your server</td>
-          <td class="yes">✓ Always</td>
-          <td class="no">✗ Sent to cloud</td>
-        </tr>
-        <tr>
-          <td>Works without internet</td>
-          <td class="yes">✓ Fully offline</td>
-          <td class="no">✗ Cloud required</td>
-        </tr>
-        <tr>
-          <td>Knows your company documents</td>
-          <td class="yes">✓ Your docs only</td>
-          <td class="partial">~ Requires setup</td>
-        </tr>
-        <tr>
-          <td>GDPR compliant by design</td>
-          <td class="yes">✓ No DPA needed</td>
-          <td class="partial">~ DPA required</td>
-        </tr>
-        <tr>
-          <td>Source citations with page numbers</td>
-          <td class="yes">✓ Every answer</td>
-          <td class="partial">~ Sometimes</td>
-        </tr>
-        <tr>
-          <td>No per-user monthly fees</td>
-          <td class="yes">✓ One-off install</td>
-          <td class="no">✗ Per user/month</td>
-        </tr>
-        <tr>
-          <td>Branded with your company name</td>
-          <td class="yes">✓ Fully branded</td>
-          <td class="no">✗ Generic UI</td>
-        </tr>
-        <tr>
-          <td>Installed on your existing hardware</td>
-          <td class="yes">✓ No new hardware</td>
-          <td class="no">✗ Cloud only</td>
-        </tr>
-      </tbody>
-    </table>
+<!-- ── LLM Options ── -->
+<section id="llm" class="llm-section">
+  <div class="container">
+    <div class="section-label">AI options</div>
+    <h2>Choose the AI engine that fits your business</h2>
+    <p class="lead">Weld AI works with two AI backends. We recommend Claude API for most businesses — it delivers faster, higher-quality answers. For organisations with strict data sovereignty requirements, a fully local option is available.</p>
+    <div class="llm-grid">
+
+      <div class="llm-card featured">
+        <div class="llm-badge">⭐ RECOMMENDED</div>
+        <h3>Claude API</h3>
+        <p class="llm-sub">Powered by Anthropic's Claude — the leading AI model for business use</p>
+        <ul>
+          <li>Fastest response times (1–3 seconds)</li>
+          <li>Highest accuracy and reasoning quality</li>
+          <li>Your documents stay on your server — only your question and relevant text excerpts are sent</li>
+          <li>Anthropic does not train on API data — your content is never used to train AI models</li>
+          <li>Anthropic is SOC 2 Type II certified</li>
+          <li>Requires internet connection on the server</li>
+          <li class="minus">Small per-query API cost (typically pennies per day)</li>
+        </ul>
+      </div>
+
+      <div class="llm-card">
+        <h3>Fully Local (Ollama)</h3>
+        <p class="llm-sub">100% on-premises — no data leaves your building, ever</p>
+        <ul>
+          <li>Completely air-gapped — works with no internet</li>
+          <li>Zero data leaves your server</li>
+          <li>No API costs — unlimited queries</li>
+          <li>GDPR compliant with no DPA needed</li>
+          <li class="minus">Slower responses (5–15 seconds)</li>
+          <li class="minus">Lower answer quality than Claude</li>
+          <li class="minus">Requires a more powerful server (8GB+ RAM)</li>
+        </ul>
+      </div>
+
+    </div>
+    <p style="margin-top:1.5rem; font-size:0.88rem; color:var(--mid);">
+      ℹ️ With Claude API: your <strong>documents never leave your server</strong>. Only the question you ask and the most relevant document extracts (a few paragraphs) are sent to Anthropic to generate the answer. Anthropic's API terms explicitly prohibit using API inputs to train their models.
+    </p>
   </div>
 </section>
 
-<!-- FEATURES -->
-<section class="features-section" id="features">
-  <div class="section-inner">
+<!-- ── Privacy ── -->
+<section id="privacy">
+  <div class="container">
+    <div class="section-label">Data privacy</div>
+    <h2>Designed with data privacy at its core</h2>
+    <p class="lead">Whether you choose Claude API or the fully local option, Weld AI is built to minimise data exposure and keep your business information under your control.</p>
+    <div class="privacy-grid">
+      <div class="privacy-card">
+        <div class="privacy-icon">🗄️</div>
+        <div>
+          <h4>Documents stay on your server — always</h4>
+          <p>Your files are never uploaded anywhere. Only short, relevant text excerpts are sent to Claude to generate an answer — and only when using the Claude API option.</p>
+        </div>
+      </div>
+      <div class="privacy-card">
+        <div class="privacy-icon">🚫</div>
+        <div>
+          <h4>Anthropic does not train on your data</h4>
+          <p>Anthropic's API Terms of Service explicitly prohibit using API inputs and outputs to train AI models. Your queries are processed and discarded — not retained or learned from.</p>
+        </div>
+      </div>
+      <div class="privacy-card">
+        <div class="privacy-icon">🔒</div>
+        <div>
+          <h4>Encrypted in transit</h4>
+          <p>HTTPS encryption between browsers and your server, and between your server and the Claude API. Secure on your internal network and externally.</p>
+        </div>
+      </div>
+      <div class="privacy-card">
+        <div class="privacy-icon">🏠</div>
+        <div>
+          <h4>Fully local option for maximum privacy</h4>
+          <p>For organisations that require zero external connections — solicitors handling highly sensitive matters, healthcare, classified environments — the fully local option means absolutely nothing leaves the building.</p>
+        </div>
+      </div>
+      <div class="privacy-card">
+        <div class="privacy-icon">🛡️</div>
+        <div>
+          <h4>Anthropic is SOC 2 Type II certified</h4>
+          <p>Anthropic maintains enterprise-grade security certifications. Their infrastructure is built to the same standards as other enterprise cloud providers your business already trusts.</p>
+        </div>
+      </div>
+      <div class="privacy-card">
+        <div class="privacy-icon">📋</div>
+        <div>
+          <h4>Optional audit logging</h4>
+          <p>Usage logging available for compliance and internal audit — so your IT team can monitor who asked what, and when.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Comparison ── -->
+<section id="compare" class="compare-section">
+  <div class="container">
+    <div class="section-label" style="color:#9ECFFF;">Why not ChatGPT or Copilot?</div>
+    <h2>The private, document-aware alternative to cloud AI</h2>
+    <p class="lead">Cloud AI tools are powerful but send your entire documents to external servers. Weld AI only sends the relevant text needed to answer each specific question.</p>
+    <div style="overflow-x:auto; margin-top:2rem;">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th class="col-weld">🔒 Weld AI<br><small style="font-weight:400;opacity:.7;">(Claude API)</small></th>
+            <th class="col-weld">🏠 Weld AI<br><small style="font-weight:400;opacity:.7;">(Local)</small></th>
+            <th>ChatGPT / Copilot</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Documents stay on your server</td>
+            <td class="col-weld yes">✓ Always</td>
+            <td class="col-weld yes">✓ Always</td>
+            <td class="no">✗ Uploaded to cloud</td>
+          </tr>
+          <tr>
+            <td>AI provider trains on your data</td>
+            <td class="col-weld yes">✓ No — API TOS prohibits it</td>
+            <td class="col-weld yes">✓ No — fully local</td>
+            <td class="par">~ Depends on settings</td>
+          </tr>
+          <tr>
+            <td>Answer quality</td>
+            <td class="col-weld yes">✓ Excellent (Claude)</td>
+            <td class="col-weld par">~ Good (local model)</td>
+            <td class="par">~ Good (generic)</td>
+          </tr>
+          <tr>
+            <td>Knows your company documents</td>
+            <td class="col-weld yes">✓ Your docs only</td>
+            <td class="col-weld yes">✓ Your docs only</td>
+            <td class="par">~ Requires setup</td>
+          </tr>
+          <tr>
+            <td>Source citations with page numbers</td>
+            <td class="col-weld yes">✓ Every answer</td>
+            <td class="col-weld yes">✓ Every answer</td>
+            <td class="par">~ Sometimes</td>
+          </tr>
+          <tr>
+            <td>Works without internet</td>
+            <td class="col-weld no">– Internet needed</td>
+            <td class="col-weld yes">✓ Fully offline</td>
+            <td class="no">✗ Cloud required</td>
+          </tr>
+          <tr>
+            <td>No per-user monthly fees</td>
+            <td class="col-weld yes">✓ Small API cost only</td>
+            <td class="col-weld yes">✓ One-off install</td>
+            <td class="no">✗ Per user/month</td>
+          </tr>
+          <tr>
+            <td>Branded with your company name</td>
+            <td class="col-weld yes">✓ Fully branded</td>
+            <td class="col-weld yes">✓ Fully branded</td>
+            <td class="no">✗ Generic UI</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ── Features ── -->
+<section id="features">
+  <div class="container">
     <div class="section-label">What your team gets</div>
-    <h2 class="section-title">Search years of business knowledge instantly</h2>
-    <p class="section-sub">Weld AI is designed for small businesses that need powerful AI without the complexity, cost, or privacy risk.</p>
+    <h2>Search years of business knowledge instantly</h2>
+    <p class="lead">Weld AI is designed for small businesses that need powerful AI without the complexity, cost, or privacy risk.</p>
     <div class="features-grid">
-      <div class="feature-card fade-up">
-        <span class="feature-icon">💬</span>
+      <div class="feature-card">
+        <div class="feature-icon">💬</div>
         <h3>Plain English questions</h3>
         <p>No training needed. Staff ask questions naturally and get answers immediately — no need to know which document contains the answer.</p>
       </div>
-      <div class="feature-card fade-up">
-        <span class="feature-icon">📚</span>
+      <div class="feature-card">
+        <div class="feature-icon">📚</div>
         <h3>Source citations with page numbers</h3>
         <p>Every answer includes the exact document and page number so your team can verify the information and stay compliant.</p>
       </div>
-      <div class="feature-card fade-up">
-        <span class="feature-icon">⚡</span>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
         <h3>Repeat questions answered instantly</h3>
         <p>Common questions are cached and answered in milliseconds. Your team stops asking the same questions twice.</p>
       </div>
-      <div class="feature-card fade-up">
-        <span class="feature-icon">🎨</span>
+      <div class="feature-card">
+        <div class="feature-icon">🎨</div>
         <h3>Branded with your company name</h3>
-        <p>The interface shows your logo, company name, and colours. Looks like your own product, not a third-party tool.</p>
+        <p>The interface shows your company name and colours. Looks like your own product, not a third-party tool.</p>
       </div>
-      <div class="feature-card fade-up">
-        <span class="feature-icon">🔄</span>
+      <div class="feature-card">
+        <div class="feature-icon">🔄</div>
         <h3>Smart document updates</h3>
         <p>Add new documents any time. Smart Update only re-indexes what changed — seconds, not minutes.</p>
       </div>
-      <div class="feature-card fade-up">
-        <span class="feature-icon">🖥️</span>
+      <div class="feature-card">
+        <div class="feature-icon">🖥️</div>
         <h3>Works on any browser</h3>
         <p>Access from Chrome, Edge, Safari — on Windows, Mac, or tablet. No app to install for your team.</p>
       </div>
@@ -500,79 +682,57 @@
   </div>
 </section>
 
-<!-- PRIVACY -->
-<section class="privacy-section" id="privacy">
-  <div class="section-inner">
-    <div class="section-label">Complete data privacy</div>
-    <h2 class="section-title">Your company data stays fully private</h2>
-    <p class="section-sub">A private ChatGPT for your company documents — running entirely on your own server. Weld AI minimises external data exposure and removes reliance on third-party AI services, making it safe for sensitive contracts, financial data, and client information.</p>
-
-    <div style="background:rgba(37,99,199,0.08);border:1px solid rgba(37,99,199,0.2);border-radius:12px;padding:1.5rem 2rem;margin:2.5rem 0;font-size:0.9rem;color:#3a5a8a;line-height:1.7;">
-      So your team can safely use AI on sensitive contracts, financial data, and internal policies — without exposing any information to the cloud.
-    </div>
-
-    <div class="privacy-points">
-      <div class="privacy-point fade-up">
-        <div class="privacy-check">✓</div>
-        <div><h4>Runs without internet</h4><p>The AI model runs locally on your server. Questions and answers never touch the internet.</p></div>
-      </div>
-      <div class="privacy-point fade-up">
-        <div class="privacy-check">✓</div>
-        <div><h4>No third-party AI services</h4><p>No OpenAI, no Google, no Microsoft. Your documents are never sent to any external service.</p></div>
-      </div>
-      <div class="privacy-point fade-up">
-        <div class="privacy-check">✓</div>
-        <div><h4>GDPR compliant by design</h4><p>All processing happens on your premises. No data processing agreements needed with AI providers.</p></div>
-      </div>
-      <div class="privacy-point fade-up">
-        <div class="privacy-check">✓</div>
-        <div><h4>Encrypted in transit</h4><p>HTTPS encryption between browsers and your server. Secure even on your internal network.</p></div>
-      </div>
-      <div class="privacy-point fade-up">
-        <div class="privacy-check">✓</div>
-        <div><h4>You own your data</h4><p>Documents stored in a standard folder on your server. Export, backup, or delete at any time — no lock-in.</p></div>
-      </div>
-      <div class="privacy-point fade-up">
-        <div class="privacy-check">✓</div>
-        <div><h4>Optional audit logging</h4><p>Usage logging available for compliance and internal audit — so your IT team can monitor and review activity.</p></div>
-      </div>
-    </div>
-
-    <div style="text-align:center;margin-top:3rem;">
-      <a href="#contact" style="background:var(--blue-mid);color:white;padding:0.85rem 2.5rem;border-radius:8px;font-size:0.95rem;font-weight:500;text-decoration:none;display:inline-block;transition:background 0.2s;">See it running on your server →</a>
+<!-- ── Industries ── -->
+<section id="industries" class="industries-section">
+  <div class="container">
+    <div class="section-label">Perfect for</div>
+    <h2>Built for businesses with lots of documents</h2>
+    <p class="lead">If your team wastes time searching through files, policies, contracts, or manuals — Weld AI gives them instant answers.</p>
+    <div class="industry-grid">
+      <span class="industry-pill">🏛️ Accountancy practices</span>
+      <span class="industry-pill">⚖️ Solicitors &amp; legal firms</span>
+      <span class="industry-pill">👥 HR consultancies</span>
+      <span class="industry-pill">🏥 Healthcare practices</span>
+      <span class="industry-pill">🔧 Engineering firms</span>
+      <span class="industry-pill">📊 Insurance brokers</span>
+      <span class="industry-pill">🏗️ Construction companies</span>
+      <span class="industry-pill">🎓 Training providers</span>
     </div>
   </div>
 </section>
 
-<!-- CTA -->
+<!-- ── CTA ── -->
 <section class="cta-section">
-  <h2>See it working with your actual documents</h2>
-  <p>We'll install it on your server and demo it with your real files — the same day.</p>
-  <a href="#contact" class="btn-white">Book a free demo →</a>
+  <div class="container" style="text-align:center;">
+    <div class="section-label" style="color:rgba(255,255,255,0.6);">See it working</div>
+    <h2>See it running with your actual documents</h2>
+    <p>We'll install it on your server and demo it with your real files — the same day.</p>
+    <a href="#contact" class="btn-primary">Book a free demo →</a>
+  </div>
 </section>
 
-<!-- CONTACT -->
-<section class="contact-section" id="contact">
-  <div class="section-inner">
+<!-- ── Contact ── -->
+<section id="contact">
+  <div class="container">
     <div class="section-label">Get in touch</div>
-    <h2 class="section-title">Book a free demo</h2>
+    <h2>Book a free demo</h2>
     <div class="contact-grid">
-      <form class="contact-form" action="https://formspree.io/f/xgoqlozb" method="POST">
+      <form class="contact-form">
         <div class="form-group">
-          <label for="name">Your name</label>
-          <input type="text" id="name" name="name" placeholder="James Smith" required>
+          <label>Your name</label>
+          <input type="text" placeholder="James Smith" />
         </div>
         <div class="form-group">
-          <label for="email">Email address</label>
-          <input type="email" id="email" name="email" placeholder="james@yourcompany.co.uk" required>
+          <label>Email address</label>
+          <input type="email" placeholder="james@smithjones.co.uk" />
         </div>
         <div class="form-group">
-          <label for="company">Company name</label>
-          <input type="text" id="company" name="company" placeholder="Smith & Jones Accountants">
+          <label>Company name</label>
+          <input type="text" placeholder="Smith &amp; Jones Solicitors" />
         </div>
         <div class="form-group">
-          <label for="industry">Industry</label>
-          <select id="industry" name="industry">
+          <label>Industry</label>
+          <select>
             <option value="">Select...</option>
             <option>Accountancy</option>
             <option>Legal / Solicitors</option>
@@ -584,38 +744,31 @@
           </select>
         </div>
         <div class="form-group">
-          <label for="message">What documents would you like to search?</label>
-          <textarea id="message" name="message" placeholder="e.g. HR policies, client contracts, compliance manuals..."></textarea>
+          <label>What documents would you like to search?</label>
+          <textarea placeholder="e.g. client contracts, HR policies, procedure manuals..."></textarea>
         </div>
         <button type="submit" class="btn-submit">Send message →</button>
       </form>
       <div class="contact-info">
-        <h3>We'll get back to you within one working day</h3>
-        <p>Tell us what documents you're working with and we'll show you exactly how Weld AI would work for your business — using your actual files.</p>
-        <p>We offer a free on-site demo where we install the system on your server and show your team how to use it.</p>
-        <div class="contact-detail"><span>✉️</span><a href="mailto:hello@weldai.uk">hello@weldai.uk</a></div>
-        <div class="contact-detail"><span>🌐</span><span>weldai.uk</span></div>
-        <div class="contact-detail"><span>📍</span><span>York, England</span></div>
+        <div>
+          <h3>We'll get back to you within one working day</h3>
+          <p>Tell us what documents you're working with and we'll show you exactly how Weld AI would work for your business — using your actual files.</p>
+          <p style="margin-top:0.75rem;">We offer a free on-site demo where we install the system on your server and show your team how to use it.</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:0.75rem;">
+          <div class="contact-detail">✉️ <a href="mailto:hello@weldai.uk">hello@weldai.uk</a></div>
+          <div class="contact-detail">🌐 weldai.uk</div>
+          <div class="contact-detail">📍 York, England</div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- ── Footer ── -->
 <footer>
-  <a href="#" class="logo">Weld<span style="color:#93b8ff">AI</span></a>
-  <p>© 2026 Weld AI · weldai.uk · York, England</p>
-  <p style="font-size:0.75rem;color:#4a6a8a">Private AI assistants for small business</p>
+  <p>© 2026 Weld AI · weldai.uk · York, England · Private AI assistants for small business</p>
 </footer>
 
-<script>
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => entry.target.classList.add('visible'), i * 80);
-      }
-    });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
-</script>
 </body>
 </html>
