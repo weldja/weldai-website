@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog — AI for Small Business | Weld AI</title>
+<meta name="description" content="Practical guides on using AI document search in small businesses — productivity, privacy, compliance, and getting started.">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#185FA5;--blue-dark:#0F3F72;--blue-light:#EBF3FB;--ink:#0D1B2A;--ink-mid:#3D5166;--ink-light:#7A90A4;--surface:#FFFFFF;--surface-2:#F7FAFD;--border:#DDE8F2;--radius:12px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;color:var(--ink);background:var(--surface);line-height:1.6;-webkit-font-smoothing:antialiased}
+nav{background:#fff;border-bottom:1px solid var(--border);padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
+.nav-logo{font-weight:700;font-size:1.1rem;color:var(--blue);text-decoration:none}.nav-logo span{color:var(--ink)}
+.nav-links{display:flex;align-items:center;gap:1.5rem;list-style:none}
+.nav-links a{text-decoration:none;font-size:0.88rem;color:var(--ink-mid);font-weight:500}.nav-links a:hover{color:var(--blue)}
+.nav-cta{background:var(--blue);color:#fff!important;padding:8px 16px;border-radius:8px;font-size:0.85rem;font-weight:600}
+.hero{background:linear-gradient(160deg,var(--blue-dark),var(--blue));padding:56px 2rem 48px;color:#fff;text-align:center}
+.hero h1{font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,4vw,2.6rem);margin-bottom:0.75rem;letter-spacing:-0.02em}
+.hero p{color:rgba(255,255,255,0.8);font-size:1rem;max-width:480px;margin:0 auto}
+.container{max-width:900px;margin:0 auto;padding:56px 2rem 80px}
+.blog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:24px;margin-bottom:3rem}
+.blog-card{background:#fff;border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:box-shadow .2s,transform .2s;text-decoration:none;color:inherit;display:flex;flex-direction:column}
+.blog-card:hover{box-shadow:0 8px 32px rgba(15,63,114,0.1);transform:translateY(-2px)}
+.card-tag{display:inline-block;font-size:0.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:999px;margin-bottom:0.75rem}
+.tag-guide{background:var(--blue-light);color:var(--blue)}
+.tag-privacy{background:#ECFDF5;color:#065F46}
+.card-body{padding:24px;flex:1;display:flex;flex-direction:column}
+.card-body h2{font-family:'DM Serif Display',serif;font-size:1.25rem;color:var(--ink);margin-bottom:0.6rem;line-height:1.3;letter-spacing:-0.01em}
+.card-body p{font-size:0.88rem;color:var(--ink-mid);line-height:1.65;flex:1;margin-bottom:1rem}
+.card-meta{font-size:0.78rem;color:var(--ink-light);display:flex;gap:1rem}
+.card-footer{padding:14px 24px;border-top:1px solid var(--border);background:var(--surface-2);font-size:0.84rem;font-weight:600;color:var(--blue)}
+
+/* Legal section */
+.legal-section{background:var(--surface-2);border:1px solid var(--border);border-radius:16px;padding:28px 32px;margin-bottom:3rem}
+.legal-section h3{font-size:0.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-light);margin-bottom:1rem}
+.legal-links{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.legal-link{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;text-decoration:none;display:flex;align-items:center;gap:10px;transition:border-color .15s,box-shadow .15s}
+.legal-link:hover{border-color:var(--blue);box-shadow:0 2px 8px rgba(24,95,164,0.08)}
+.legal-link-icon{font-size:1.1rem;flex-shrink:0}
+.legal-link-text strong{display:block;font-size:0.88rem;font-weight:600;color:var(--ink)}
+.legal-link-text span{font-size:0.78rem;color:var(--ink-light)}
+
+/* CTA */
+.cta-box{background:linear-gradient(135deg,var(--blue-dark),var(--blue));border-radius:16px;padding:36px;text-align:center;color:#fff}
+.cta-box h3{font-family:'DM Serif Display',serif;font-size:1.6rem;margin-bottom:0.75rem;color:#fff}
+.cta-box p{color:rgba(255,255,255,0.8);margin-bottom:1.5rem;max-width:420px;margin-left:auto;margin-right:auto;font-size:0.95rem}
+.cta-btn{display:inline-block;background:#fff;color:var(--blue);padding:12px 26px;border-radius:var(--radius);font-weight:700;text-decoration:none;font-size:0.92rem}
+.cta-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,0,0,0.15)}
+
+footer{background:var(--ink);color:rgba(255,255,255,0.5);padding:28px 2rem;text-align:center;font-size:0.82rem}
+footer a{color:rgba(255,255,255,0.7);text-decoration:none;margin:0 8px}
+.footer-links{margin-bottom:8px;display:flex;justify-content:center;flex-wrap:wrap;gap:4px}
+@media(max-width:600px){nav .nav-links{display:none}.hero{padding:40px 1.25rem}.container{padding:40px 1.25rem}.blog-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="https://weldai.uk"><span>Weld</span>AI</a>
+  <ul class="nav-links">
+    <li><a href="https://weldai.uk">Home</a></li>
+    <li><a href="https://weldai.uk#features">Features</a></li>
+    <li><a href="https://weldai.uk#contact" class="nav-cta">Book a demo</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <h1>Guides &amp; Articles</h1>
+  <p>Practical advice on AI document search for UK small businesses</p>
+</div>
+
+<div class="container">
+
+  <!-- Blog posts -->
+  <div class="blog-grid">
+
+    <a href="/blog/ai-document-search-small-business.html" class="blog-card">
+      <div class="card-body">
+        <span class="card-tag tag-guide">📄 Guide</span>
+        <h2>How Small Businesses Can Search Their Documents with AI — Without the Privacy Risk</h2>
+        <p>Your company documents contain valuable knowledge your team can't find quickly. This guide explains how AI document search works, what privacy concerns to watch for, and how to get started in an afternoon.</p>
+        <div class="card-meta">
+          <span>James Weld</span>
+          <span>May 2026</span>
+          <span>8 min read</span>
+        </div>
+      </div>
+      <div class="card-footer">Read article →</div>
+    </a>
+
+    <a href="/blog/ai-confidential-documents-accountants-solicitors.html" class="blog-card">
+      <div class="card-body">
+        <span class="card-tag tag-privacy">🔒 Privacy &amp; Compliance</span>
+        <h2>Can You Use AI with Confidential Documents? What UK Accountants and Solicitors Need to Know</h2>
+        <p>Thinking about using AI with client documents but worried about confidentiality? A plain-English breakdown of what actually happens to your data — and the right questions to ask before committing.</p>
+        <div class="card-meta">
+          <span>James Weld</span>
+          <span>May 2026</span>
+          <span>7 min read</span>
+        </div>
+      </div>
+      <div class="card-footer">Read article →</div>
+    </a>
+
+  </div>
+
+  <!-- Legal / trust section -->
+  <div class="legal-section">
+    <h3>Legal &amp; Trust</h3>
+    <div class="legal-links">
+      <a href="/privacy.html" class="legal-link">
+        <span class="legal-link-icon">🔒</span>
+        <div class="legal-link-text">
+          <strong>Privacy Policy</strong>
+          <span>How we handle your data — what stays on your server and what doesn't</span>
+        </div>
+      </a>
+      <a href="/terms.html" class="legal-link">
+        <span class="legal-link-icon">📋</span>
+        <div class="legal-link-text">
+          <strong>Terms of Service</strong>
+          <span>What's included, what you're responsible for, and how we work together</span>
+        </div>
+      </a>
+      <a href="https://www.anthropic.com/legal" target="_blank" rel="noreferrer" class="legal-link">
+        <span class="legal-link-icon">🤖</span>
+        <div class="legal-link-text">
+          <strong>Anthropic Legal &amp; Privacy</strong>
+          <span>API terms, data processing agreement, and privacy policy</span>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-box">
+    <h3>Ready to see it working?</h3>
+    <p>Free 20-minute demo using your own documents. Remote screen-share, UK-wide.</p>
+    <a href="https://weldai.uk#contact" class="cta-btn">Book a free demo →</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="https://weldai.uk">Home</a>
+    <a href="/blog.html">Blog</a>
+    <a href="/privacy.html">Privacy Policy</a>
+    <a href="/terms.html">Terms of Service</a>
+    <a href="https://weldai.uk#contact">Contact</a>
+  </div>
+  <p>© 2026 Weld AI · weldai.uk · York, England</p>
+</footer>
+
+</body>
+</html>

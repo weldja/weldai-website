@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Can You Use AI with Confidential Documents? What UK Accountants and Solicitors Need to Know | Weld AI</title>
+<meta name="description" content="Thinking about using AI with client documents but worried about confidentiality? This plain-English guide explains what actually happens to your data — and what questions to ask before committing.">
+<link rel="canonical" href="https://weldai.uk/blog/ai-confidential-documents-accountants-solicitors.html">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#185FA5;--blue-dark:#0F3F72;--blue-light:#EBF3FB;--ink:#0D1B2A;--ink-mid:#3D5166;--ink-light:#7A90A4;--surface:#FFFFFF;--surface-2:#F7FAFD;--border:#DDE8F2;--green:#059669;--amber:#D97706;--amber-bg:#FFFBEB;--radius:12px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;color:var(--ink);background:var(--surface);line-height:1.7;-webkit-font-smoothing:antialiased}
+nav{background:#fff;border-bottom:1px solid var(--border);padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
+.nav-logo{font-weight:700;font-size:1.1rem;color:var(--blue);text-decoration:none}.nav-logo span{color:var(--ink)}
+.nav-links{display:flex;align-items:center;gap:1.5rem;list-style:none}
+.nav-links a{text-decoration:none;font-size:0.88rem;color:var(--ink-mid);font-weight:500}.nav-links a:hover{color:var(--blue)}
+.nav-cta{background:var(--blue);color:#fff!important;padding:8px 16px;border-radius:8px;font-size:0.85rem;font-weight:600}
+.hero{background:linear-gradient(160deg,var(--blue-dark),#1a6bb5);padding:56px 2rem 48px;color:#fff}
+.hero-inner{max-width:760px;margin:0 auto}
+.hero-tag{display:inline-block;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);color:rgba(255,255,255,0.9);border-radius:999px;padding:4px 12px;font-size:0.78rem;font-weight:600;margin-bottom:1rem;letter-spacing:.04em}
+.hero h1{font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.2;letter-spacing:-0.02em;margin-bottom:1rem}
+.hero-meta{color:rgba(255,255,255,0.7);font-size:0.88rem;display:flex;gap:1.5rem;flex-wrap:wrap}
+.article-wrap{max-width:760px;margin:0 auto;padding:48px 2rem 80px}
+h2{font-family:'DM Serif Display',serif;font-size:1.6rem;color:var(--ink);margin:2.5rem 0 0.75rem;letter-spacing:-0.02em;line-height:1.3}
+h3{font-size:1.05rem;font-weight:700;color:var(--ink);margin:1.75rem 0 0.5rem}
+p{color:var(--ink-mid);margin-bottom:1.1rem;font-size:0.97rem;line-height:1.75}
+ul,ol{color:var(--ink-mid);font-size:0.97rem;margin:0 0 1.1rem 1.5rem}
+ul li,ol li{margin-bottom:0.35rem;line-height:1.7}
+strong{color:var(--ink);font-weight:600}
+blockquote{background:var(--blue-light);border-left:3px solid var(--blue);border-radius:0 8px 8px 0;padding:14px 18px;margin:1.5rem 0;font-size:0.95rem;color:var(--blue-dark)}
+.callout{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;margin:2rem 0}
+.callout h4{font-size:0.9rem;font-weight:700;color:var(--ink);margin-bottom:0.5rem}
+.callout p{margin:0;font-size:0.9rem}
+.warn{background:var(--amber-bg);border-left:3px solid var(--amber);border-radius:0 8px 8px 0;padding:14px 18px;margin:1.5rem 0;font-size:0.92rem;color:#78350F}
+.check-list{list-style:none;margin-left:0}
+.check-list li{padding:8px 0;border-bottom:1px solid var(--border);font-size:0.95rem;color:var(--ink-mid);display:flex;gap:10px;align-items:flex-start}
+.check-list li:last-child{border:none}
+.check-list .yes{color:var(--green);font-weight:700;flex-shrink:0}
+.check-list .no{color:#EF4444;font-weight:700;flex-shrink:0}
+table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:0.88rem}
+th{background:var(--blue);color:#fff;padding:10px 14px;text-align:left;font-weight:600}
+td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:top;color:var(--ink-mid)}
+tr:nth-child(even) td{background:var(--surface-2)}
+.cta-box{background:linear-gradient(135deg,var(--blue-dark),var(--blue));border-radius:16px;padding:36px;text-align:center;margin:3rem 0;color:#fff}
+.cta-box h3{font-family:'DM Serif Display',serif;font-size:1.6rem;margin-bottom:0.75rem;color:#fff}
+.cta-box p{color:rgba(255,255,255,0.8);margin-bottom:1.5rem;max-width:480px;margin-left:auto;margin-right:auto}
+.cta-btn{display:inline-block;background:#fff;color:var(--blue);padding:13px 28px;border-radius:var(--radius);font-weight:700;text-decoration:none;font-size:0.95rem}
+.cta-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,0,0,0.15)}
+.author{display:flex;align-items:center;gap:14px;padding:20px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin:2rem 0}
+.author-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--blue-dark));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1rem;flex-shrink:0}
+.author-name{font-weight:600;font-size:0.92rem;color:var(--ink)}
+.author-bio{font-size:0.82rem;color:var(--ink-light)}
+.related{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-top:3rem}
+.related h4{font-size:0.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-light);margin-bottom:1rem}
+.related a{display:block;font-size:0.92rem;color:var(--blue);text-decoration:none;font-weight:500;padding:6px 0;border-bottom:1px solid var(--border)}.related a:last-child{border:none}.related a:hover{color:var(--blue-dark)}
+footer{background:var(--ink);color:rgba(255,255,255,0.5);padding:24px 2rem;text-align:center;font-size:0.82rem}
+footer a{color:rgba(255,255,255,0.7);text-decoration:none}
+@media(max-width:600px){nav .nav-links{display:none}.hero{padding:40px 1.25rem}.article-wrap{padding:32px 1.25rem}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="https://weldai.uk"><span>Weld</span>AI</a>
+  <ul class="nav-links">
+    <li><a href="https://weldai.uk#for">Who it's for</a></li>
+    <li><a href="https://weldai.uk#features">Features</a></li>
+    <li><a href="https://weldai.uk#contact" class="nav-cta">Book a demo</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">🔒 Privacy &amp; Compliance</div>
+    <h1>Can You Use AI with Confidential Documents? What UK Accountants and Solicitors Need to Know</h1>
+    <div class="hero-meta">
+      <span>By James Weld</span>
+      <span>May 2026</span>
+      <span>7 min read</span>
+    </div>
+  </div>
+</div>
+
+<div class="article-wrap">
+
+  <div class="author">
+    <div class="author-avatar">JW</div>
+    <div>
+      <div class="author-name">James Weld</div>
+      <div class="author-bio">Founder at Weld AI · Installs private AI document assistants for UK small businesses</div>
+    </div>
+  </div>
+
+  <p>AI document tools are genuinely useful. But for accountants, solicitors, HR consultancies, and anyone else handling confidential client information, the enthusiasm is tempered by an obvious question:</p>
+
+  <blockquote>If I use AI to search my documents, where exactly does my data go?</blockquote>
+
+  <p>It's the right question to ask. And the honest answer is: <em>it depends entirely on which tool you use and how it's set up.</em></p>
+
+  <p>This guide gives you a clear, plain-English breakdown of what different AI tools actually do with your data — and what to look for if you're serious about keeping client information confidential.</p>
+
+  <h2>The Two Fundamentally Different Approaches</h2>
+
+  <p>Not all AI document tools work the same way. There's a crucial architectural difference between them.</p>
+
+  <h3>Approach 1: Cloud-based AI (documents uploaded to third-party servers)</h3>
+  <p>Tools like Microsoft Copilot, ChatGPT file uploads, Google NotebookLM, and most SaaS AI assistants work by sending your documents to their cloud infrastructure. Your files are processed, stored, and indexed on servers you don't own or control.</p>
+
+  <p>These services are convenient and often well-designed. But they require you to transfer your documents outside your own infrastructure — which for professional services firms raises immediate questions about client confidentiality, data protection, and professional conduct rules.</p>
+
+  <h3>Approach 2: Locally-hosted AI (documents never leave your server)</h3>
+  <p>A locally-hosted system installs on your own server or PC. Your documents are indexed and stored entirely on your own infrastructure. When a question is asked, only the question and a few relevant paragraphs are sent to an AI model to generate the answer.</p>
+
+  <p>Your full documents never leave your building.</p>
+
+  <div class="callout">
+    <h4>How a locally-hosted system handles a query</h4>
+    <p>User asks: "What is our standard fee for a probate matter under £500,000?" → System finds the relevant clause in your fee schedule on your local server → Sends only that clause + the question to Claude AI → Returns the answer with source citation. The rest of your documents stay untouched on your server.</p>
+  </div>
+
+  <h2>What Actually Gets Sent to the AI — A Plain-English Comparison</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>What happens to your data</th>
+        <th>Cloud AI tools</th>
+        <th>Locally-hosted (Weld AI)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Your documents uploaded to external servers</td><td>✗ Yes</td><td>✓ Never</td></tr>
+      <tr><td>Documents stored on third-party infrastructure</td><td>✗ Yes</td><td>✓ Never</td></tr>
+      <tr><td>Used to train AI models</td><td>~ Depends on settings</td><td>✓ No — Anthropic API TOS prohibits it</td></tr>
+      <tr><td>What gets sent per query</td><td>Varies — often full document</td><td>Question + 2–3 relevant paragraphs only</td></tr>
+      <tr><td>Data remains under your control</td><td>✗ Partial</td><td>✓ Full control</td></tr>
+      <tr><td>GDPR data processor agreement available</td><td>✓ Usually yes</td><td>✓ Yes (Anthropic)</td></tr>
+    </tbody>
+  </table>
+
+  <h2>The Specific Risks for Regulated Professionals</h2>
+
+  <h3>Solicitors and SRA obligations</h3>
+  <p>The SRA Code of Conduct requires solicitors to keep client information confidential and to consider carefully before sharing it with third parties. Uploading client documents to a cloud AI platform constitutes sharing with a third party — and the SRA's guidance on technology and AI emphasises that firms remain responsible for client data regardless of what tools they use.</p>
+
+  <p>For routine internal knowledge — procedures, precedents, standard clauses — cloud AI is likely low risk. For client-specific files, the calculus changes significantly.</p>
+
+  <h3>Accountants and GDPR</h3>
+  <p>Accountancy practices handle significant volumes of personal data — tax returns, payroll records, management accounts. Under UK GDPR, transferring this data to a cloud AI provider requires a lawful basis and typically a Data Processing Agreement with the provider.</p>
+
+  <p>Most major AI providers do offer DPAs, but you need to read them carefully. Some reserve the right to use your data to improve their models unless you opt out or use an enterprise tier.</p>
+
+  <h3>HR consultancies</h3>
+  <p>HR files contain some of the most sensitive personal data a business holds — disciplinary records, medical information, salary data. Using a cloud AI tool to search HR files without explicit DPIA assessment and staff notification could create ICO exposure.</p>
+
+  <div class="warn">
+    <strong>Important:</strong> This guide provides general information, not legal advice. If you're handling regulated client data, speak to your compliance officer or data protection lead before deploying any AI tool — including a locally-hosted one.
+  </div>
+
+  <h2>Questions to Ask Before Using Any AI Document Tool</h2>
+
+  <ul class="check-list">
+    <li><span class="yes">✓</span><span>Do my documents leave my own server or network at any point?</span></li>
+    <li><span class="yes">✓</span><span>Is there a Data Processing Agreement I can sign with the AI provider?</span></li>
+    <li><span class="yes">✓</span><span>Does the provider's TOS explicitly prohibit training on my data?</span></li>
+    <li><span class="yes">✓</span><span>Where are the provider's servers located — UK, EU, or US?</span></li>
+    <li><span class="yes">✓</span><span>Can I delete my data from their systems on request?</span></li>
+    <li><span class="yes">✓</span><span>What happens to my data if I cancel my subscription?</span></li>
+    <li><span class="yes">✓</span><span>Have I completed a DPIA if processing special category data?</span></li>
+  </ul>
+
+  <h2>What Anthropic's Commitments Actually Mean</h2>
+
+  <p>Weld AI uses Anthropic's Claude API to generate answers. When a question is asked, the question and relevant document excerpts are sent to Anthropic's API. Here's what Anthropic commits to:</p>
+
+  <ul>
+    <li><strong>No training on API data</strong> — Anthropic's API Terms of Service explicitly state that inputs and outputs from the API are not used to train their models. This is different from their consumer products (Claude.ai), where data handling depends on your subscription tier.</li>
+    <li><strong>SOC 2 Type II certified</strong> — independently audited security controls, the same standard required by most enterprise procurement teams.</li>
+    <li><strong>Data Processing Agreement available</strong> — Anthropic offers a DPA for business customers, covering UK GDPR and Standard Contractual Clauses for international data transfers.</li>
+    <li><strong>HTTPS encrypted in transit</strong> — all communication between your server and the Claude API is TLS encrypted.</li>
+  </ul>
+
+  <p>You can review Anthropic's full privacy policy and DPA at <a href="https://www.anthropic.com/legal" target="_blank" style="color:var(--blue)">anthropic.com/legal</a>.</p>
+
+  <h2>A Practical Framework for Professional Services Firms</h2>
+
+  <p>Based on conversations with accountants and solicitors, here's a sensible approach to deploying AI document search without creating compliance headaches:</p>
+
+  <h3>Green light — low risk</h3>
+  <ul>
+    <li>Internal procedures, policies, and staff handbooks</li>
+    <li>Standard precedents and template documents</li>
+    <li>Product or service information and fee schedules</li>
+    <li>Regulatory guidance summaries (non-client specific)</li>
+    <li>Training materials and onboarding documentation</li>
+  </ul>
+
+  <h3>Amber — consider carefully</h3>
+  <ul>
+    <li>Anonymised client case studies</li>
+    <li>General correspondence templates</li>
+    <li>Financial models without identifying information</li>
+  </ul>
+
+  <h3>Red — take advice first</h3>
+  <ul>
+    <li>Client-specific correspondence and files</li>
+    <li>HR files containing personal or medical data</li>
+    <li>Tax returns and personal financial records</li>
+    <li>Anything subject to legal professional privilege</li>
+  </ul>
+
+  <p>Starting with green-light documents gives your team the productivity benefits of AI search immediately, while you take the time to assess the compliance picture for more sensitive data.</p>
+
+  <h2>The Bottom Line</h2>
+
+  <p>AI document search is not inherently incompatible with client confidentiality — but the architecture matters enormously. A cloud tool that stores your documents on external servers is a fundamentally different proposition from a locally-hosted system where your documents never leave your network.</p>
+
+  <p>For most small professional services firms, the pragmatic starting point is clear: deploy AI for your internal knowledge first, get comfortable with how it works, and expand carefully from there.</p>
+
+  <p>The firms that figure out how to use AI responsibly within their compliance framework will have a real advantage over those that either avoid it entirely or adopt it without thinking through the implications.</p>
+
+  <div class="cta-box">
+    <h3>See how a private AI install works</h3>
+    <p>We offer a free 20-minute demo using your own documents — so you can see exactly what gets sent where, and make an informed decision.</p>
+    <a href="https://weldai.uk#contact" class="cta-btn">Book a free demo →</a>
+    <p style="margin-top:1rem;font-size:0.82rem;color:rgba(255,255,255,0.6)">No obligation · Remote screen-share · UK-wide</p>
+  </div>
+
+  <div class="related">
+    <h4>More from Weld AI</h4>
+    <a href="https://weldai.uk/blog/ai-document-search-small-business.html">How small businesses can search their documents with AI →</a>
+    <a href="https://weldai.uk/privacy.html">Weld AI data privacy policy →</a>
+    <a href="https://weldai.uk#contact">Book a demo →</a>
+  </div>
+
+</div>
+
+<footer>
+  <p>© 2026 Weld AI · <a href="https://weldai.uk">weldai.uk</a> · York, England · <a href="/privacy.html">Privacy Policy</a> · <a href="/terms.html">Terms of Service</a></p>
+</footer>
+
+</body>
+</html>
