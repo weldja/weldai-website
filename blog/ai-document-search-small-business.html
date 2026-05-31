@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How Small Businesses Can Search Their Documents with AI — Without the Privacy Risk | Weld AI</title>
+<meta name="description" content="Your company documents contain valuable knowledge your team can't find quickly. Learn how AI document search works, why privacy matters, and how to get started in an afternoon.">
+<link rel="canonical" href="https://weldai.uk/blog/ai-document-search-small-business.html">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#185FA5;--blue-dark:#0F3F72;--blue-light:#EBF3FB;--ink:#0D1B2A;--ink-mid:#3D5166;--ink-light:#7A90A4;--surface:#FFFFFF;--surface-2:#F7FAFD;--border:#DDE8F2;--green:#059669;--radius:12px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;color:var(--ink);background:var(--surface);line-height:1.7;-webkit-font-smoothing:antialiased}
+nav{background:#fff;border-bottom:1px solid var(--border);padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
+.nav-logo{font-weight:700;font-size:1.1rem;color:var(--blue);text-decoration:none}.nav-logo span{color:var(--ink)}
+.nav-links{display:flex;align-items:center;gap:1.5rem;list-style:none}
+.nav-links a{text-decoration:none;font-size:0.88rem;color:var(--ink-mid);font-weight:500}.nav-links a:hover{color:var(--blue)}
+.nav-cta{background:var(--blue);color:#fff!important;padding:8px 16px;border-radius:8px;font-size:0.85rem;font-weight:600}
+.hero{background:linear-gradient(160deg,var(--blue-dark),var(--blue));padding:56px 2rem 48px;color:#fff}
+.hero-inner{max-width:760px;margin:0 auto}
+.hero-tag{display:inline-block;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);color:rgba(255,255,255,0.9);border-radius:999px;padding:4px 12px;font-size:0.78rem;font-weight:600;margin-bottom:1rem;letter-spacing:.04em}
+.hero h1{font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.2;letter-spacing:-0.02em;margin-bottom:1rem}
+.hero-meta{color:rgba(255,255,255,0.7);font-size:0.88rem;display:flex;gap:1.5rem;flex-wrap:wrap}
+.article-wrap{max-width:760px;margin:0 auto;padding:48px 2rem 80px}
+h2{font-family:'DM Serif Display',serif;font-size:1.6rem;color:var(--ink);margin:2.5rem 0 0.75rem;letter-spacing:-0.02em;line-height:1.3}
+h3{font-size:1.05rem;font-weight:700;color:var(--ink);margin:1.75rem 0 0.5rem}
+p{color:var(--ink-mid);margin-bottom:1.1rem;font-size:0.97rem;line-height:1.75}
+ul,ol{color:var(--ink-mid);font-size:0.97rem;margin:0 0 1.1rem 1.5rem}
+ul li,ol li{margin-bottom:0.35rem;line-height:1.7}
+strong{color:var(--ink);font-weight:600}
+blockquote{background:var(--blue-light);border-left:3px solid var(--blue);border-radius:0 8px 8px 0;padding:14px 18px;margin:1.5rem 0;font-size:0.95rem;color:var(--blue-dark);font-style:italic}
+.callout{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;margin:2rem 0}
+.callout h4{font-size:0.9rem;font-weight:700;color:var(--ink);margin-bottom:0.5rem}
+.callout p{margin:0;font-size:0.9rem}
+.cta-box{background:linear-gradient(135deg,var(--blue-dark),var(--blue));border-radius:16px;padding:36px;text-align:center;margin:3rem 0;color:#fff}
+.cta-box h3{font-family:'DM Serif Display',serif;font-size:1.6rem;margin-bottom:0.75rem;color:#fff}
+.cta-box p{color:rgba(255,255,255,0.8);margin-bottom:1.5rem;max-width:480px;margin-left:auto;margin-right:auto}
+.cta-btn{display:inline-block;background:#fff;color:var(--blue);padding:13px 28px;border-radius:var(--radius);font-weight:700;text-decoration:none;font-size:0.95rem;transition:all .15s}
+.cta-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,0,0,0.15)}
+.author{display:flex;align-items:center;gap:14px;padding:20px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin:2rem 0}
+.author-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--blue-dark));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1rem;flex-shrink:0}
+.author-name{font-weight:600;font-size:0.92rem;color:var(--ink)}
+.author-bio{font-size:0.82rem;color:var(--ink-light)}
+.related{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-top:3rem}
+.related h4{font-size:0.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-light);margin-bottom:1rem}
+.related a{display:block;font-size:0.92rem;color:var(--blue);text-decoration:none;font-weight:500;padding:6px 0;border-bottom:1px solid var(--border)}.related a:last-child{border:none}.related a:hover{color:var(--blue-dark)}
+footer{background:var(--ink);color:rgba(255,255,255,0.5);padding:24px 2rem;text-align:center;font-size:0.82rem}
+footer a{color:rgba(255,255,255,0.7);text-decoration:none}
+@media(max-width:600px){nav .nav-links{display:none}.hero{padding:40px 1.25rem}.article-wrap{padding:32px 1.25rem}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="https://weldai.uk"><span>Weld</span>AI</a>
+  <ul class="nav-links">
+    <li><a href="https://weldai.uk#for">Who it's for</a></li>
+    <li><a href="https://weldai.uk#features">Features</a></li>
+    <li><a href="https://weldai.uk#contact" class="nav-cta">Book a demo</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">📄 Guide</div>
+    <h1>How Small Businesses Can Search Their Documents with AI — Without the Privacy Risk</h1>
+    <div class="hero-meta">
+      <span>By James Weld</span>
+      <span>May 2026</span>
+      <span>8 min read</span>
+    </div>
+  </div>
+</div>
+
+<div class="article-wrap">
+
+  <div class="author">
+    <div class="author-avatar">JW</div>
+    <div>
+      <div class="author-name">James Weld</div>
+      <div class="author-bio">Founder at Weld AI · Installs private AI document assistants for UK small businesses</div>
+    </div>
+  </div>
+
+  <p>Last month I spoke to the practice manager of a small accountancy firm in Yorkshire. She told me her team was spending nearly an hour a day hunting through shared drives for documents — policies, client letters, procedure guides, HMRC references. Information they <em>knew</em> existed, but couldn't find quickly.</p>
+
+  <p>Sound familiar?</p>
+
+  <p>This is the quiet productivity drain that affects almost every small business. Your company has accumulated years of valuable knowledge — locked inside PDFs, Word documents, spreadsheets, and manuals. But finding anything specific takes far too long.</p>
+
+  <p>AI can solve this. But there's a catch: most AI tools require you to upload your documents to the cloud. For accountants, solicitors, HR firms, and anyone handling confidential data, that's a non-starter.</p>
+
+  <p>This guide explains how AI document search works, what to watch out for with privacy, and how to get started in an afternoon.</p>
+
+  <h2>The Problem: Your Knowledge Is Trapped</h2>
+
+  <p>Most small businesses rely heavily on what's sometimes called <strong>tribal knowledge</strong> — information stored in the heads of experienced staff, or buried in files that only a few people know how to find.</p>
+
+  <p>When someone needs an answer, the typical process looks like this:</p>
+
+  <ol>
+    <li>Search the shared drive (find 12 versions of the same document)</li>
+    <li>Ask a colleague (who's in a meeting)</li>
+    <li>Wait for the colleague to come back (30 minutes later)</li>
+    <li>Get the answer — or be told to check a document</li>
+    <li>Find the document and read through it looking for the relevant section</li>
+  </ol>
+
+  <p>For a team of five people doing this ten times a day, that's easily two to three hours of productive time lost every single day.</p>
+
+  <h2>How AI Document Search Actually Works</h2>
+
+  <p>AI document search — sometimes called a RAG system (Retrieval-Augmented Generation) — works in two stages:</p>
+
+  <h3>Stage 1: Indexing your documents</h3>
+  <p>The AI reads all your documents and builds a searchable index. Unlike a traditional keyword search, it understands the <em>meaning</em> of text — so asking "what's our policy on flexible working?" will find the relevant section even if those exact words don't appear in the document.</p>
+
+  <h3>Stage 2: Answering questions</h3>
+  <p>When a staff member asks a question, the system finds the most relevant paragraphs from your documents and passes them to an AI language model — in our case, Claude by Anthropic — to generate a clear, specific answer. The response includes the exact document name and page number so staff can verify it.</p>
+
+  <blockquote>"What is our notice period for Grade 4 staff?" → Answer in 2 seconds, with source cited. No searching required."</blockquote>
+
+  <h2>The Privacy Question You Must Ask</h2>
+
+  <p>Here's where most AI document tools fall short for professional services firms.</p>
+
+  <p>Tools like Microsoft Copilot, ChatGPT with file uploads, and most cloud-based AI assistants work by uploading your documents to their servers. Your client contracts, HR files, financial data, and confidential procedures are sent to and stored on infrastructure you don't control.</p>
+
+  <p>For many businesses — particularly those subject to SRA, FCA, or ICO oversight — this creates real compliance risk.</p>
+
+  <div class="callout">
+    <h4>What actually gets sent to the AI — and what doesn't</h4>
+    <p>With a properly configured private AI system, your documents never leave your server. When a question is asked, only the question itself and a few relevant paragraphs are sent to the AI model to generate an answer. The full documents stay on your own infrastructure at all times.</p>
+  </div>
+
+  <p>Anthropic — the company behind Claude AI, which powers Weld AI — explicitly prohibits using API inputs to train their models. Your queries are processed and discarded. They are also SOC 2 Type II certified, the same security standard used by enterprise cloud providers.</p>
+
+  <h2>Five Use Cases Where This Makes an Immediate Difference</h2>
+
+  <h3>1. Accountancy and professional services</h3>
+  <p>Quick access to engagement letters, fee schedules, HMRC guidance summaries, and internal procedures. New staff can find answers without interrupting senior colleagues.</p>
+
+  <h3>2. HR and employment law</h3>
+  <p>Instant answers from the staff handbook, disciplinary procedures, and employment contracts. "What does our policy say about annual leave carry-over?" — answered in seconds.</p>
+
+  <h3>3. Technical and engineering firms</h3>
+  <p>Search across product manuals, installation guides, compliance documents, and technical specifications. Especially useful when engineers need answers on-site.</p>
+
+  <h3>4. Legal and compliance</h3>
+  <p>Search across precedents, standard clauses, and internal guidance notes. Reduces the time spent reinventing answers that already exist somewhere in the firm's knowledge base.</p>
+
+  <h3>5. Operations and franchise businesses</h3>
+  <p>Consistent answers for staff across multiple locations. Everyone accesses the same up-to-date procedures, rather than each branch maintaining its own interpretation.</p>
+
+  <h2>What It Takes to Get Started</h2>
+
+  <p>The honest answer: less than you'd think.</p>
+
+  <p>You need a server or PC that can run Docker — any reasonably modern Windows machine with 8GB of RAM will work. Your documents can live on a local folder or a mapped network drive. There's no cloud migration, no IT project, and no per-user licensing to negotiate.</p>
+
+  <p>The installation takes about an hour over a screen-share call. After that, staff open a browser, type a question, and get an answer. The learning curve is essentially zero — if you can use Google, you can use this.</p>
+
+  <p>The main preparation work is identifying where your documents actually live and making sure they're reasonably well organised. You don't need them to be perfect — just findable by the system.</p>
+
+  <h2>Common Concerns — Answered Honestly</h2>
+
+  <h3>"What if the AI gives a wrong answer?"</h3>
+  <p>Every answer includes the source document and page number. Staff are encouraged to verify important answers against the original — the AI is a starting point, not a final authority. In practice, for well-documented procedures and policies, accuracy is very high.</p>
+
+  <h3>"What happens when we update a document?"</h3>
+  <p>Click one button — the system re-indexes only the changed files in seconds. No need to rebuild the whole index every time.</p>
+
+  <h3>"Is this suitable for client-facing data?"</h3>
+  <p>That depends on your firm's policies and regulatory obligations. For highly sensitive client-specific matters, we'd recommend using the system for internal knowledge and procedures rather than client files. Your data protection officer or compliance lead should review Anthropic's Data Processing Agreement before going live with sensitive data.</p>
+
+  <h2>The Bottom Line</h2>
+
+  <p>If your team spends time hunting for information that already exists somewhere in your business, AI document search will give you that time back.</p>
+
+  <p>The technology has matured rapidly. The privacy concerns — while real — are solvable with the right architecture. And the cost, for an SME, is genuinely modest: a one-off installation fee and typically £2–5 per month in AI usage costs.</p>
+
+  <p>The businesses that find and use their knowledge fastest will have a real competitive advantage over the next decade. The good news is that advantage is now accessible to a five-person accountancy firm in Yorkshire, not just a FTSE 100 company.</p>
+
+  <div class="cta-box">
+    <h3>See it working with your own documents</h3>
+    <p>We offer a free demo over a 20-minute screen-share call — using your actual files, so you can see exactly how it handles your content.</p>
+    <a href="https://weldai.uk#contact" class="cta-btn">Book a free demo →</a>
+    <p style="margin-top:1rem;font-size:0.82rem;color:rgba(255,255,255,0.6)">Installation from £350 · Typical API cost £2–5/month · Remote install UK-wide</p>
+  </div>
+
+  <div class="related">
+    <h4>More from Weld AI</h4>
+    <a href="https://weldai.uk/blog/ai-confidential-documents-accountants-solicitors.html">Can you use AI with confidential documents? What accountants and solicitors need to know →</a>
+    <a href="https://weldai.uk#features">What Weld AI includes →</a>
+    <a href="https://weldai.uk/privacy.html">Our data privacy policy →</a>
+  </div>
+
+</div>
+
+<footer>
+  <p>© 2026 Weld AI · <a href="https://weldai.uk">weldai.uk</a> · York, England · <a href="/privacy.html">Privacy Policy</a> · <a href="/terms.html">Terms of Service</a></p>
+</footer>
+
+</body>
+</html>
