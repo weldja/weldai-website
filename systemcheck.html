@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>System Check — Weld AI</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;color:#0D1B2A;background:#F7FAFD;line-height:1.7;-webkit-font-smoothing:antialiased}
+nav{background:#fff;border-bottom:1px solid #DDE8F2;padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
+.nav-logo{font-weight:700;font-size:1.1rem;color:#185FA5;text-decoration:none}.nav-logo span{color:#0D1B2A}
+.nav-back{font-size:0.85rem;color:#7A90A4;text-decoration:none}.nav-back:hover{color:#185FA5}
+.container{max-width:680px;margin:0 auto;padding:48px 2rem 80px}
+h1{font-family:'DM Serif Display',serif;font-size:2rem;color:#0D1B2A;margin-bottom:0.5rem;letter-spacing:-0.02em}
+.meta{color:#7A90A4;font-size:0.88rem;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid #DDE8F2}
+p{color:#3D5166;margin-bottom:1rem;font-size:0.95rem}
+.step{display:flex;gap:16px;align-items:flex-start;padding:16px 0;border-bottom:1px solid #DDE8F2}
+.step:last-of-type{border:none}
+.step-num{width:32px;height:32px;border-radius:50%;background:#185FA5;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9rem;flex-shrink:0;margin-top:2px}
+.step-body h3{font-size:0.95rem;font-weight:700;color:#0D1B2A;margin-bottom:4px}
+.step-body p{font-size:0.88rem;color:#3D5166;margin:0}
+.step-body code{background:#F1F5F9;border-radius:4px;padding:1px 6px;font-family:monospace;font-size:0.85rem;color:#185FA5}
+.download-box{background:#185FA5;border-radius:16px;padding:32px;text-align:center;margin:2rem 0}
+.download-box h2{font-family:'DM Serif Display',serif;font-size:1.5rem;color:#fff;margin-bottom:0.5rem}
+.download-box p{color:rgba(255,255,255,0.8);margin-bottom:1.5rem;font-size:0.9rem}
+.download-btn{display:inline-block;background:#fff;color:#185FA5;padding:12px 28px;border-radius:10px;font-weight:700;text-decoration:none;font-size:0.95rem;transition:all .15s}
+.download-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,0,0,0.15)}
+.note{background:#EBF3FB;border-left:3px solid #185FA5;border-radius:0 8px 8px 0;padding:14px 18px;margin:1.5rem 0;font-size:0.88rem;color:#0F3F72}
+footer{background:#0D1B2A;color:rgba(255,255,255,0.5);padding:24px 2rem;text-align:center;font-size:0.82rem}
+footer a{color:rgba(255,255,255,0.7);text-decoration:none}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nav-logo" href="https://weldai.uk"><span>Weld</span>AI</a>
+  <a class="nav-back" href="https://weldai.uk">← Back to weldai.uk</a>
+</nav>
+<div class="container">
+  <h1>System Check</h1>
+  <p class="meta">For prospective customers · Takes about 30 seconds · No installation required</p>
+
+  <p>Before your Weld AI installation call, please run this quick system check. It checks your Windows version, RAM, Docker, and internet connectivity — then saves a text file to your Desktop for you to email back to us.</p>
+
+  <div class="download-box">
+    <h2>⬇ Download System Check Script</h2>
+    <p>A PowerShell script — no installation required</p>
+    <a href="/WeldAI_SystemCheck.ps1" download class="download-btn">Download WeldAI_SystemCheck.ps1</a>
+  </div>
+
+  <h2 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:#0D1B2A;margin-bottom:1rem">How to run it</h2>
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-body">
+      <h3>Download the script above</h3>
+      <p>Save <code>WeldAI_SystemCheck.ps1</code> to your Desktop.</p>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-body">
+      <h3>Right-click and run</h3>
+      <p>Right-click the file and select <strong>Run with PowerShell</strong>. If Windows asks about execution policy, click <strong>Open</strong> or type <code>R</code> and press Enter.</p>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-body">
+      <h3>Wait 30 seconds</h3>
+      <p>The script runs automatically — no input needed. It checks your system and saves the results.</p>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-body">
+      <h3>Email the results file</h3>
+      <p>A file called <code>WeldAI_SystemCheck.txt</code> will appear on your Desktop. Email it to <a href="mailto:hello@weldai.uk" style="color:#185FA5">hello@weldai.uk</a>.</p>
+    </div>
+  </div>
+
+  <div class="note">
+    <strong>What does the script check?</strong> Windows version · RAM · CPU · Docker · Internet connectivity to Claude AI · Network drives and IP addresses · Available ports. It does not collect any personal data, passwords, or document contents.
+  </div>
+
+  <p style="font-size:0.88rem;color:#7A90A4">We will review your results within one working day and confirm whether your system is ready for installation.</p>
+</div>
+<footer>
+  <p>© 2026 Weld AI · <a href="https://weldai.uk">weldai.uk</a> · York, England · <a href="/privacy.html">Privacy Policy</a></p>
+</footer>
+</body>
+</html>
