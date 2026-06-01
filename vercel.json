@@ -1,0 +1,11 @@
+{
+  "headers": [
+    {
+      "source": "/(.*).ps1",
+      "headers": [
+        { "key": "Content-Type", "value": "application/octet-stream" },
+        { "key": "Content-Disposition", "value": "attachment" }
+      ]
+    }
+  ]
+}
