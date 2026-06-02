@@ -1,5 +1,5 @@
 # ============================================================
-# Weld AI — System Check Script v1.1
+# Weld AI - System Check Script v1.1
 # ============================================================
 # How to run:
 #   1. Right-click this file
@@ -113,13 +113,13 @@ if (Test-Path $installPath) {
     $existing = Get-ChildItem $installPath -ErrorAction SilentlyContinue
     Add "  Existing files: $($existing.Count)"
 } else {
-    Add "  C:\WeldAI does not exist yet — will be created during installation"
+    Add "  C:\WeldAI does not exist yet - will be created during installation"
 }
 # Check free space on C: (read only)
 $cDrive = Get-PSDrive C -ErrorAction SilentlyContinue
 if ($cDrive) {
     $freeGB = [math]::Round($cDrive.Free / 1GB, 1)
-    $status = if ($freeGB -ge 10) { "OK ($freeGB GB free)" } else { "WARNING: Only $freeGB GB free — minimum 10 GB required" }
+    if ($freeGB -ge 10) { $status = "OK ($freeGB GB free)" } else { $status = "WARNING: Only $freeGB GB free - minimum 10 GB required" }
     Add "  C: free space: $status"
 }
 # Check current user is Administrator
