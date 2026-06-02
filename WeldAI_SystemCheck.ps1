@@ -105,30 +105,25 @@ Add "  Port 443 in use: $(if ($port443) { 'YES - may conflict with Weld AI' } el
 Add ""
 
 # 9. C:\WeldAI installation folder check
-Add "[ 9 ] Installation Folder Check (C:\WeldAI)"
+Add "[ 9 ] Installation Folder (C:\WeldAI)"
 $installPath = "C:\WeldAI"
 if (Test-Path $installPath) {
-    Add "  C:\WeldAI already exists — OK to reinstall"
+    Add "  C:\WeldAI already exists"
     $existing = Get-ChildItem $installPath -ErrorAction SilentlyContinue
     Add "  Existing files: $($existing.Count)"
 } else {
-    # Try to create it
-    try {
-        New-Item -ItemType Directory -Path $installPath -ErrorAction Stop | Out-Null
-        Add "  C:\WeldAI created successfully — write access confirmed"
-        Remove-Item $installPath -Force -ErrorAction SilentlyContinue
-    } catch {
-        Add "  WARNING: Cannot create C:\WeldAI — may need Administrator rights"
-        Add "  Error: $_"
-    }
+    Add "  C:\WeldAI does not exist yet — will be created during installation"
 }
-# Check free space on C:
+# Check free space on C: (read only)
 $cDrive = Get-PSDrive C -ErrorAction SilentlyContinue
 if ($cDrive) {
     $freeGB = [math]::Round($cDrive.Free / 1GB, 1)
-    $status = if ($freeGB -ge 10) { "OK ($freeGB GB free)" } else { "WARNING: Only $freeGB GB free — 10 GB required" }
+    $status = if ($freeGB -ge 10) { "OK ($freeGB GB free)" } else { "WARNING: Only $freeGB GB free — minimum 10 GB required" }
     Add "  C: free space: $status"
 }
+# Check current user is Administrator
+$isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+Add "  Running as Administrator: $isAdmin"
 Add ""
 
 # 10. Available drives
