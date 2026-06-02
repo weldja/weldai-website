@@ -104,8 +104,35 @@ Add "  Port 80  in use: $(if ($port80)  { 'YES - may conflict with Weld AI' } el
 Add "  Port 443 in use: $(if ($port443) { 'YES - may conflict with Weld AI' } else { 'No' })"
 Add ""
 
-# 9. Available drives
-Add "[ 9 ] Available Drives"
+# 9. C:\WeldAI installation folder check
+Add "[ 9 ] Installation Folder Check (C:\WeldAI)"
+$installPath = "C:\WeldAI"
+if (Test-Path $installPath) {
+    Add "  C:\WeldAI already exists — OK to reinstall"
+    $existing = Get-ChildItem $installPath -ErrorAction SilentlyContinue
+    Add "  Existing files: $($existing.Count)"
+} else {
+    # Try to create it
+    try {
+        New-Item -ItemType Directory -Path $installPath -ErrorAction Stop | Out-Null
+        Add "  C:\WeldAI created successfully — write access confirmed"
+        Remove-Item $installPath -Force -ErrorAction SilentlyContinue
+    } catch {
+        Add "  WARNING: Cannot create C:\WeldAI — may need Administrator rights"
+        Add "  Error: $_"
+    }
+}
+# Check free space on C:
+$cDrive = Get-PSDrive C -ErrorAction SilentlyContinue
+if ($cDrive) {
+    $freeGB = [math]::Round($cDrive.Free / 1GB, 1)
+    $status = if ($freeGB -ge 10) { "OK ($freeGB GB free)" } else { "WARNING: Only $freeGB GB free — 10 GB required" }
+    Add "  C: free space: $status"
+}
+Add ""
+
+# 10. Available drives
+Add "[ 10 ] Available Drives"
 $drives = Get-PSDrive -PSProvider FileSystem -ErrorAction SilentlyContinue
 foreach ($drive in $drives) {
     try {
