@@ -9,7 +9,8 @@
 #   5. Email that file to hello@weldai.uk
 # ============================================================
 
-$OutputFile = "$env:USERPROFILE\Desktop\WeldAI_SystemCheck.txt"
+$RunDate = Get-Date -Format "yyyy-MM-dd_HHmmss"
+$OutputFile = "$env:USERPROFILE\Desktop\WeldAI_SystemCheck_$RunDate.txt"
 $lines = @()
 
 function Add($text = "") {
