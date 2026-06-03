@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    Weld AI Pre-Installation Diagnostics v1.2
+    Weld AI Pre-Installation Diagnostics v1.3
 .DESCRIPTION
     Checks the server environment against Weld AI installation requirements.
     Produces a plain-text report zipped to the Desktop.
@@ -74,16 +74,26 @@ if ($isAdmin) {
     Skip "Virtual Machine Platform status"
 }
 
+# WSL network adapter is visible to standard users and is a reliable proxy
+# for WSL2 being installed and active
+$wslAdapter = Get-NetAdapter -ErrorAction SilentlyContinue | Where-Object { $_.Name -like '*WSL*' }
+if ($wslAdapter) {
+    Ok "WSL network adapter detected - WSL2 appears to be active"
+} else {
+    Info "WSL network adapter not found - WSL2 may not be installed or not currently running"
+}
+
 $wslStatus = & wsl --status 2>&1 | Out-String
 if     ($wslStatus -match 'Default Version\s*:\s*2') { Ok "WSL default version is 2" }
 elseif ($wslStatus -match 'Default Version\s*:\s*1') { Warn "WSL default version is 1. Run: wsl --set-default-version 2" }
-else   { Info "WSL default version could not be determined - WSL may not be installed yet" }
+else   { Info "WSL version could not be determined from wsl --status" }
 
 # -- 3. CPU AND VIRTUALISATION ------------------------------------------------
 Head "3. CPU and Virtualisation"
 
 $cpu = Get-CimInstance Win32_Processor | Select-Object -First 1
-$archMap = @{0='x86';1='MIPS';2='Alpha';3='PowerPC';5='ARM';6='ia64';9='x64/x86_64'}
+$cs  = Get-CimInstance Win32_ComputerSystem
+$archMap  = @{0='x86';1='MIPS';2='Alpha';3='PowerPC';5='ARM';6='ia64';9='x64/x86_64'}
 $archName = if ($archMap.ContainsKey([int]$cpu.Architecture)) { $archMap[[int]$cpu.Architecture] } else { "$($cpu.Architecture)" }
 
 Info "CPU   : $($cpu.Name)"
@@ -96,18 +106,29 @@ else                           { Warn "Only $($cpu.NumberOfCores) cores - 4 mini
 if ($cpu.Architecture -eq 9)  { Ok "x86_64 architecture confirmed" }
 else                           { Fail "Non-x64 architecture ($archName) - ARM not currently supported" }
 
-if     ($cpu.VirtualizationFirmwareEnabled -eq $true)  { Ok "Virtualisation enabled in BIOS firmware" }
-elseif ($cpu.VirtualizationFirmwareEnabled -eq $false) { Fail "Virtualisation DISABLED in BIOS. Enable Intel VT-x or AMD-V in server BIOS." }
-else                                                    { Info "Virtualisation status not returned by WMI - check Task Manager > Performance > CPU manually" }
+# Virtualisation: hypervisor running is the definitive check.
+# VirtualizationFirmwareEnabled is a raw BIOS flag that can read false even
+# when the hypervisor is fully active (common on corporate/managed machines).
+$hvPresent = $cs.HypervisorPresent
+$virtFlag  = $cpu.VirtualizationFirmwareEnabled
 
-$hvPresent = (Get-CimInstance Win32_ComputerSystem).HypervisorPresent
-if ($hvPresent) { Ok "Hypervisor is present and active" }
-else            { Info "Hypervisor not currently active (expected if Docker not yet installed)" }
+if ($hvPresent) {
+    Ok "Hypervisor is active - virtualisation confirmed working"
+    if ($virtFlag -eq $false) {
+        Info "Note: BIOS virtualisation flag reads as disabled but hypervisor is running - this is normal on some managed machines"
+    }
+} elseif ($virtFlag -eq $true) {
+    Ok "Virtualisation enabled in BIOS firmware (hypervisor not yet active - expected before Docker is running)"
+} elseif ($virtFlag -eq $false) {
+    Fail "Virtualisation DISABLED in BIOS and hypervisor is not active. Enable Intel VT-x or AMD-V in server BIOS."
+} else {
+    Info "Virtualisation status could not be determined - check Task Manager > Performance > CPU > Virtualisation manually"
+}
 
 # -- 4. RAM -------------------------------------------------------------------
 Head "4. RAM"
 
-$ramGB = [math]::Round((Get-CimInstance Win32_ComputerSystem).TotalPhysicalMemory / 1GB, 1)
+$ramGB = [math]::Round($cs.TotalPhysicalMemory / 1GB, 1)
 Info "Total installed RAM: $ramGB GB"
 
 if     ($ramGB -ge 16) { Ok "$ramGB GB - recommended (16 GB+)" }
@@ -185,23 +206,40 @@ if ($isAdmin) {
         Info "Status       : $($svc.Status)"
         Info "Startup type : $($svc.StartType)"
 
-        if ($svc.Status -eq 'Running')                                     { Ok "Docker service is running" }
-        else                                                               { Fail "Docker service NOT running. Run: Start-Service 'com.docker.service'" }
+        if ($svc.StartType -in @('Automatic','AutomaticDelayedStart')) { Ok "Docker service startup type is $($svc.StartType)" }
+        else { Fail "Docker service startup type is '$($svc.StartType)'. Run: Set-Service -Name 'com.docker.service' -StartupType Automatic" }
 
-        if ($svc.StartType -in @('Automatic','AutomaticDelayedStart'))     { Ok "Docker service startup type is $($svc.StartType)" }
-        else                                                               { Fail "Docker service startup type is '$($svc.StartType)'. Run: Set-Service -Name 'com.docker.service' -StartupType Automatic" }
+        # Service stopped is only a problem if the Docker engine is also not responding
+        if ($svc.Status -ne 'Running') {
+            $engineTest = & docker info 2>&1 | Out-String
+            if ($engineTest -match 'Server Version') {
+                Info "Docker service shows Stopped but engine is responding - Docker Desktop manages the engine directly on this machine (normal)"
+            } else {
+                Warn "Docker service is not running. Start Docker Desktop or run: Start-Service 'com.docker.service'"
+            }
+        } else {
+            Ok "Docker service is running"
+        }
     } else {
         Warn "Service 'com.docker.service' not found - Docker Desktop may not be installed yet"
         $any = Get-Service | Where-Object { $_.Name -like '*docker*' -or $_.DisplayName -like '*docker*' }
         if ($any) { $any | ForEach-Object { Info "  Found: $($_.Name) [$($_.Status)] StartType: $($_.StartType)" } }
     }
 } else {
-    # Standard user can still see service status, just not StartType reliably
     $svc = Get-Service 'com.docker.service' -ErrorAction SilentlyContinue
     if ($svc) {
         Info "Service found: $($svc.DisplayName) - Status: $($svc.Status)"
-        if ($svc.Status -eq 'Running') { Ok "Docker service is running" }
-        else                           { Warn "Docker service is not running (status: $($svc.Status))" }
+        if ($svc.Status -ne 'Running') {
+            # Check if engine is actually responding before warning
+            $engineTest = & docker info 2>&1 | Out-String
+            if ($engineTest -match 'Server Version') {
+                Info "Docker service shows Stopped but engine is responding - Docker Desktop manages the engine directly (normal)"
+            } else {
+                Warn "Docker service is not running. Start Docker Desktop before the installation call."
+            }
+        } else {
+            Ok "Docker service is running"
+        }
         Skip "Docker service startup type"
     } else {
         Warn "Service 'com.docker.service' not found - Docker Desktop may not be installed yet"
@@ -231,14 +269,32 @@ if ($dockerInfo -match 'Server Version') {
 # -- 11. PORT CONFLICTS -------------------------------------------------------
 Head "11. Port Conflicts (80, 443, 8501)"
 
+# Ports 80/443 in use by Weld AI itself is fine - only flag if something else
+# is using 8501, or if 80/443 are in use and Weld AI is NOT already running
+$weldaiRunning = $dockerInfo -match 'Server Version'
+
 foreach ($port in @(80, 443, 8501)) {
     $inUse = Get-NetTCPConnection -LocalPort $port -State Listen -ErrorAction SilentlyContinue
     if ($port -eq 8501) {
-        if ($inUse) { Warn "Port $port already in use - this is the Weld AI web interface port and must be free" }
-        else        { Ok  "Port $port is free" }
+        if ($inUse) {
+            if ($weldaiRunning) {
+                Info "Port 8501 in use - Weld AI appears to be already running on this machine"
+            } else {
+                Warn "Port 8501 in use by another process - must be free for Weld AI installation"
+            }
+        } else {
+            Ok "Port 8501 is free"
+        }
     } else {
-        if ($inUse) { Warn "Port $port already in use - another service (e.g. IIS) may conflict with Weld AI" }
-        else        { Ok  "Port $port is free" }
+        if ($inUse) {
+            if ($weldaiRunning) {
+                Info "Port $port in use - likely Weld AI or its reverse proxy (nginx)"
+            } else {
+                Warn "Port $port in use - another service (e.g. IIS) may conflict with Weld AI"
+            }
+        } else {
+            Ok "Port $port is free"
+        }
     }
 }
 
@@ -261,12 +317,21 @@ if ($isAdmin) {
 # -- 13. NETWORK CONFIGURATION ------------------------------------------------
 Head "13. Network Configuration"
 
+# Filter out virtual/internal adapters - only show physical and VPN adapters
+$skipPatterns = @('Loopback','vEthernet','Default Switch','WSL','Bluetooth','Teredo','ISATAP','6to4')
+
 Get-NetIPAddress -AddressFamily IPv4 -ErrorAction SilentlyContinue |
-    Where-Object { $_.IPAddress -notlike '127.*' -and $_.IPAddress -notlike '169.*' } |
+    Where-Object {
+        $ip = $_.IPAddress
+        $iface = $_.InterfaceAlias
+        $ip -notlike '127.*' -and
+        $ip -notlike '169.*' -and
+        -not ($skipPatterns | Where-Object { $iface -like "*$_*" })
+    } |
     ForEach-Object {
         Info "Interface: $($_.InterfaceAlias)   IP: $($_.IPAddress)   Origin: $($_.PrefixOrigin)"
         if     ($_.PrefixOrigin -eq 'Manual') { Ok  "Static IP on $($_.InterfaceAlias)" }
-        elseif ($_.PrefixOrigin -eq 'Dhcp')   { Warn "DHCP address on '$($_.InterfaceAlias)' ($($_.IPAddress)) - request a static IP or DHCP reservation from IT" }
+        elseif ($_.PrefixOrigin -eq 'Dhcp')   { Warn "DHCP address on '$($_.InterfaceAlias)' ($($_.IPAddress)) - request a static IP or DHCP reservation from IT to prevent address changing after reboot" }
     }
 
 # -- 14. OUTBOUND CONNECTIVITY ------------------------------------------------
@@ -296,7 +361,7 @@ Add "PASS : $passCount"
 Add "WARN : $warnCount   (review before installation call)"
 Add "FAIL : $failCount   (must be resolved before installation)"
 if ($skipCount -gt 0) {
-Add "SKIP : $skipCount   (re-run as Administrator for complete results)"
+    Add "SKIP : $skipCount   (re-run as Administrator for complete results)"
 }
 Add ""
 
