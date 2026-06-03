@@ -44,8 +44,8 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
 
   <div class="download-box">
     <h2>⬇ Download System Check Script</h2>
-    <p>A PowerShell script — no installation required</p>
-    <a href="/WeldAI_SystemCheck.ps1" download class="download-btn">Download WeldAI_SystemCheck.ps1</a>
+    <p>A PowerShell script — no installation required. Run as Administrator.</p>
+    <a href="/weldai-diagnostics.ps1" download class="download-btn">Download weldai-diagnostics.ps1</a>
   </div>
 
   <h2 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:#0D1B2A;margin-bottom:1rem">How to run it</h2>
@@ -54,7 +54,7 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
     <div class="step-num">1</div>
     <div class="step-body">
       <h3>Download the script above</h3>
-      <p>Save <code>WeldAI_SystemCheck.ps1</code> to your Desktop.</p>
+      <p>Save <code>weldai-diagnostics.ps1</code> to your Desktop.</p>
     </div>
   </div>
   <div class="step">
@@ -63,7 +63,7 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
       <h3>Right-click and run</h3>
       <p>Right-click the downloaded file and select <strong>Run with PowerShell</strong> as shown below. If Windows asks about execution policy, click <strong>Open</strong> or type <code>R</code> and press Enter.</p>
       <div style="margin-top:12px;display:inline-block;border:1px solid #DDE8F2;border-radius:10px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.10);max-width:280px">
-        <div style="background:#1e1e1e;padding:6px 12px;font-size:0.75rem;color:#aaa;font-family:monospace">WeldAI_SystemCheck.ps1</div>
+        <div style="background:#1e1e1e;padding:6px 12px;font-size:0.75rem;color:#aaa;font-family:monospace">weldai-diagnostics.ps1</div>
         <div style="background:#ffffff;padding:4px 0">
           <div style="padding:7px 18px;font-size:0.85rem;color:#1a1a2e;display:flex;align-items:center;gap:10px"><span>📄</span> Open</div>
           <div style="padding:7px 18px;font-size:0.85rem;color:#1a1a2e;display:flex;align-items:center;gap:10px"><span>⚙️</span> Open with</div>
@@ -89,12 +89,12 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
     <div class="step-num">4</div>
     <div class="step-body">
       <h3>Email the results file</h3>
-      <p>A file called <code>WeldAI_SystemCheck.txt</code> will appear on your Desktop. Email it to <a href="mailto:hello@weldai.uk" style="color:#185FA5">hello@weldai.uk</a>.</p>
+      <p>A file called <code>weldai-diagnostics.zip</code> will appear on your Desktop. Email it to <a href="mailto:hello@weldai.uk" style="color:#185FA5">hello@weldai.uk</a> with the subject: <strong>Diagnostics — [your company name]</strong>.</p>
     </div>
   </div>
 
   <div class="note">
-    <strong>What does the script check?</strong> Windows version · RAM · CPU · Docker · Internet connectivity to Claude AI · Network drives and IP addresses · Available ports. It does not collect any personal data, passwords, or document contents.
+    <strong>What does the script check?</strong> Windows version · WSL2 · Virtualisation · RAM · CPU · Disk space · Docker version · Docker Windows service · Docker Hub connectivity · Port availability · Firewall rules · Network IP configuration · Outbound access to the Claude API. It does not collect any personal data, passwords, or document contents. It makes no changes to your system.
   </div>
 
   <p style="font-size:0.88rem;color:#7A90A4">We will review your results within one working day and confirm whether your system is ready for installation.</p>
