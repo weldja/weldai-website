@@ -3,31 +3,55 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>System Check — Weld AI</title>
+<title>Pre-Installation System Check — Weld AI</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
 <style>
+:root{--blue:#185FA5;--blue-dark:#0F3F72;--blue-light:#EBF3FB;--ink:#0D1B2A;--ink-mid:#3D5166;--ink-light:#7A90A4;--surface:#F7FAFD;--border:#DDE8F2;--green:#059669;--green-bg:#ECFDF5;--amber:#D97706;--amber-bg:#FFFBEB;--radius:12px}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'DM Sans',sans-serif;color:#0D1B2A;background:#F7FAFD;line-height:1.7;-webkit-font-smoothing:antialiased}
-nav{background:#fff;border-bottom:1px solid #DDE8F2;padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
-.nav-logo{font-weight:700;font-size:1.1rem;color:#185FA5;text-decoration:none}.nav-logo span{color:#0D1B2A}
-.nav-back{font-size:0.85rem;color:#7A90A4;text-decoration:none}.nav-back:hover{color:#185FA5}
-.container{max-width:680px;margin:0 auto;padding:48px 2rem 80px}
-h1{font-family:'DM Serif Display',serif;font-size:2rem;color:#0D1B2A;margin-bottom:0.5rem;letter-spacing:-0.02em}
-.meta{color:#7A90A4;font-size:0.88rem;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid #DDE8F2}
-p{color:#3D5166;margin-bottom:1rem;font-size:0.95rem}
-.step{display:flex;gap:16px;align-items:flex-start;padding:16px 0;border-bottom:1px solid #DDE8F2}
+body{font-family:'DM Sans',sans-serif;color:var(--ink);background:var(--surface);line-height:1.7;-webkit-font-smoothing:antialiased}
+nav{background:#fff;border-bottom:1px solid var(--border);padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
+.nav-logo{font-weight:700;font-size:1.1rem;color:var(--blue);text-decoration:none}.nav-logo span{color:var(--ink)}
+.nav-back{font-size:0.85rem;color:var(--ink-light);text-decoration:none}.nav-back:hover{color:var(--blue)}
+.container{max-width:720px;margin:0 auto;padding:48px 2rem 80px}
+h1{font-family:'DM Serif Display',serif;font-size:2rem;color:var(--ink);margin-bottom:0.5rem;letter-spacing:-0.02em}
+h2{font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--ink);margin:2.5rem 0 0.75rem;letter-spacing:-0.01em}
+h3{font-size:0.95rem;font-weight:700;color:var(--ink);margin-bottom:4px}
+.meta{color:var(--ink-light);font-size:0.88rem;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
+p{color:var(--ink-mid);margin-bottom:1rem;font-size:0.95rem}
+.highlight{background:var(--blue-light);border-left:3px solid var(--blue);border-radius:0 8px 8px 0;padding:14px 18px;margin:1.5rem 0;font-size:0.92rem;color:var(--blue-dark)}
+.warn-box{background:var(--amber-bg);border-left:3px solid var(--amber);border-radius:0 8px 8px 0;padding:14px 18px;margin:1.5rem 0;font-size:0.92rem;color:#78350F}
+/* Steps */
+.steps{margin:1.5rem 0}
+.step{display:flex;gap:16px;align-items:flex-start;padding:16px 0;border-bottom:1px solid var(--border)}
 .step:last-of-type{border:none}
-.step-num{width:32px;height:32px;border-radius:50%;background:#185FA5;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9rem;flex-shrink:0;margin-top:2px}
-.step-body h3{font-size:0.95rem;font-weight:700;color:#0D1B2A;margin-bottom:4px}
-.step-body p{font-size:0.88rem;color:#3D5166;margin:0}
-.step-body code{background:#F1F5F9;border-radius:4px;padding:1px 6px;font-family:monospace;font-size:0.85rem;color:#185FA5}
-.download-box{background:#185FA5;border-radius:16px;padding:32px;text-align:center;margin:2rem 0}
-.download-box h2{font-family:'DM Serif Display',serif;font-size:1.5rem;color:#fff;margin-bottom:0.5rem}
-.download-box p{color:rgba(255,255,255,0.8);margin-bottom:1.5rem;font-size:0.9rem}
-.download-btn{display:inline-block;background:#fff;color:#185FA5;padding:12px 28px;border-radius:10px;font-weight:700;text-decoration:none;font-size:0.95rem;transition:all .15s}
-.download-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,0,0,0.15)}
-.note{background:#EBF3FB;border-left:3px solid #185FA5;border-radius:0 8px 8px 0;padding:14px 18px;margin:1.5rem 0;font-size:0.88rem;color:#0F3F72}
-footer{background:#0D1B2A;color:rgba(255,255,255,0.5);padding:24px 2rem;text-align:center;font-size:0.82rem}
+.step-num{width:32px;height:32px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9rem;flex-shrink:0;margin-top:2px}
+.step-body p{font-size:0.88rem;color:var(--ink-mid);margin:4px 0 0}
+code{background:#F1F5F9;border-radius:4px;padding:1px 6px;font-family:monospace;font-size:0.85rem;color:var(--blue)}
+/* Download box */
+.download-box{background:var(--blue);border-radius:16px;padding:28px;text-align:center;margin:2rem 0}
+.download-box h3{color:#fff;font-size:1.2rem;margin-bottom:0.4rem}
+.download-box p{color:rgba(255,255,255,0.75);font-size:0.88rem;margin-bottom:1.2rem}
+.download-btn{display:inline-block;background:#fff;color:var(--blue);padding:11px 24px;border-radius:10px;font-weight:700;text-decoration:none;font-size:0.92rem}
+/* Context menu mockup */
+.menu-mock{display:inline-block;border:1px solid var(--border);border-radius:10px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.1);max-width:260px;margin-top:10px;background:#fff}
+.menu-mock-title{background:#1e1e1e;padding:5px 12px;font-size:0.75rem;color:#aaa;font-family:monospace}
+.menu-item{padding:7px 16px;font-size:0.84rem;color:#1a1a2e;display:flex;align-items:center;gap:10px}
+.menu-item.highlight-item{background:var(--blue-light);color:var(--blue);font-weight:700;border-left:3px solid var(--blue)}
+.menu-badge{margin-left:auto;background:var(--blue);color:#fff;font-size:0.68rem;padding:2px 7px;border-radius:10px}
+/* Admin section */
+.admin-section{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin:1.5rem 0}
+.admin-section h3{color:var(--blue-dark);margin-bottom:8px}
+.admin-item{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--border)}
+.admin-item:last-of-type{border:none;padding-bottom:0}
+.admin-label{font-size:0.9rem;font-weight:600;color:var(--ink);min-width:180px;flex-shrink:0}
+.admin-desc{font-size:0.85rem;color:var(--ink-mid)}
+/* Info form section */
+.info-section{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin:1.5rem 0}
+.info-item{padding:10px 0;border-bottom:1px solid var(--border)}
+.info-item:last-of-type{border:none;padding-bottom:0}
+.info-item label{font-size:0.88rem;font-weight:600;color:var(--ink);display:block;margin-bottom:4px}
+.info-item p{font-size:0.82rem;color:var(--ink-light);margin:0}
+footer{background:var(--ink);color:rgba(255,255,255,0.5);padding:24px 2rem;text-align:center;font-size:0.82rem}
 footer a{color:rgba(255,255,255,0.7);text-decoration:none}
 </style>
 </head>
@@ -37,70 +61,135 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
   <a class="nav-back" href="https://weldai.uk">← Back to weldai.uk</a>
 </nav>
 <div class="container">
-  <h1>System Check</h1>
-  <p class="meta">For prospective customers · Takes about 30 seconds · No installation required</p>
+  <h1>Pre-Installation System Check</h1>
+  <p class="meta">For prospective customers · Complete before your installation call · No installation required</p>
 
-  <p>Before your Weld AI installation call, please run this quick system check. It checks your Windows version, RAM, Docker, and internet connectivity — then saves a text file to your Desktop for you to email back to us.</p>
+  <p>Before we book your Weld AI installation call, please complete two things: run the automated system check script, and answer a few quick questions below. This lets us confirm your system is ready and prepare your installation in advance.</p>
+
+  <div class="highlight">
+    <strong>This page replaces the PDF checklist.</strong> Complete both sections below and email the results zip to <a href="mailto:hello@weldai.uk" style="color:var(--blue-dark)">hello@weldai.uk</a> with the subject: <strong>Pre-Install — [your company name]</strong>.
+  </div>
+
+  <!-- PART 1: AUTOMATED SCRIPT -->
+  <h2>Part 1 — Run the Automated System Check</h2>
+  <p>The script checks your system automatically and saves a zip file to your Desktop. Takes about 30 seconds.</p>
 
   <div class="download-box">
-    <h2>⬇ Download System Check Script</h2>
-    <p>A PowerShell script — no installation required</p>
+    <h3>⬇ Download System Check Script</h3>
+    <p>PowerShell script · No installation · No changes made to your system</p>
     <a href="/weldai-diagnostics.ps1" download class="download-btn">Download weldai-diagnostics.ps1</a>
   </div>
 
-  <h2 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:#0D1B2A;margin-bottom:1rem">How to run it</h2>
-
-  <div class="step">
-    <div class="step-num">1</div>
-    <div class="step-body">
-      <h3>Download the script above</h3>
-      <p>Save <code>weldai-diagnostics.ps1</code> to your Desktop.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h3>Save to your Desktop</h3>
+        <p>Download <code>weldai-diagnostics.ps1</code> and save it to your Desktop.</p>
+      </div>
     </div>
-  </div>
-  <div class="step">
-    <div class="step-num">2</div>
-    <div class="step-body">
-      <h3>Right-click and run</h3>
-      <p>Right-click the downloaded file and select <strong>Run with PowerShell</strong>. If Windows asks about execution policy, type <code>R</code> and press Enter. No administrator rights needed.</p>
-      <div style="margin-top:12px;display:inline-block;border:1px solid #DDE8F2;border-radius:10px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.10);max-width:280px">
-        <div style="background:#1e1e1e;padding:6px 12px;font-size:0.75rem;color:#aaa;font-family:monospace">weldai-diagnostics.ps1</div>
-        <div style="background:#ffffff;padding:4px 0">
-          <div style="padding:7px 18px;font-size:0.85rem;color:#1a1a2e;display:flex;align-items:center;gap:10px"><span>📄</span> Open</div>
-          <div style="padding:7px 18px;font-size:0.85rem;color:#1a1a2e;display:flex;align-items:center;gap:10px"><span>⚙️</span> Open with</div>
-          <div style="padding:7px 18px;font-size:0.85rem;color:#1a1a2e;display:flex;align-items:center;gap:10px"><span>↗️</span> Share with</div>
-          <div style="padding:8px 18px;font-size:0.88rem;font-weight:700;color:#185FA5;background:#EBF3FB;display:flex;align-items:center;gap:10px;border-left:3px solid #185FA5">
-            <span>▶</span> Run with PowerShell
-            <span style="margin-left:auto;background:#185FA5;color:#fff;font-size:0.7rem;padding:2px 7px;border-radius:10px;font-weight:700">← Click this</span>
-          </div>
-          <div style="padding:7px 18px;font-size:0.85rem;color:#1a1a2e;display:flex;align-items:center;gap:10px"><span>★</span> Add to Favorites</div>
-          <div style="padding:7px 18px;font-size:0.85rem;color:#1a1a2e;display:flex;align-items:center;gap:10px"><span>🗜️</span> Compress to...</div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h3>Right-click → Run with PowerShell</h3>
+        <p>Right-click the file and select <strong>Run with PowerShell</strong>. If asked about execution policy, type <code>R</code> and press Enter. No administrator rights needed.</p>
+        <div class="menu-mock">
+          <div class="menu-mock-title">weldai-diagnostics.ps1</div>
+          <div class="menu-item">📄 Open</div>
+          <div class="menu-item">⚙️ Open with</div>
+          <div class="menu-item">↗️ Share with</div>
+          <div class="menu-item highlight-item">▶ Run with PowerShell <span class="menu-badge">← this one</span></div>
+          <div class="menu-item">★ Add to Favourites</div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="step">
-    <div class="step-num">3</div>
-    <div class="step-body">
-      <h3>Wait 30 seconds</h3>
-      <p>The script runs automatically — no input needed. It checks your system and saves the results.</p>
-    </div>
-  </div>
-  <div class="step">
-    <div class="step-num">4</div>
-    <div class="step-body">
-      <h3>Email the results file</h3>
-      <p>A file called <code>weldai-diagnostics.zip</code> will appear on your Desktop. Email it to <a href="mailto:hello@weldai.uk" style="color:#185FA5">hello@weldai.uk</a> with the subject: <strong>Diagnostics - [your company name]</strong>.</p>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h3>Email the zip file</h3>
+        <p>A file called <code>weldai-diagnostics.zip</code> will appear on your Desktop. Email it to <a href="mailto:hello@weldai.uk" style="color:var(--blue)">hello@weldai.uk</a> with subject: <strong>Pre-Install — [your company name]</strong>.</p>
+      </div>
     </div>
   </div>
 
-  <div class="note">
-    <strong>What does the script check?</strong> Windows version · RAM · CPU · Docker · Internet connectivity to Claude AI · Network drives and IP addresses · Available ports. It does not collect any personal data, passwords, or document contents.
+  <!-- PART 2: ADMIN ITEMS -->
+  <h2>Part 2 — Items Requiring IT / Administrator Confirmation</h2>
+  <p>The script cannot check these automatically without Administrator rights. Please ask your IT contact to confirm the following, and include their answers in your email.</p>
+
+  <div class="admin-section">
+    <h3>🔒 Please ask your IT team to confirm:</h3>
+
+    <div class="admin-item">
+      <div class="admin-label">WSL2 enabled</div>
+      <div class="admin-desc">Windows Subsystem for Linux 2 must be enabled. To check: open PowerShell as Administrator and run <code>wsl --status</code>. Should show "Default Version: 2".</div>
+    </div>
+
+    <div class="admin-item">
+      <div class="admin-label">Virtual Machine Platform</div>
+      <div class="admin-desc">Required for Docker. To check: open PowerShell as Administrator and run <code>Get-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform</code>. Should show "State: Enabled".</div>
+    </div>
+
+    <div class="admin-item">
+      <div class="admin-label">Docker service startup type</div>
+      <div class="admin-desc">Docker must start automatically after a reboot. To check and fix: open PowerShell as Administrator and run <code>Set-Service -Name "com.docker.service" -StartupType Automatic</code>.</div>
+    </div>
+
+    <div class="admin-item">
+      <div class="admin-label">Firewall rules (ports 80 and 443)</div>
+      <div class="admin-desc">Required only if multiple staff will access Weld AI from their own PCs. IT needs to open inbound TCP ports 80 and 443 on the server's Windows Firewall. Single-user installs can skip this.</div>
+    </div>
+
+    <div class="admin-item">
+      <div class="admin-label">Static IP address</div>
+      <div class="admin-desc">The server should have a fixed IP address so staff can always find it. IT can assign a static IP or create a DHCP reservation. The current IP will appear in the script output — please confirm whether it is static or DHCP.</div>
+    </div>
   </div>
 
-  <p style="font-size:0.88rem;color:#7A90A4">We will review your results within one working day and confirm whether your system is ready for installation.</p>
+  <!-- PART 3: INSTALLATION INFORMATION -->
+  <h2>Part 3 — Installation Information</h2>
+  <p>Please provide the following information in your email. This allows us to prepare your installation in advance.</p>
+
+  <div class="info-section">
+
+    <div class="info-item">
+      <label>Company name (for branding)</label>
+      <p>The name shown in the app header — e.g. "Smith &amp; Partners Accountants"</p>
+    </div>
+
+    <div class="info-item">
+      <label>Number of staff who will use the system</label>
+      <p>Approximate number — helps us advise on hardware and access configuration</p>
+    </div>
+
+    <div class="info-item">
+      <label>Documents folder path</label>
+      <p>The full path to the folder containing your company documents — e.g. <code>C:\CompanyDocs</code> or <code>\\server\documents</code>. If you are not sure, the script output will list available drives to help identify it.</p>
+    </div>
+
+    <div class="info-item">
+      <label>Approximate number of documents</label>
+      <p>Rough estimate — e.g. "around 50 PDFs" or "500+ files across several folders"</p>
+    </div>
+
+    <div class="info-item">
+      <label>4 suggested questions (optional)</label>
+      <p>The app shows up to 4 suggested question buttons on the home screen. Examples: "What is our complaints procedure?" · "What is the onboarding process?" · "What are our standard fees?"</p>
+    </div>
+
+    <div class="info-item">
+      <label>Any known IT constraints</label>
+      <p>E.g. corporate proxy, firewall restrictions, managed device policies, no internet access on the server</p>
+    </div>
+
+  </div>
+
+  <div class="warn-box">
+    <strong>Not sure about any of these?</strong> Don't worry — email what you can and we will work through the rest on a quick pre-call. Contact us at <a href="mailto:hello@weldai.uk" style="color:#92400E">hello@weldai.uk</a> or visit <a href="https://weldai.uk" style="color:#92400E">weldai.uk</a>.
+  </div>
+
 </div>
 <footer>
-  <p>© 2026 Weld AI · <a href="https://weldai.uk">weldai.uk</a> · York, England · <a href="/privacy.html">Privacy Policy</a></p>
+  <p>© 2026 Weld AI · <a href="https://weldai.uk">weldai.uk</a> · York, England · <a href="/privacy.html">Privacy Policy</a> · <a href="/terms.html">Terms of Service</a></p>
 </footer>
 </body>
 </html>
