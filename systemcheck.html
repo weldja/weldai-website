@@ -165,10 +165,17 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
       <label>Documents folder path</label>
       <p>The full path to the folder containing your company documents — e.g. <code>C:\CompanyDocs</code> or <code>D:\Policies</code>.</p>
       <p style="margin-top:6px;padding:10px 14px;background:#FFF7ED;border-left:3px solid #D97706;border-radius:0 8px 8px 0;font-size:0.85rem;color:#92400E">
-        <strong>Important:</strong> Documents must be on a local drive (C:, D: etc.) on the server running Weld AI.
+        <strong>Important — documents must be stored locally:</strong> Documents must be on a local drive on the server running Weld AI.
         Network shares (e.g. <code>\\server\documents</code>) and mapped network drives (e.g. <code>U:\docs</code>)
-        are not supported due to a Docker on Windows limitation. If your documents are on a file server,
+        are not supported. If your documents are on a file server,
         either copy them to a local folder or install Weld AI directly on the file server.
+      </p>
+      <p style="margin-top:6px;padding:10px 14px;background:#FFF7ED;border-left:3px solid #D97706;border-radius:0 8px 8px 0;font-size:0.85rem;color:#92400E">
+        <strong>Important — OneDrive / SharePoint users:</strong> If your documents are in a OneDrive or SharePoint synced folder,
+        you must ensure the folder is set to <strong>"Always keep on this device"</strong> before indexing.
+        Cloud-only files (shown with a ☁️ icon in File Explorer) are not stored locally and cannot be indexed.<br><br>
+        To fix: right-click your documents folder in File Explorer → <strong>Always keep on this device</strong>.
+        All files will show a ✅ green tick when ready.
       </p>
     </div>
 
