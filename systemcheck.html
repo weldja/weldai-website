@@ -164,11 +164,22 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
     <div class="info-item">
       <label>Documents folder path</label>
       <p>The full path to the folder containing your company documents — e.g. <code>C:\CompanyDocs</code> or <code>D:\Policies</code>.</p>
+      <p style="margin-top:6px;padding:10px 14px;background:#EAF5F0;border-left:3px solid #059669;border-radius:0 8px 8px 0;font-size:0.85rem;color:#065F46">
+        <strong>Supported document locations:</strong>
+        Local drives (C:, D:, E: etc.) ✅ &nbsp;·&nbsp;
+        USB/external drives ✅ (must stay connected) &nbsp;·&nbsp;
+        OneDrive synced folders ✅ (files must be local)
+      </p>
       <p style="margin-top:6px;padding:10px 14px;background:#FFF7ED;border-left:3px solid #D97706;border-radius:0 8px 8px 0;font-size:0.85rem;color:#92400E">
-        <strong>Important — documents must be stored locally:</strong> Documents must be on a local drive on the server running Weld AI.
-        Network shares (e.g. <code>\\server\documents</code>) and mapped network drives (e.g. <code>U:\docs</code>)
-        are not supported. If your documents are on a file server,
-        either copy them to a local folder or install Weld AI directly on the file server.
+        <strong>Not supported:</strong> Network mapped drives (e.g. <code>U:\</code> via net use) and UNC paths
+        (e.g. <code>\\server\documents</code>) cannot be mounted into Docker on Windows.
+        If your documents are only on a file server, either copy them to a local folder
+        or we can install Weld AI directly on the file server.
+      </p>
+      <p style="margin-top:6px;padding:10px 14px;background:#FFF7ED;border-left:3px solid #D97706;border-radius:0 8px 8px 0;font-size:0.85rem;color:#92400E">
+        <strong>Important — if using a non-C: drive:</strong> The drive must be connected
+        before Docker starts. If it disconnects while the app is running, a Docker Desktop
+        restart will be required to recover.
       </p>
       <p style="margin-top:6px;padding:10px 14px;background:#FFF7ED;border-left:3px solid #D97706;border-radius:0 8px 8px 0;font-size:0.85rem;color:#92400E">
         <strong>Important — OneDrive / SharePoint users:</strong> If your documents are in a OneDrive or SharePoint synced folder,
