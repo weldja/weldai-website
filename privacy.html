@@ -37,10 +37,10 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
 </nav>
 <div class="container">
   <h1>Privacy Policy</h1>
-  <p class="meta">Last updated: May 2026 &nbsp;·&nbsp; Weld AI &nbsp;·&nbsp; York, England</p>
+  <p class="meta">Last updated: June 2026 &nbsp;·&nbsp; Weld AI &nbsp;·&nbsp; York, England</p>
 
   <div class="highlight">
-    <strong>Plain English summary:</strong> Your documents never leave your server. Only your question and a few relevant paragraphs are sent to Claude AI per query. Anthropic does not train on your data. We collect only the minimum personal data needed to provide our services.
+    <strong>Plain English summary:</strong> Your documents never leave your server. When you ask a question, your query and up to 8 relevant document excerpts are sent to Anthropic's Claude API to generate an answer — along with up to 6 recent conversation turns for context. Anthropic does not train on your data. We collect only the minimum personal data needed to provide our services.
   </div>
 
   <h2>1. Who we are</h2>
@@ -55,10 +55,11 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
     <tbody>
       <tr><td>Your documents (PDF, Word, Excel etc.)</td><td class="check">✓ Always</td><td class="cross">✗ Never</td></tr>
       <tr><td>Document index (vector database)</td><td class="check">✓ Always</td><td class="cross">✗ Never</td></tr>
-      <tr><td>Conversation history</td><td class="check">✓ Always</td><td class="cross">✗ Never</td></tr>
+      <tr><td>Conversation history (stored)</td><td class="check">✓ Always</td><td class="cross">✗ Never sent to Weld AI</td></tr>
       <tr><td>Your Anthropic API key</td><td class="check">✓ Always</td><td class="cross">✗ Never sent to Weld AI</td></tr>
-      <tr><td>Your question (per query)</td><td></td><td>Sent to Anthropic Claude API only</td></tr>
-      <tr><td>Relevant document excerpts (per query)</td><td></td><td>2–3 paragraphs sent to Anthropic Claude API only</td></tr>
+      <tr><td>Your question (per query)</td><td></td><td>Sent to Anthropic Claude API to generate search keywords and answer</td></tr>
+      <tr><td>Relevant document excerpts (per query)</td><td></td><td>Up to 8 short excerpts sent to Anthropic Claude API to generate answer</td></tr>
+      <tr><td>Recent conversation turns (per query)</td><td></td><td>Up to 6 recent exchanges sent to Anthropic Claude API for context — stored history remains on your server</td></tr>
       <tr><td>Usage analytics / telemetry</td><td class="check">✓ None collected</td><td class="cross">✗ Never</td></tr>
     </tbody>
   </table>
