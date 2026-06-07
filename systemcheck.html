@@ -1,234 +1,787 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pre-Installation System Check — Weld AI</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
-<style>
-:root{--blue:#185FA5;--blue-dark:#0F3F72;--blue-light:#EBF3FB;--ink:#0D1B2A;--ink-mid:#3D5166;--ink-light:#7A90A4;--surface:#F7FAFD;--border:#DDE8F2;--green:#059669;--green-bg:#ECFDF5;--amber:#D97706;--amber-bg:#FFFBEB;--radius:12px}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'DM Sans',sans-serif;color:var(--ink);background:var(--surface);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-nav{background:#fff;border-bottom:1px solid var(--border);padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
-.nav-logo{font-weight:700;font-size:1.1rem;color:var(--blue);text-decoration:none}.nav-logo span{color:var(--ink)}
-.nav-back{font-size:0.85rem;color:var(--ink-light);text-decoration:none}.nav-back:hover{color:var(--blue)}
-.container{max-width:720px;margin:0 auto;padding:48px 2rem 80px}
-h1{font-family:'DM Serif Display',serif;font-size:2rem;color:var(--ink);margin-bottom:0.5rem;letter-spacing:-0.02em}
-h2{font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--ink);margin:2.5rem 0 0.75rem;letter-spacing:-0.01em}
-h3{font-size:0.95rem;font-weight:700;color:var(--ink);margin-bottom:4px}
-.meta{color:var(--ink-light);font-size:0.88rem;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
-p{color:var(--ink-mid);margin-bottom:1rem;font-size:0.95rem}
-.highlight{background:var(--blue-light);border-left:3px solid var(--blue);border-radius:0 8px 8px 0;padding:14px 18px;margin:1.5rem 0;font-size:0.92rem;color:var(--blue-dark)}
-.warn-box{background:var(--amber-bg);border-left:3px solid var(--amber);border-radius:0 8px 8px 0;padding:14px 18px;margin:1.5rem 0;font-size:0.92rem;color:#78350F}
-/* Steps */
-.steps{margin:1.5rem 0}
-.step{display:flex;gap:12px;align-items:flex-start;padding:16px 0;border-bottom:1px solid var(--border);min-width:0}
-.step:last-of-type{border:none}
-.step-num{width:32px;height:32px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9rem;flex-shrink:0;margin-top:2px}
-.step-body p{font-size:0.88rem;color:var(--ink-mid);margin:4px 0 0;word-break:break-word}
-code{background:#F1F5F9;border-radius:4px;padding:1px 6px;font-family:monospace;font-size:0.82rem;color:var(--blue);word-break:break-all;overflow-wrap:anywhere}
-/* Download box */
-.download-box{background:var(--blue);border-radius:16px;padding:28px;text-align:center;margin:2rem 0}
-.download-box h3{color:#fff;font-size:1.2rem;margin-bottom:0.4rem}
-.download-box p{color:rgba(255,255,255,0.75);font-size:0.88rem;margin-bottom:1.2rem}
-.download-btn{display:inline-block;background:#fff;color:var(--blue);padding:11px 24px;border-radius:10px;font-weight:700;text-decoration:none;font-size:0.92rem}
-/* Context menu mockup */
-.menu-mock{display:inline-block;border:1px solid var(--border);border-radius:10px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.1);max-width:260px;margin-top:10px;background:#fff}
-.menu-mock-title{background:#1e1e1e;padding:5px 12px;font-size:0.75rem;color:#aaa;font-family:monospace}
-.menu-item{padding:7px 16px;font-size:0.84rem;color:#1a1a2e;display:flex;align-items:center;gap:10px}
-.menu-item.highlight-item{background:var(--blue-light);color:var(--blue);font-weight:700;border-left:3px solid var(--blue)}
-.menu-badge{margin-left:auto;background:var(--blue);color:#fff;font-size:0.68rem;padding:2px 7px;border-radius:10px}
-/* Admin section */
-.admin-section{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin:1.5rem 0;overflow:hidden}
-.admin-section h3{color:var(--blue-dark);margin-bottom:8px}
-.admin-item{display:flex;flex-direction:column;gap:6px;padding:10px 0;border-bottom:1px solid var(--border)}
-.admin-item:last-of-type{border:none;padding-bottom:0}
-.admin-label{font-size:0.9rem;font-weight:600;color:var(--ink)}
-.admin-desc{font-size:0.85rem;color:var(--ink-mid)}
-/* Info form section */
-.info-section{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin:1.5rem 0;overflow:hidden}
-.info-item{padding:10px 0;border-bottom:1px solid var(--border)}
-.info-item:last-of-type{border:none;padding-bottom:0}
-.info-item label{font-size:0.88rem;font-weight:600;color:var(--ink);display:block;margin-bottom:4px}
-.info-item p{font-size:0.82rem;color:var(--ink-light);margin:0}
-footer{background:var(--ink);color:rgba(255,255,255,0.5);padding:24px 2rem;text-align:center;font-size:0.82rem}
-footer a{color:rgba(255,255,255,0.7);text-decoration:none}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pre-Installation System Check — Weld AI</title>
+  <style>
+    :root {
+      --blue: #185FA5;
+      --blue-light: #e8f1fa;
+      --blue-mid: #d0e4f5;
+      --green: #1a7f37;
+      --green-light: #eafaf0;
+      --amber: #b45309;
+      --amber-light: #fff8e6;
+      --red: #c0392b;
+      --red-light: #fdf0ee;
+      --grey-100: #f6f8fa;
+      --grey-200: #e8ecf0;
+      --grey-400: #9ca3af;
+      --grey-700: #374151;
+      --grey-900: #111827;
+      --font: 'Segoe UI', system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font);
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--grey-900);
+      background: #fff;
+    }
+
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* NAV */
+    .nav {
+      border-bottom: 1px solid var(--grey-200);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 14px;
+    }
+    .nav-brand { font-weight: 700; font-size: 16px; color: var(--blue); letter-spacing: -0.3px; }
+    .nav-sep { color: var(--grey-400); }
+
+    /* LAYOUT */
+    .page { max-width: 820px; margin: 0 auto; padding: 40px 24px 80px; }
+
+    .page-header { margin-bottom: 36px; border-bottom: 2px solid var(--blue); padding-bottom: 20px; }
+    .page-header h1 { font-size: 26px; font-weight: 700; color: var(--grey-900); margin-bottom: 6px; }
+    .page-header .subtitle { color: var(--grey-700); font-size: 14px; }
+
+    /* SECTION */
+    .section { margin-bottom: 48px; }
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--grey-900);
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--grey-200);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title .num {
+      background: var(--blue);
+      color: #fff;
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* INSTALL TYPE CARDS */
+    .install-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    @media (max-width: 640px) { .install-grid { grid-template-columns: 1fr; } }
+
+    .install-card {
+      border: 1px solid var(--grey-200);
+      border-radius: 8px;
+      padding: 18px;
+      background: #fff;
+    }
+    .install-card.recommended { border-color: var(--blue); background: var(--blue-light); }
+    .install-card h3 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .install-card .tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+    }
+    .tag-recommended { background: var(--blue); color: #fff; }
+    .tag-windows { background: #0078d4; color: #fff; }
+    .tag-linux { background: #e95420; color: #fff; }
+    .tag-server { background: #5a2d82; color: #fff; }
+    .install-card p { font-size: 13px; color: var(--grey-700); margin-bottom: 8px; }
+    .install-card ul { font-size: 13px; color: var(--grey-700); padding-left: 16px; }
+    .install-card li { margin-bottom: 2px; }
+
+    /* REQUIREMENTS TABLE */
+    .req-table { width: 100%; border-collapse: collapse; font-size: 14px; margin-bottom: 16px; }
+    .req-table th {
+      background: var(--grey-100);
+      text-align: left;
+      padding: 8px 12px;
+      font-weight: 600;
+      font-size: 13px;
+      border: 1px solid var(--grey-200);
+    }
+    .req-table td { padding: 8px 12px; border: 1px solid var(--grey-200); vertical-align: top; }
+    .req-table tr:nth-child(even) td { background: var(--grey-100); }
+    .badge { font-size: 12px; font-weight: 600; padding: 2px 7px; border-radius: 4px; white-space: nowrap; }
+    .badge-required { background: #fde8e8; color: #c0392b; }
+    .badge-recommended { background: #e8f1fa; color: #185FA5; }
+    .badge-optional { background: #f0f0f0; color: #555; }
+
+    /* CALLOUT BOXES */
+    .callout {
+      border-radius: 6px;
+      padding: 14px 16px;
+      font-size: 14px;
+      margin: 16px 0;
+      display: flex;
+      gap: 10px;
+    }
+    .callout-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+    .callout-body { flex: 1; }
+    .callout-body strong { display: block; margin-bottom: 4px; }
+    .callout.info { background: var(--blue-light); border-left: 3px solid var(--blue); }
+    .callout.warning { background: var(--amber-light); border-left: 3px solid #d97706; }
+    .callout.success { background: var(--green-light); border-left: 3px solid var(--green); }
+    .callout.error { background: var(--red-light); border-left: 3px solid var(--red); }
+
+    /* PATH SUPPORT TABLE */
+    .path-table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 16px 0; }
+    .path-table th { background: var(--grey-100); padding: 8px 12px; text-align: left; font-weight: 600; font-size: 13px; border: 1px solid var(--grey-200); }
+    .path-table td { padding: 8px 12px; border: 1px solid var(--grey-200); vertical-align: top; }
+    .path-table tr:nth-child(even) td { background: var(--grey-100); }
+    .tick { color: var(--green); font-weight: 700; }
+    .cross { color: var(--red); font-weight: 700; }
+    .partial { color: var(--amber); font-weight: 700; }
+
+    /* CHECKLIST */
+    .checklist { list-style: none; padding: 0; }
+    .checklist li {
+      padding: 10px 14px;
+      border: 1px solid var(--grey-200);
+      border-radius: 6px;
+      margin-bottom: 8px;
+      font-size: 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      background: #fff;
+    }
+    .checklist li .check-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+    .checklist li strong { display: block; margin-bottom: 2px; }
+    .checklist li code { background: var(--grey-100); padding: 1px 5px; border-radius: 3px; font-size: 12px; font-family: 'Cascadia Code', 'Consolas', monospace; }
+
+    /* STEPS */
+    .steps { counter-reset: step; }
+    .step {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 20px;
+      align-items: flex-start;
+    }
+    .step-num {
+      background: var(--blue);
+      color: #fff;
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .step-body { flex: 1; }
+    .step-body strong { display: block; margin-bottom: 4px; font-size: 15px; }
+    .step-body p { font-size: 14px; color: var(--grey-700); }
+    .step-body code { background: var(--grey-100); padding: 1px 5px; border-radius: 3px; font-size: 12px; font-family: 'Cascadia Code', 'Consolas', monospace; }
+
+    /* CODE BLOCK */
+    pre {
+      background: #1e2433;
+      color: #e2e8f0;
+      padding: 14px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-family: 'Cascadia Code', 'Consolas', monospace;
+      overflow-x: auto;
+      margin: 10px 0;
+    }
+
+    /* FORM */
+    .form-section { background: var(--grey-100); border-radius: 8px; padding: 24px; margin-top: 20px; }
+    .form-section h3 { font-size: 16px; font-weight: 700; margin-bottom: 16px; }
+    .form-field { margin-bottom: 16px; }
+    .form-field label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 5px; color: var(--grey-700); }
+    .form-field input, .form-field textarea, .form-field select {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid var(--grey-200);
+      border-radius: 5px;
+      font-size: 14px;
+      font-family: var(--font);
+      background: #fff;
+    }
+    .form-field textarea { min-height: 80px; resize: vertical; }
+    .form-field .hint { font-size: 12px; color: var(--grey-400); margin-top: 4px; }
+    .btn {
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn:hover { background: #1450a0; }
+
+    /* DOWNLOAD BUTTON */
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--blue);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 14px;
+      margin: 12px 0;
+    }
+    .download-btn:hover { background: #1450a0; text-decoration: none; }
+
+    /* FOOTER */
+    .footer {
+      border-top: 1px solid var(--grey-200);
+      padding: 24px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--grey-400);
+    }
+    .footer a { color: var(--grey-400); }
+    .footer a:hover { color: var(--blue); }
+
+    p { margin-bottom: 10px; }
+    h4 { font-size: 14px; font-weight: 700; margin: 14px 0 6px; }
+    /* MOBILE */
+    @media (max-width: 640px) {
+      .page { padding: 24px 16px 60px; }
+      .page-header h1 { font-size: 22px; }
+      .section-title { font-size: 16px; }
+      .checklist li code { word-break: break-all; }
+      .req-table, .path-table { font-size: 12px; }
+      .req-table th, .path-table th, .req-table td, .path-table td { padding: 6px 8px; }
+      .download-btn { width: 100%; justify-content: center; box-sizing: border-box; }
+      .callout { flex-direction: column; gap: 6px; }
+      .install-grid { grid-template-columns: 1fr; }
+      code { word-break: break-all; }
+      .form-section { padding: 16px; }
+      pre { font-size: 11px; }
+    }
+  </style>
 </head>
 <body>
-<nav>
-  <a class="nav-logo" href="https://weldai.uk"><span>Weld</span>AI</a>
-  <a class="nav-back" href="https://weldai.uk">← Back to weldai.uk</a>
+
+<nav class="nav">
+  <a href="https://weldai.uk" class="nav-brand">WeldAI</a>
+  <span class="nav-sep">·</span>
+  <a href="https://weldai.uk">← Back to weldai.uk</a>
 </nav>
-<div class="container">
-  <h1>Pre-Installation System Check</h1>
-  <p class="meta">For prospective customers · Complete before your installation call · No installation required</p>
 
-  <p>Before we book your Weld AI installation call, please complete two things: run the automated system check script, and answer a few quick questions below. This lets us confirm your system is ready and prepare your installation in advance.</p>
+<div class="page">
 
-  <div class="highlight">
-    <strong>This page replaces the PDF checklist.</strong> Complete both sections below and email the results zip to <a href="mailto:hello@weldai.uk" style="color:var(--blue-dark)">hello@weldai.uk</a> with the subject: <strong>Pre-Install — [your company name]</strong>.
+  <div class="page-header">
+    <h1>Pre-Installation System Check</h1>
+    <p class="subtitle">For prospective customers &nbsp;·&nbsp; Complete before your installation call &nbsp;·&nbsp; No installation required</p>
   </div>
 
-  <!-- PART 1: AUTOMATED SCRIPT -->
-  <h2>Part 1 — Run the Automated System Check</h2>
-  <p>The script checks your system automatically and saves a zip file to your Desktop. Takes about 30 seconds.</p>
+  <p>Before we book your Weld AI installation call, please: run the automated system check script, review the install type that matches your setup, and complete the information form below. This lets us confirm your system is ready and prepare your installation in advance.</p>
 
-  <div class="download-box">
-    <h3>⬇ Download System Check Script</h3>
-    <p>PowerShell script · No installation · No changes made to your system</p>
-    <a href="/weldai-diagnostics.ps1" download class="download-btn">Download weldai-diagnostics.ps1</a>
+  <div class="callout info" style="margin-top:20px;">
+    <span class="callout-icon">ℹ️</span>
+    <div class="callout-body">
+      <strong>Complete both the script and the form below</strong>
+      Email the diagnostics zip and your answers to <a href="mailto:hello@weldai.uk">hello@weldai.uk</a> with subject: <strong>Pre-Install — [your company name]</strong>.
+    </div>
   </div>
 
-  <div class="steps">
-    <div class="step">
-      <div class="step-num">1</div>
-      <div class="step-body">
-        <h3>Save to your Desktop</h3>
-        <p>Download <code>weldai-diagnostics.ps1</code> and save it to your Desktop.</p>
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 1 — INSTALL TYPES -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <h2 class="section-title"><span class="num">1</span> Choose Your Install Type</h2>
+
+    <p>Weld AI supports several installation configurations depending on your server setup. Review the options below and identify which best matches your situation — include this in your email.</p>
+
+    <p style="font-size:14px; color:var(--grey-700); margin-bottom:16px;">Not sure which applies to you? Email us at <a href="mailto:hello@weldai.uk">hello@weldai.uk</a> and we'll advise.</p>
+
+    <div class="install-grid">
+
+      <div class="install-card recommended">
+        <h3>Windows PC or Workstation</h3>
+        <span class="tag tag-recommended">Most common</span>
+        <p>Weld AI installed directly on a Windows 10 or 11 PC or workstation. Documents stored in a local folder on the same machine.</p>
+        <ul>
+          <li>Windows 10 (21H2+) or Windows 11</li>
+          <li>8GB RAM minimum, 16GB recommended</li>
+          <li>Documents on a local drive (C:, D: etc.)</li>
+          <li>Docker Desktop + WSL2</li>
+        </ul>
+      </div>
+
+      <div class="install-card recommended">
+        <h3>Windows Server + Ubuntu VM</h3>
+        <span class="tag tag-recommended">Recommended for servers</span>
+        <p>Your IT team creates a small Ubuntu Linux virtual machine (VM) on your Windows Server using <strong>Hyper-V</strong> — Windows Server's built-in virtualisation platform. Weld AI runs inside the Ubuntu VM, completely isolated from your main server. This is the recommended approach for Windows Server as it avoids WSL2 complexity and supports network shares.</p>
+        <ul>
+          <li>Windows Server 2022 with Hyper-V role enabled</li>
+          <li>16GB+ RAM on the server (4GB allocated to Ubuntu VM)</li>
+          <li>40GB spare disk space for the VM</li>
+          <li>IT creates the Ubuntu VM; we install Weld AI remotely</li>
+          <li>Full network share (Samba) support</li>
+        </ul>
+      </div>
+
+      <div class="install-card">
+        <h3>Linux Server</h3>
+        <span class="tag tag-linux">Linux</span>
+        <p>Weld AI installed directly on an Ubuntu or Debian Linux server. Simplest possible install — Docker works natively with no virtualisation layer needed.</p>
+        <ul>
+          <li>Ubuntu 22.04 LTS or Debian 12</li>
+          <li>8GB RAM minimum</li>
+          <li>Docker Engine (no WSL required)</li>
+          <li>Full network share support via NFS/Samba</li>
+        </ul>
+      </div>
+
+      <div class="install-card">
+        <h3>Windows Server (Direct)</h3>
+        <span class="tag tag-windows">Alternative only</span>
+        <p>Weld AI installed directly on Windows Server 2022 without a Linux VM. Only recommended when Hyper-V is unavailable or IT policy prevents running Linux. Requires complex WSL2 configuration.</p>
+        <ul>
+          <li>Windows Server 2022 Desktop Experience only</li>
+          <li>16GB RAM minimum</li>
+          <li>WSL2 requires significant manual IT setup</li>
+          <li>Network shares not supported</li>
+          <li>Use Ubuntu VM approach if at all possible</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="callout info">
+      <span class="callout-icon">💡</span>
+      <div class="callout-body">
+        <strong>What is Hyper-V?</strong>
+        Hyper-V is Microsoft's built-in virtualisation platform — included free with Windows Server 2022. It allows multiple virtual machines (VMs) to run on a single physical server, each completely isolated from each other. Most Windows Server 2022 installations have Hyper-V available. Your IT team can check by opening Server Manager and looking for the Hyper-V role, or by running <code>Get-WindowsFeature Hyper-V</code> in PowerShell.
       </div>
     </div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <div class="step-body">
-        <h3>Right-click → Run with PowerShell</h3>
-        <p>Right-click the file and select <strong>Run with PowerShell</strong>. If asked about execution policy, type <code>R</code> and press Enter. No administrator rights needed.</p>
-        <div class="menu-mock">
-          <div class="menu-mock-title">weldai-diagnostics.ps1</div>
-          <div class="menu-item">📄 Open</div>
-          <div class="menu-item">⚙️ Open with</div>
-          <div class="menu-item">↗️ Share with</div>
-          <div class="menu-item highlight-item">▶ Run with PowerShell <span class="menu-badge">← this one</span></div>
-          <div class="menu-item">★ Add to Favourites</div>
+
+    <div class="callout warning">
+      <span class="callout-icon">⚠️</span>
+      <div class="callout-body">
+        <strong>Windows Server Direct — Desktop Experience required</strong>
+        If using the Windows Server Direct option, the server must be running Windows Server 2022 <strong>with Desktop Experience</strong> (full graphical interface). Windows Server Core (command-line only) is not supported.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 2 — SYSTEM REQUIREMENTS -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <h2 class="section-title"><span class="num">2</span> System Requirements</h2>
+
+    <div style="overflow-x:auto; -webkit-overflow-scrolling:touch; margin-bottom:16px;">
+    <table class="req-table" style="margin-bottom:0; min-width:560px;">
+      <thead>
+        <tr>
+          <th style="min-width:110px;">Requirement</th>
+          <th>Windows PC</th>
+          <th>Win Server + Ubuntu VM</th>
+          <th>Win Server Direct</th>
+          <th>Linux Server</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>OS</strong></td>
+          <td>Windows 10 (21H2+) or 11</td>
+          <td>Windows Server 2022 + Ubuntu 22.04 VM</td>
+          <td>Windows Server 2022 Desktop Experience</td>
+          <td>Ubuntu 22.04 LTS or Debian 12</td>
+        </tr>
+        <tr>
+          <td><strong>RAM</strong></td>
+          <td>8GB min, 16GB rec.</td>
+          <td>16GB min (4GB for VM)</td>
+          <td>16GB min</td>
+          <td>8GB min, 16GB rec.</td>
+        </tr>
+        <tr>
+          <td><strong>Disk</strong></td>
+          <td>20GB free</td>
+          <td>60GB free (VM + app)</td>
+          <td>20GB free</td>
+          <td>20GB free</td>
+        </tr>
+        <tr>
+          <td><strong>Virtualisation</strong></td>
+          <td>WSL2 + VM Platform</td>
+          <td>Hyper-V on host</td>
+          <td>WSL2 (complex setup)</td>
+          <td>Not required</td>
+        </tr>
+        <tr>
+          <td><strong>Docker</strong></td>
+          <td>Docker Desktop</td>
+          <td>Docker Engine (in VM)</td>
+          <td>Docker Desktop</td>
+          <td>Docker Engine</td>
+        </tr>
+        <tr>
+          <td><strong>Network shares</strong></td>
+          <td>❌ Not supported</td>
+          <td>✅ Samba/NFS</td>
+          <td>❌ Not supported</td>
+          <td>✅ Samba/NFS</td>
+        </tr>
+        <tr>
+          <td><strong>Internet</strong></td>
+          <td colspan="4">Outbound HTTPS (port 443) to api.anthropic.com — required for AI queries.</td>
+        </tr>
+        <tr>
+          <td><strong>Network ports</strong></td>
+          <td colspan="4">80 and 443 inbound — only needed if accessed from other PCs on the network.</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 3 — DOCUMENT PATHS -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <h2 class="section-title"><span class="num">3</span> Where Are Your Documents?</h2>
+
+    <p>Understanding where your documents are stored determines the best install type. Weld AI reads documents from a folder on the server — the table below shows what is and isn't supported.</p>
+
+    <div style="overflow-x:auto; -webkit-overflow-scrolling:touch;"><table class="path-table" style="margin:0; min-width:520px;">
+      <thead>
+        <tr>
+          <th>Document Location</th>
+          <th>Windows PC / Server (Direct)</th>
+          <th>Windows Server + Ubuntu VM</th>
+          <th>Linux Server</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Local drive</strong> (C:\, D:\, E:\ etc.)</td>
+          <td><span class="tick">✅ Supported</span></td>
+          <td><span class="tick">✅ Supported</span></td>
+          <td><span class="tick">✅ Supported</span></td>
+        </tr>
+        <tr>
+          <td><strong>USB / external drive</strong></td>
+          <td><span class="tick">✅ Supported</span> — must stay connected</td>
+          <td><span class="tick">✅ Supported</span></td>
+          <td><span class="tick">✅ Supported</span></td>
+        </tr>
+        <tr>
+          <td><strong>OneDrive / SharePoint synced folder</strong></td>
+          <td><span class="tick">✅ Supported</span> — files must be set to "Always keep on this device"</td>
+          <td><span class="partial">⚠️ Complex</span></td>
+          <td><span class="partial">⚠️ Complex</span></td>
+        </tr>
+        <tr>
+          <td><strong>Network mapped drive</strong> (e.g. U:\)</td>
+          <td><span class="cross">❌ Not supported</span></td>
+          <td><span class="tick">✅ Supported</span> via Samba mount</td>
+          <td><span class="tick">✅ Supported</span> via NFS/Samba</td>
+        </tr>
+        <tr>
+          <td><strong>UNC path</strong> (\\server\share)</td>
+          <td><span class="cross">❌ Not supported</span></td>
+          <td><span class="tick">✅ Supported</span> via Samba mount</td>
+          <td><span class="tick">✅ Supported</span> via NFS/Samba</td>
+        </tr>
+        <tr>
+          <td><strong>File server (documents only on server)</strong></td>
+          <td><span class="partial">⚠️ Copy or sync needed</span></td>
+          <td><span class="tick">✅ Best option</span> — install Weld AI on the file server</td>
+          <td><span class="tick">✅ Supported</span></td>
+        </tr>
+      </tbody>
+    </table></div>
+
+    <div class="callout warning">
+      <span class="callout-icon">⚠️</span>
+      <div class="callout-body">
+        <strong>Network mapped drives on Windows</strong>
+        Docker on Windows cannot access network mapped drives (e.g. <code>U:\docs</code>) or UNC paths (e.g. <code>\\server\documents</code>). This is a Docker on Windows limitation. If your documents are on a file server, the recommended solution is to install Weld AI directly on that server (Windows Server + Ubuntu VM or Linux). We will advise on the best approach during your pre-installation review.
+      </div>
+    </div>
+
+    <div class="callout info">
+      <span class="callout-icon">☁️</span>
+      <div class="callout-body">
+        <strong>OneDrive / SharePoint users</strong>
+        If your documents are in a OneDrive or SharePoint synced folder, you must ensure the folder is set to <strong>"Always keep on this device"</strong> before indexing. Cloud-only files (shown with a ☁️ icon in File Explorer) are not stored locally and cannot be indexed.<br><br>
+        To fix: right-click your documents folder in File Explorer → <strong>Always keep on this device</strong>. All files will show a ✅ green tick when ready.
+      </div>
+    </div>
+
+    <div class="callout info">
+      <span class="callout-icon">🔄</span>
+      <div class="callout-body">
+        <strong>Documents on a file server — Windows PC install workaround</strong>
+        If you have a Windows PC install but documents are on a file server, they can be synced automatically using a scheduled robocopy task:<br><br>
+        <code>robocopy \\server\share C:\WeldAI\docs /MIR /Z</code><br><br>
+        This mirrors your network share to a local folder nightly. Weld AI then indexes from the local copy. We can set this up during installation.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 4 — AUTOMATED SYSTEM CHECK -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <h2 class="section-title"><span class="num">4</span> Run the Automated System Check</h2>
+
+    <p>The script checks your system automatically and saves a zip file to your Desktop. Takes about 30 seconds. Run this on the machine where Weld AI will be installed.</p>
+
+    <a href="https://www.weldai.uk/weldai-diagnostics.ps1" class="download-btn">⬇ Download weldai-diagnostics.ps1</a>
+
+    <p style="font-size:13px; color: var(--grey-400); margin-top: 0;">PowerShell script &nbsp;·&nbsp; No installation &nbsp;·&nbsp; No changes made to your system</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <strong>Save to your Desktop</strong>
+          <p>Download <code>weldai-diagnostics.ps1</code> and save it to your Desktop.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <strong>Right-click → Run with PowerShell</strong>
+          <p>Right-click the file and select <strong>Run with PowerShell</strong>. If asked about execution policy, type <code>R</code> and press Enter. No administrator rights needed.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <strong>Email the zip file</strong>
+          <p>A file called <code>weldai-diagnostics.zip</code> will appear on your Desktop. Email it to <a href="mailto:hello@weldai.uk">hello@weldai.uk</a> with subject: <strong>Pre-Install — [your company name]</strong>.</p>
         </div>
       </div>
     </div>
-    <div class="step">
-      <div class="step-num">3</div>
-      <div class="step-body">
-        <h3>Email the zip file</h3>
-        <p>A file called <code>weldai-diagnostics.zip</code> will appear on your Desktop. Email it to <a href="mailto:hello@weldai.uk" style="color:var(--blue)">hello@weldai.uk</a> with subject: <strong>Pre-Install — [your company name]</strong>.</p>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 5 — IT CHECKLIST -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <h2 class="section-title"><span class="num">5</span> IT Team Checklist</h2>
+
+    <p>The automated script cannot check these items without Administrator rights. Please ask your IT contact to confirm the following and include their answers in your email.</p>
+
+    <h4>🖥️ All install types</h4>
+    <ul class="checklist">
+      <li>
+        <span class="check-icon">🔌</span>
+        <div>
+          <strong>Static IP address <span class="badge badge-recommended">Recommended</span></strong>
+          The server should have a fixed IP address so staff can always reach it. IT can assign a static IP or create a DHCP reservation. The current IP will appear in the diagnostics script output — please confirm whether it is static or DHCP.
+        </div>
+      </li>
+      <li>
+        <span class="check-icon">🔥</span>
+        <div>
+          <strong>Firewall rules — ports 80 and 443 <span class="badge badge-recommended">Required for multi-user</span></strong>
+          Required if multiple staff will access Weld AI from their own PCs. IT needs to open inbound TCP ports 80 and 443 on the server's Windows Firewall. Single-user installs on a local PC can skip this.
+        </div>
+      </li>
+      <li>
+        <span class="check-icon">🌐</span>
+        <div>
+          <strong>Outbound internet access <span class="badge badge-required">Required</span></strong>
+          The server needs outbound HTTPS (port 443) access to <code>api.anthropic.com</code>. Required during installation and for every AI query. If a corporate proxy is in place, IT will need to whitelist this domain.
+        </div>
+      </li>
+    </ul>
+
+    <h4>🪟 Windows PC / Windows Server (Direct) — additional checks</h4>
+    <ul class="checklist">
+      <li>
+        <span class="check-icon">🐧</span>
+        <div>
+          <strong>WSL2 enabled <span class="badge badge-required">Required</span></strong>
+          Windows Subsystem for Linux 2 must be enabled. To check: open PowerShell as Administrator and run <code>wsl --status</code>. Should show <code>Default Version: 2</code>.<br><br>
+          <strong>Note for Windows Server:</strong> WSL2 on Windows Server requires additional manual setup steps beyond a standard PC. This includes enabling the WSL and VirtualMachinePlatform Windows features via DISM, installing the WSL2 kernel update manually, and installing a Linux distribution (Ubuntu). We can guide IT through this — or consider the Ubuntu VM install type which avoids this complexity entirely.
+        </div>
+      </li>
+      <li>
+        <span class="check-icon">⚙️</span>
+        <div>
+          <strong>Virtual Machine Platform enabled <span class="badge badge-required">Required</span></strong>
+          Required for Docker. To check: open PowerShell as Administrator and run:<br>
+          <code>Get-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform</code><br>
+          Should show <code>State: Enabled</code>.
+        </div>
+      </li>
+      <li>
+        <span class="check-icon">🐳</span>
+        <div>
+          <strong>Docker service startup type <span class="badge badge-recommended">Recommended</span></strong>
+          Docker must start automatically after a reboot. To check and fix: open PowerShell as Administrator and run:<br>
+          <code>Set-Service -Name "com.docker.service" -StartupType Automatic</code>
+        </div>
+      </li>
+      <li>
+        <span class="check-icon">🖥️</span>
+        <div>
+          <strong>Windows Server — Desktop Experience edition <span class="badge badge-required">Required</span></strong>
+          Windows Server Core (no GUI) is not currently supported. The server must be running Windows Server 2022 <strong>with Desktop Experience</strong> (full graphical interface).
+        </div>
+      </li>
+    </ul>
+
+    <h4>🖥️🐧 Windows Server + Ubuntu VM — additional checks</h4>
+    <ul class="checklist">
+      <li>
+        <span class="check-icon">📦</span>
+        <div>
+          <strong>Hyper-V enabled on Windows Server <span class="badge badge-required">Required</span></strong>
+          Hyper-V must be enabled as a server role. To check: open Server Manager and look for Hyper-V in the roles list, or run <code>Get-WindowsFeature Hyper-V</code> in PowerShell. IT will need to create a Ubuntu 22.04 VM (4GB RAM, 40GB disk) before the installation call. We will provide a one-page spec.
+        </div>
+      </li>
+      <li>
+        <span class="check-icon">💾</span>
+        <div>
+          <strong>Available RAM and disk <span class="badge badge-required">Required</span></strong>
+          The Ubuntu VM needs 4GB RAM and 40GB disk. Please confirm the host server has sufficient spare resources — check via Task Manager or <code>Get-CimInstance Win32_OperatingSystem</code>.
+        </div>
+      </li>
+      <li>
+        <span class="check-icon">🔗</span>
+        <div>
+          <strong>Network share access from Ubuntu VM <span class="badge badge-optional">If using network shares</span></strong>
+          If documents are on a network file share, IT will need to confirm the share path, credentials, and that the Ubuntu VM can reach the file server on the network. We will configure the Samba mount during installation.
+        </div>
+      </li>
+    </ul>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 6 — INSTALLATION INFORMATION FORM -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <h2 class="section-title"><span class="num">6</span> Installation Information</h2>
+
+    <p>Please provide the following information in your email. This allows us to prepare your configuration in advance so the installation call is as quick as possible.</p>
+
+    <div class="form-section">
+      <h3>📋 Please include in your email to <a href="mailto:hello@weldai.uk">hello@weldai.uk</a></h3>
+
+      <div class="form-field">
+        <label>Install type</label>
+        <select>
+          <option>Windows PC or Workstation</option>
+          <option>Windows Server (Direct)</option>
+          <option>Windows Server + Ubuntu VM (via Hyper-V)</option>
+          <option>Linux Server</option>
+          <option>Not sure — please advise</option>
+        </select>
+        <p class="hint">Select the option that best matches your setup from Section 1 above.</p>
       </div>
+
+      <div class="form-field">
+        <label>Anthropic API key <span style="color:var(--red)">*</span></label>
+        <p style="font-size:13px; color:var(--grey-700); margin:6px 0 10px;">Weld AI uses the Anthropic Claude API to answer questions from your documents. You will need an API key before installation.</p>
+        <p style="font-size:13px; font-weight:600; margin-bottom:6px;">How to get your API key:</p>
+        <ol style="font-size:13px; color:var(--grey-700); padding-left:18px; margin-bottom:10px;">
+          <li>Go to <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> and create an account (or sign in).</li>
+          <li>Go to <strong>API Keys</strong> and create a new key.</li>
+          <li>Copy the key — you will only see it once. Keep it safe.</li>
+          <li>Add a payment method under <strong>Billing</strong> — usage costs are typically a fraction of a penny per query.</li>
+        </ol>
+        <div class="callout info" style="margin:0;">
+          <span class="callout-icon">🛡️</span>
+          <div class="callout-body" style="font-size:13px;">
+            <strong>Data protection note</strong>
+            When you create an Anthropic API account and accept their Commercial Terms, Anthropic's Data Processing Agreement (DPA) is automatically included. This DPA covers UK data transfers via the UK International Data Transfer Agreement (IDTA). Anthropic does not use API data to train its models. If your firm has a Data Protection Officer or compliance requirements, you may wish to share <a href="https://www.anthropic.com/legal" target="_blank">Anthropic's DPA</a> with them before installation.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="f-company">Company name (for branding)</label>
+        <input type="text" id="f-company" name="company" placeholder="e.g. Smith &amp; Partners Accountants" />
+        <p class="hint">The name shown in the app header.</p>
+      </div>
+
+      <div class="form-field">
+        <label for="f-staff">Number of staff who will use the system</label>
+        <input type="text" id="f-staff" name="staff" placeholder="e.g. 5, or around 20" />
+        <p class="hint">Approximate number — helps us advise on hardware and access configuration.</p>
+      </div>
+
+      <div class="form-field">
+        <label for="f-docpath">Documents folder path</label>
+        <input type="text" id="f-docpath" name="docpath" placeholder="e.g. C:\CompanyDocs or \\fileserver\policies" />
+        <p class="hint">The full path to the folder containing your company documents. See Section 3 for supported locations.</p>
+      </div>
+
+      <div class="form-field">
+        <label for="f-numdocs">Approximate number of documents</label>
+        <input type="text" id="f-numdocs" name="numdocs" placeholder="e.g. around 50 PDFs, or 500+ files across several folders" />
+      </div>
+
+      <div class="form-field">
+        <label>4 suggested questions (optional)</label>
+        <textarea name="suggested" placeholder="e.g.&#10;What is our complaints procedure?&#10;What is the onboarding process for new clients?&#10;What are our standard fees?&#10;What is our data retention policy?"></textarea>
+        <p class="hint">The app shows up to 4 suggested question buttons on the home screen. Leave blank and we will suggest some based on your documents.</p>
+      </div>
+
+      <div class="form-field">
+        <label>Any known IT constraints</label>
+        <textarea name="constraints" placeholder="e.g. corporate proxy, firewall restrictions, managed device policies, no internet access on the server, domain-joined machines"></textarea>
+      </div>
+
+      <div class="callout success" style="margin-top:8px;">
+        <span class="callout-icon">✉️</span>
+        <div class="callout-body">
+          <strong>Email your answers + diagnostics zip to <a href="mailto:hello@weldai.uk">hello@weldai.uk</a></strong>
+          Subject: <strong>Pre-Install — [your company name]</strong>. Not sure about any of these? Don't worry — email what you can and we will work through the rest on a quick pre-call.
+        </div>
+      </div>
+
     </div>
-  </div>
-
-  <!-- PART 2: ADMIN ITEMS -->
-  <h2>Part 2 — Items Requiring IT / Administrator Confirmation</h2>
-  <p>The script cannot check these automatically without Administrator rights. Please ask your IT contact to confirm the following, and include their answers in your email.</p>
-
-  <div class="admin-section">
-    <h3>🔒 Please ask your IT team to confirm:</h3>
-
-    <div class="admin-item">
-      <div class="admin-label">WSL2 enabled</div>
-      <div class="admin-desc">Windows Subsystem for Linux 2 must be enabled. To check: open PowerShell as Administrator and run <code>wsl --status</code>. Should show "Default Version: 2".</div>
-    </div>
-
-    <div class="admin-item">
-      <div class="admin-label">Virtual Machine Platform</div>
-      <div class="admin-desc">Required for Docker. To check: open PowerShell as Administrator and run <code>Get-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform</code>. Should show "State: Enabled".</div>
-    </div>
-
-    <div class="admin-item">
-      <div class="admin-label">Docker service startup type</div>
-      <div class="admin-desc">Docker must start automatically after a reboot. To check and fix: open PowerShell as Administrator and run <code>Set-Service -Name "com.docker.service" -StartupType Automatic</code>.</div>
-    </div>
-
-    <div class="admin-item">
-      <div class="admin-label">Firewall rules (ports 80 and 443)</div>
-      <div class="admin-desc">Required only if multiple staff will access Weld AI from their own PCs. IT needs to open inbound TCP ports 80 and 443 on the server's Windows Firewall. Single-user installs can skip this.</div>
-    </div>
-
-    <div class="admin-item">
-      <div class="admin-label">Static IP address</div>
-      <div class="admin-desc">The server should have a fixed IP address so staff can always find it. IT can assign a static IP or create a DHCP reservation. The current IP will appear in the script output — please confirm whether it is static or DHCP.</div>
-    </div>
-  </div>
-
-  <!-- PART 3: INSTALLATION INFORMATION -->
-  <h2>Part 3 — Installation Information</h2>
-  <p>Please provide the following information in your email. This allows us to prepare your installation in advance.</p>
-
-  <div class="info-section">
-
-    <div class="info-item">
-      <label>Anthropic API key</label>
-      <p>Weld AI uses the Anthropic Claude API to answer questions from your documents. You will need an API key before installation.</p>
-      <p style="margin-top:6px;padding:10px 14px;background:#EAF5F0;border-left:3px solid #059669;border-radius:0 8px 8px 0;font-size:0.85rem;color:#065F46">
-        <strong>How to get your API key:</strong><br>
-        1. Go to <a href="https://console.anthropic.com" target="_blank" style="color:#065F46">console.anthropic.com</a> and create an account (or sign in).<br>
-        2. Go to <strong>API Keys</strong> and create a new key.<br>
-        3. Copy the key — you will only see it once. Keep it safe.<br>
-        4. Add a payment method under <strong>Billing</strong> — usage costs are typically a fraction of a penny per query.
-      </p>
-      <p style="margin-top:6px;padding:10px 14px;background:#EBF3FB;border-left:3px solid #185FA5;border-radius:0 8px 8px 0;font-size:0.85rem;color:#0F3F72">
-        <strong>Data protection note:</strong> When you create an Anthropic API account and accept their Commercial Terms, Anthropic's Data Processing Agreement (DPA) is automatically included. This DPA covers UK data transfers via the UK International Data Transfer Agreement (IDTA). Anthropic does not use API data to train its models. If your firm has a Data Protection Officer or compliance requirements, you may wish to share <a href="https://www.anthropic.com/legal" target="_blank" style="color:#0F3F72">Anthropic's DPA</a> with them before installation.
-      </p>
-    </div>
-
-    <div class="info-item">
-      <label>Company name (for branding)</label>
-      <p>The name shown in the app header — e.g. "Smith &amp; Partners Accountants"</p>
-    </div>
-
-    <div class="info-item">
-      <label>Number of staff who will use the system</label>
-      <p>Approximate number — helps us advise on hardware and access configuration</p>
-    </div>
-
-    <div class="info-item">
-      <label>Documents folder path</label>
-      <p>The full path to the folder containing your company documents — e.g. <code>C:\CompanyDocs</code> or <code>D:\Policies</code>.</p>
-      <p style="margin-top:6px;padding:10px 14px;background:#EAF5F0;border-left:3px solid #059669;border-radius:0 8px 8px 0;font-size:0.85rem;color:#065F46">
-        <strong>Supported document locations:</strong>
-        Local drives (C:, D:, E: etc.) ✅ &nbsp;·&nbsp;
-        USB/external drives ✅ (must stay connected) &nbsp;·&nbsp;
-        OneDrive synced folders ✅ (files must be local)
-      </p>
-      <p style="margin-top:6px;padding:10px 14px;background:#FFF7ED;border-left:3px solid #D97706;border-radius:0 8px 8px 0;font-size:0.85rem;color:#92400E">
-        <strong>Not supported:</strong> Network mapped drives (e.g. <code>U:\</code> via net use) and UNC paths
-        (e.g. <code>\\server\documents</code>) cannot be mounted into Docker on Windows.
-        If your documents are only on a file server, either copy them to a local folder
-        or we can install Weld AI directly on the file server.
-      </p>
-      <p style="margin-top:6px;padding:10px 14px;background:#FFF7ED;border-left:3px solid #D97706;border-radius:0 8px 8px 0;font-size:0.85rem;color:#92400E">
-        <strong>Important — if using a non-C: drive:</strong> The drive must be connected
-        before Docker starts. If it disconnects while the app is running, a Docker Desktop
-        restart will be required to recover.
-      </p>
-      <p style="margin-top:6px;padding:10px 14px;background:#FFF7ED;border-left:3px solid #D97706;border-radius:0 8px 8px 0;font-size:0.85rem;color:#92400E">
-        <strong>Important — OneDrive / SharePoint users:</strong> If your documents are in a OneDrive or SharePoint synced folder,
-        you must ensure the folder is set to <strong>"Always keep on this device"</strong> before indexing.
-        Cloud-only files (shown with a ☁️ icon in File Explorer) are not stored locally and cannot be indexed.<br><br>
-        To fix: right-click your documents folder in File Explorer → <strong>Always keep on this device</strong>.
-        All files will show a ✅ green tick when ready.
-      </p>
-    </div>
-
-    <div class="info-item">
-      <label>Approximate number of documents</label>
-      <p>Rough estimate — e.g. "around 50 PDFs" or "500+ files across several folders"</p>
-    </div>
-
-    <div class="info-item">
-      <label>4 suggested questions (optional)</label>
-      <p>The app shows up to 4 suggested question buttons on the home screen. Examples: "What is our complaints procedure?" · "What is the onboarding process?" · "What are our standard fees?"</p>
-    </div>
-
-    <div class="info-item">
-      <label>Any known IT constraints</label>
-      <p>E.g. corporate proxy, firewall restrictions, managed device policies, no internet access on the server</p>
-    </div>
-
-  </div>
-
-  <div class="warn-box">
-    <strong>Not sure about any of these?</strong> Don't worry — email what you can and we will work through the rest on a quick pre-call. Contact us at <a href="mailto:hello@weldai.uk" style="color:#92400E">hello@weldai.uk</a> or visit <a href="https://weldai.uk" style="color:#92400E">weldai.uk</a>.
   </div>
 
 </div>
-<footer>
-  <p>© 2026 Weld AI · <a href="https://weldai.uk">weldai.uk</a> · York, England · <a href="/privacy.html">Privacy Policy</a> · <a href="/terms.html">Terms of Service</a></p>
-</footer>
+
+<div class="footer">
+  © 2026 Weld AI &nbsp;·&nbsp;
+  <a href="https://weldai.uk">weldai.uk</a> &nbsp;·&nbsp;
+  York, England &nbsp;·&nbsp;
+  <a href="https://www.weldai.uk/privacy.html">Privacy Policy</a> &nbsp;·&nbsp;
+  <a href="https://www.weldai.uk/terms.html">Terms of Service</a>
+</div>
+
 </body>
 </html>
