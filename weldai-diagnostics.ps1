@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    Weld AI Pre-Installation Diagnostics v1.3
+    Weld AI Pre-Installation Diagnostics v1.4
 .DESCRIPTION
     Checks the server environment against Weld AI installation requirements.
     Produces a plain-text report zipped to the Desktop.
@@ -54,8 +54,18 @@ Info "Version : $version  (Build $build)"
 
 if     ($build -ge 22000) { Ok "Windows 11 detected - fully supported" }
 elseif ($build -ge 19044) { Ok "Windows 10 $version (build $build) - meets 21H2 minimum" }
-elseif ($build -ge 17763) { Ok "Windows Server detected (build $build) - supported" }
-else                       { Fail "Windows 10 build $build is below the 21H2 minimum (19044). OS update required." }
+elseif ($build -ge 17763) {
+    # Windows Server — check for Desktop Experience vs Core
+    $installType = (Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -ErrorAction SilentlyContinue).InstallationType
+    Info "Windows Server installation type: $installType"
+    if ($installType -eq 'Server Core') {
+        Fail "Windows Server Core detected - Weld AI requires Desktop Experience edition. Reinstall Windows Server with Desktop Experience."
+    } elseif ($installType -eq 'Server') {
+        Ok "Windows Server with Desktop Experience detected (build $build) - supported"
+    } else {
+        Ok "Windows Server detected (build $build) - supported"
+    }
+} else { Fail "Windows 10 build $build is below the 21H2 minimum (19044). OS update required." }
 
 # -- 2. WSL2 ------------------------------------------------------------------
 Head "2. WSL2"
@@ -85,11 +95,56 @@ if ($wslAdapter) {
 
 $wslStatus = & wsl --status 2>&1 | Out-String
 if     ($wslStatus -match 'Default Version\s*:\s*2') { Ok "WSL default version is 2" }
-elseif ($wslStatus -match 'Default Version\s*:\s*1') { Warn "WSL default version is 1. Run: wsl --set-default-version 2" }
-else   { Info "WSL version could not be determined from wsl --status" }
+elseif ($wslStatus -match 'Default Version\s*:\s*1') {
+    Warn "WSL default version is 1. Run: wsl --set-default-version 2"
+    if ($build -ge 17763 -and $build -lt 22000) {
+        Warn "Windows Server detected: WSL2 setup requires Windows Update to be fully applied first."
+        Warn "Run Windows Update then: wsl.exe --update  then: wsl --set-default-version 2"
+        Info "See: weldai.uk/it-setup.html#windows-direct for full step-by-step instructions"
+    }
+} elseif ($wslStatus -match 'Usage:') {
+    Fail "wsl.exe is too old to report status - Windows Update must be run to get a current wsl.exe"
+    Info "See: weldai.uk/it-setup.html#windows-direct for step-by-step WSL2 setup instructions"
+} else { Info "WSL version could not be determined from wsl --status" }
 
-# -- 3. CPU AND VIRTUALISATION ------------------------------------------------
-Head "3. CPU and Virtualisation"
+# -- 3. HYPER-V (Windows Server only) ----------------------------------------
+Head "3. Hyper-V"
+
+$isServer = ($build -ge 17763 -and $build -lt 22000)
+if ($isServer) {
+    if ($isAdmin) {
+        $hvFeature = Get-WindowsFeature -Name Hyper-V -ErrorAction SilentlyContinue
+        if ($hvFeature) {
+            if ($hvFeature.InstallState -eq 'Installed') {
+                Ok "Hyper-V role is installed - Ubuntu VM install type is available"
+            } elseif ($hvFeature.InstallState -eq 'Available') {
+                Info "Hyper-V role is available but not installed"
+                Info "For the recommended Ubuntu VM install type, run: Install-WindowsFeature -Name Hyper-V -IncludeManagementTools -Restart"
+                Info "See: weldai.uk/it-setup.html#ubuntu-vm"
+            } else {
+                Warn "Hyper-V status: $($hvFeature.InstallState)"
+            }
+        } else {
+            Info "Could not determine Hyper-V status - check Server Manager"
+        }
+
+        # Check available RAM for VM headroom
+        $freeRAMGB = [math]::Round(($cs.TotalPhysicalMemory / 1GB) - (
+            (Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory / 1MB), 1)
+        $totalGB = [math]::Round($cs.TotalPhysicalMemory / 1GB, 1)
+        Info "Server RAM: $totalGB GB total"
+        if ($totalGB -ge 16) { Ok "$totalGB GB RAM - sufficient for Ubuntu VM (needs 4 GB)" }
+        elseif ($totalGB -ge 8) { Warn "$totalGB GB RAM - tight for Ubuntu VM. 16 GB recommended." }
+        else { Fail "$totalGB GB RAM - insufficient for Ubuntu VM install type. Minimum 8 GB, recommended 16 GB." }
+    } else {
+        Skip "Hyper-V role status (requires Administrator)"
+    }
+} else {
+    Info "Not a Windows Server build - Hyper-V check skipped"
+}
+
+# -- 4. CPU AND VIRTUALISATION ------------------------------------------------
+Head "4. CPU and Virtualisation"
 
 $cpu = Get-CimInstance Win32_Processor | Select-Object -First 1
 $cs  = Get-CimInstance Win32_ComputerSystem
@@ -126,7 +181,7 @@ if ($hvPresent) {
 }
 
 # -- 4. RAM -------------------------------------------------------------------
-Head "4. RAM"
+Head "5. RAM"
 
 $ramGB = [math]::Round($cs.TotalPhysicalMemory / 1GB, 1)
 Info "Total installed RAM: $ramGB GB"
@@ -137,7 +192,7 @@ elseif ($ramGB -ge 4)  { Warn "$ramGB GB - below minimum. Upgrade to 8 GB+ befor
 else                   { Fail "$ramGB GB - insufficient. 8 GB minimum required." }
 
 # -- 5. DISK SPACE ------------------------------------------------------------
-Head "5. Disk Space"
+Head "6. Disk Space"
 
 $c      = Get-PSDrive C
 $freeGB = [math]::Round($c.Free / 1GB, 1)
@@ -149,7 +204,7 @@ elseif ($freeGB -ge 10) { Ok "$freeGB GB free - meets 10 GB minimum" }
 else                    { Fail "$freeGB GB free - below 10 GB minimum. Free up space before installation." }
 
 # -- 6. ALL DRIVES ------------------------------------------------------------
-Head "6. All Available Drives"
+Head "7. All Available Drives"
 
 $drives = Get-PSDrive -PSProvider FileSystem -ErrorAction SilentlyContinue
 foreach ($drive in $drives) {
@@ -169,13 +224,16 @@ $netDrives = Get-CimInstance Win32_MappedLogicalDisk -ErrorAction SilentlyContin
 if ($netDrives) {
     Info "Mapped network drives:"
     $netDrives | ForEach-Object { Info "  $($_.DeviceID)  ->  $($_.ProviderName)" }
+    Warn "Mapped network drives detected - Docker on Windows CANNOT mount network drives as document folders."
+    Warn "Options: (1) copy documents to a local folder, (2) use Windows Server + Ubuntu VM install type"
+    Info "See: weldai.uk/systemcheck.html for supported document locations"
 } else {
     Info "No mapped network drives detected"
 }
 Info "NOTE: Please identify which drive/folder contains your company documents before the installation call."
 
 # -- 7. WELDAI INSTALL FOLDER -------------------------------------------------
-Head "7. Weld AI Installation Folder (C:\WeldAI)"
+Head "8. Weld AI Installation Folder (C:\WeldAI)"
 
 if (Test-Path 'C:\WeldAI') {
     $existing = Get-ChildItem 'C:\WeldAI' -ErrorAction SilentlyContinue
@@ -185,7 +243,7 @@ if (Test-Path 'C:\WeldAI') {
 }
 
 # -- 8. DOCKER DESKTOP --------------------------------------------------------
-Head "8. Docker Desktop"
+Head "9. Docker Desktop"
 
 $dockerVer = & docker --version 2>&1
 if ($dockerVer -match 'Docker version ([\d.]+)') {
@@ -198,7 +256,7 @@ if ($dockerVer -match 'Docker version ([\d.]+)') {
 }
 
 # -- 9. DOCKER WINDOWS SERVICE ------------------------------------------------
-Head "9. Docker Windows Service"
+Head "10. Docker Windows Service"
 
 if ($isAdmin) {
     $svc = Get-Service 'com.docker.service' -ErrorAction SilentlyContinue
@@ -247,7 +305,7 @@ if ($isAdmin) {
 }
 
 # -- 10. DOCKER ENGINE AND PULL TEST ------------------------------------------
-Head "10. Docker Engine and Image Pull Test"
+Head "11. Docker Engine and Image Pull Test"
 
 $dockerInfo = & docker info 2>&1 | Out-String
 if ($dockerInfo -match 'Server Version') {
@@ -267,55 +325,42 @@ if ($dockerInfo -match 'Server Version') {
 }
 
 # -- 11. PORT CONFLICTS -------------------------------------------------------
-Head "11. Port Conflicts (80, 443, 8501)"
+Head "12. Port Conflicts (80, 443)"
 
-# Ports 80/443 in use by Weld AI itself is fine - only flag if something else
-# is using 8501, or if 80/443 are in use and Weld AI is NOT already running
+# Ports 80/443 used by Weld AI - only flag if something else is using them
 $weldaiRunning = $dockerInfo -match 'Server Version'
 
-foreach ($port in @(80, 443, 8501)) {
+foreach ($port in @(80, 443)) {
     $inUse = Get-NetTCPConnection -LocalPort $port -State Listen -ErrorAction SilentlyContinue
-    if ($port -eq 8501) {
-        if ($inUse) {
-            if ($weldaiRunning) {
-                Info "Port 8501 in use - Weld AI appears to be already running on this machine"
-            } else {
-                Warn "Port 8501 in use by another process - must be free for Weld AI installation"
-            }
+    if ($inUse) {
+        if ($weldaiRunning) {
+            Info "Port $port in use - likely Weld AI or its reverse proxy (nginx)"
         } else {
-            Ok "Port 8501 is free"
+            Warn "Port $port in use - another service (e.g. IIS) may conflict with Weld AI"
         }
     } else {
-        if ($inUse) {
-            if ($weldaiRunning) {
-                Info "Port $port in use - likely Weld AI or its reverse proxy (nginx)"
-            } else {
-                Warn "Port $port in use - another service (e.g. IIS) may conflict with Weld AI"
-            }
-        } else {
-            Ok "Port $port is free"
-        }
+        Ok "Port $port is free"
     }
 }
 
 # -- 12. FIREWALL RULES -------------------------------------------------------
-Head "12. Windows Firewall - Inbound Rules"
+Head "13. Windows Firewall - Inbound Rules"
 
 if ($isAdmin) {
-    foreach ($port in @(443, 8501)) {
+    foreach ($port in @(80, 443)) {
         $rules = Get-NetFirewallRule -Direction Inbound -Enabled True -ErrorAction SilentlyContinue |
                  Where-Object { $_ | Get-NetFirewallPortFilter -ErrorAction SilentlyContinue |
                                 Where-Object { $_.LocalPort -eq $port -and $_.Protocol -eq 'TCP' } }
         if ($rules) { Ok  "Inbound TCP $port - rule found: '$($rules[0].DisplayName)'" }
-        else        { Warn "No inbound TCP $port firewall rule found - will need adding before staff can access Weld AI" }
+        else        { Warn "No inbound TCP $port firewall rule found - may need adding if staff access Weld AI from other PCs" }
     }
 } else {
+    Skip "Firewall rule check for port 80"
     Skip "Firewall rule check for port 443"
-    Skip "Firewall rule check for port 8501"
 }
 
 # -- 13. NETWORK CONFIGURATION ------------------------------------------------
-Head "13. Network Configuration"
+Head "14. Network Configuration"
 
 # Filter out virtual/internal adapters - only show physical and VPN adapters
 $skipPatterns = @('Loopback','vEthernet','Default Switch','WSL','Bluetooth','Teredo','ISATAP','6to4')
@@ -335,12 +380,14 @@ Get-NetIPAddress -AddressFamily IPv4 -ErrorAction SilentlyContinue |
     }
 
 # -- 14. OUTBOUND CONNECTIVITY ------------------------------------------------
-Head "14. Outbound Internet Connectivity"
+Head "15. Outbound Internet Connectivity"
 
 $targets = @(
-    @{ Host='api.anthropic.com';    Port=443; Label='Anthropic Claude API' },
-    @{ Host='hub.docker.com';       Port=443; Label='Docker Hub' },
-    @{ Host='registry-1.docker.io'; Port=443; Label='Docker Registry' }
+    @{ Host='api.anthropic.com';                          Port=443; Label='Anthropic Claude API' },
+    @{ Host='hub.docker.com';                             Port=443; Label='Docker Hub' },
+    @{ Host='registry-1.docker.io';                       Port=443; Label='Docker Registry' },
+    @{ Host='wslstorestorage.blob.core.windows.net';      Port=443; Label='WSL Kernel Update (Windows Server)' },
+    @{ Host='windowsupdate.microsoft.com';                Port=443; Label='Windows Update' }
 )
 
 foreach ($t in $targets) {
@@ -369,6 +416,42 @@ if     ($failCount -eq 0 -and $warnCount -eq 0 -and $skipCount -eq 0) { Add "All
 elseif ($failCount -eq 0 -and $skipCount -gt 0)                        { Add "No failures found. $skipCount check(s) skipped - re-run as Administrator for a complete report." }
 elseif ($failCount -eq 0)                                              { Add "No failures. Please review warnings above before the installation call." }
 else                                                                   { Add "ACTION REQUIRED: $failCount item(s) must be resolved. See [FAIL] items above." }
+
+# Install type recommendation
+Add ""
+Add "--- RECOMMENDED INSTALL TYPE ---"
+Add ""
+$isServer = ($build -ge 17763 -and $build -lt 22000)
+$isWin11  = ($build -ge 22000)
+$isWin10  = ($build -ge 19044 -and $build -lt 22000)
+
+if ($isServer) {
+    $hvInstalled = $false
+    if ($isAdmin) {
+        $hvF = Get-WindowsFeature -Name Hyper-V -ErrorAction SilentlyContinue
+        $hvInstalled = ($hvF -and $hvF.InstallState -eq 'Installed')
+    }
+    if ($hvInstalled) {
+        Add "  Windows Server with Hyper-V detected."
+        Add "  RECOMMENDED: Windows Server + Ubuntu VM install type."
+        Add "  Your IT team creates a Ubuntu 22.04 VM via Hyper-V, then we install Weld AI inside it."
+        Add "  This supports network shares and avoids WSL2 complexity."
+        Add "  See: weldai.uk/it-setup.html#ubuntu-vm"
+    } else {
+        Add "  Windows Server without Hyper-V (or could not confirm)."
+        Add "  Options:"
+        Add "    (1) Enable Hyper-V and use Ubuntu VM install type (recommended)"
+        Add "    (2) Windows Server Direct install (requires manual WSL2 setup)"
+        Add "  See: weldai.uk/it-setup.html"
+    }
+} elseif ($isWin10 -or $isWin11) {
+    Add "  Windows 10/11 PC detected."
+    Add "  RECOMMENDED: Standard Windows PC install type."
+    Add "  We handle Docker and WSL2 setup during the installation call."
+    Add "  See: weldai.uk/systemcheck.html"
+} else {
+    Add "  Could not determine recommended install type. Contact hello@weldai.uk for advice."
+}
 
 Sep
 Add "Weld AI - weldai.uk - hello@weldai.uk"
