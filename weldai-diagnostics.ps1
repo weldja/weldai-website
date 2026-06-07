@@ -52,20 +52,24 @@ $version = (Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion
 Info "OS      : $($os.Caption)"
 Info "Version : $version  (Build $build)"
 
-if     ($build -ge 22000) { Ok "Windows 11 detected - fully supported" }
-elseif ($build -ge 19044) { Ok "Windows 10 $version (build $build) - meets 21H2 minimum" }
-elseif ($build -ge 17763) {
-    # Windows Server — check for Desktop Experience vs Core
-    $installType = (Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -ErrorAction SilentlyContinue).InstallationType
+# Check InstallationType first — Server builds overlap with Win10 build numbers
+$installType = (Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -ErrorAction SilentlyContinue).InstallationType
+
+if ($installType -in @('Server', 'Server Core')) {
+    # Windows Server
     Info "Windows Server installation type: $installType"
     if ($installType -eq 'Server Core') {
         Fail "Windows Server Core detected - Weld AI requires Desktop Experience edition. Reinstall Windows Server with Desktop Experience."
-    } elseif ($installType -eq 'Server') {
-        Ok "Windows Server with Desktop Experience detected (build $build) - supported"
     } else {
-        Ok "Windows Server detected (build $build) - supported"
+        Ok "Windows Server 2022 with Desktop Experience detected (build $build) - supported"
     }
-} else { Fail "Windows 10 build $build is below the 21H2 minimum (19044). OS update required." }
+} elseif ($build -ge 22000) {
+    Ok "Windows 11 detected - fully supported"
+} elseif ($build -ge 19044) {
+    Ok "Windows 10 $version (build $build) - meets 21H2 minimum"
+} else {
+    Fail "Windows 10 build $build is below the 21H2 minimum (19044). OS update required."
+}
 
 # -- 2. WSL2 ------------------------------------------------------------------
 Head "2. WSL2"
@@ -105,12 +109,24 @@ elseif ($wslStatus -match 'Default Version\s*:\s*1') {
 } elseif ($wslStatus -match 'Usage:') {
     Fail "wsl.exe is too old to report status - Windows Update must be run to get a current wsl.exe"
     Info "See: weldai.uk/it-setup.html#windows-direct for step-by-step WSL2 setup instructions"
-} else { Info "WSL version could not be determined from wsl --status" }
+} else {
+    # wsl.exe exists but output is unrecognised — likely old inbox version printing usage text
+    $wslExe = & where.exe wsl 2>$null
+    if ($wslExe) {
+        Warn "wsl.exe found but too old to report status - Windows Update has not been fully applied"
+        Warn "Run Windows Update to completion, then: wsl.exe --update"
+        Info "See: weldai.uk/it-setup.html#windows-direct for step-by-step instructions"
+    } else {
+        Warn "wsl.exe not found in PATH - WSL may not be installed or features not yet enabled"
+        Info "Run: dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart"
+        Info "Then restart and run: wsl.exe --update"
+    }
+}
 
 # -- 3. HYPER-V (Windows Server only) ----------------------------------------
 Head "3. Hyper-V"
 
-$isServer = ($build -ge 17763 -and $build -lt 22000)
+$isServer = ($installType -in @('Server', 'Server Core'))
 if ($isServer) {
     if ($isAdmin) {
         $hvFeature = Get-WindowsFeature -Name Hyper-V -ErrorAction SilentlyContinue
@@ -420,9 +436,9 @@ else                                                                   { Add "AC
 Add ""
 Add "--- RECOMMENDED INSTALL TYPE ---"
 Add ""
-$isServer = ($build -ge 17763 -and $build -lt 22000)
-$isWin11  = ($build -ge 22000)
-$isWin10  = ($build -ge 19044 -and $build -lt 22000)
+$isServer = ($installType -in @('Server', 'Server Core'))
+$isWin11  = (-not $isServer -and $build -ge 22000)
+$isWin10  = (-not $isServer -and $build -ge 19044 -and $build -lt 22000)
 
 if ($isServer) {
     $hvInstalled = $false
