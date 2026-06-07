@@ -630,7 +630,8 @@
         <div>
           <strong>WSL2 enabled <span class="badge badge-required">Required</span></strong>
           Windows Subsystem for Linux 2 must be enabled. To check: open PowerShell as Administrator and run <code>wsl --status</code>. Should show <code>Default Version: 2</code>.<br><br>
-          <strong>Note for Windows Server:</strong> WSL2 on Windows Server requires additional manual setup steps beyond a standard PC. This includes enabling the WSL and VirtualMachinePlatform Windows features via DISM, installing the WSL2 kernel update manually, and installing a Linux distribution (Ubuntu). We can guide IT through this — or consider the Ubuntu VM install type which avoids this complexity entirely.
+          <strong>Note for Windows Server:</strong> WSL2 on Windows Server requires additional manual setup steps beyond a standard PC — including running Windows Update to completion, enabling WSL features via DISM, and installing a Linux distribution. We can guide IT through this, or consider the Ubuntu VM install type which avoids this entirely.<br><br>
+          <a href="/it-setup.html#windows-direct" style="color:#185FA5;font-weight:600;">→ Step-by-step WSL2 setup instructions in the IT Setup Guide</a>
         </div>
       </li>
       <li>
@@ -665,7 +666,8 @@
         <span class="check-icon">📦</span>
         <div>
           <strong>Hyper-V enabled on Windows Server <span class="badge badge-required">Required</span></strong>
-          Hyper-V must be enabled as a server role. To check: open Server Manager and look for Hyper-V in the roles list, or run <code>Get-WindowsFeature Hyper-V</code> in PowerShell. IT will need to create a Ubuntu 22.04 VM (4GB RAM, 40GB disk) before the installation call. We will provide a one-page spec.
+          Hyper-V must be enabled as a server role. To check: open Server Manager and look for Hyper-V in the roles list, or run <code>Get-WindowsFeature Hyper-V</code> in PowerShell. IT will need to create a Ubuntu 22.04 VM (4GB RAM, 40GB disk) before the installation call.<br><br>
+          <a href="/it-setup.html#ubuntu-vm" style="color:#185FA5;font-weight:600;">→ Step-by-step Hyper-V VM setup instructions in the IT Setup Guide</a>
         </div>
       </li>
       <li>
@@ -779,6 +781,7 @@
   © 2026 Weld AI &nbsp;·&nbsp;
   <a href="https://weldai.uk">weldai.uk</a> &nbsp;·&nbsp;
   York, England &nbsp;·&nbsp;
+  <a href="/it-setup.html">IT Setup Guide</a> &nbsp;·&nbsp;
   <a href="https://www.weldai.uk/privacy.html">Privacy Policy</a> &nbsp;·&nbsp;
   <a href="https://www.weldai.uk/terms.html">Terms of Service</a>
 </div>
