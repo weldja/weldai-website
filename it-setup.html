@@ -117,7 +117,8 @@ ul,ol{padding-left:20px;margin-bottom:10px;font-size:0.88rem;color:var(--ink-mid
   <div class="page-header">
     <div class="label">For IT Teams</div>
     <h1>IT Setup Guide</h1>
-    <p>Step-by-step instructions for preparing your server before the Weld AI installation call. Choose the section that matches your setup. If you're not sure which applies, email <a href="mailto:hello@weldai.uk">hello@weldai.uk</a> and we'll advise.</p>
+    <p>Step-by-step instructions for preparing your server <strong>before</strong> the Weld AI installation call. All steps in this guide should be completed by your IT team in advance. The installation call itself is short — but only if prerequisites are in place on the day.</p>
+    <p style="font-size:0.88rem;color:var(--ink-mid);">Not sure which section applies? Email <a href="mailto:hello@weldai.uk">hello@weldai.uk</a> and we'll advise.</p>
   </div>
 
   <div class="callout info">
@@ -180,10 +181,16 @@ ul,ol{padding-left:20px;margin-bottom:10px;font-size:0.88rem;color:var(--ink-mid
       <div class="step">
         <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
         <div class="step-body">
-          <h3>Check WSL2 is enabled (optional — we can do this)</h3>
+          <h3>Confirm WSL2 is enabled <span style="background:#fde8e8;color:#c0392b;font-size:0.75rem;font-weight:700;padding:2px 8px;border-radius:4px;margin-left:6px;">Required before install call</span></h3>
           <p>Open PowerShell as Administrator and run:</p>
           <pre>wsl --status</pre>
-          <p>If it shows <code>Default Version: 2</code> — you're ready. If not, we'll enable it during the installation call.</p>
+          <p>Must show <code>Default Version: 2</code>. Also run:</p>
+          <pre>wsl</pre>
+          <p>You should get a Linux prompt (e.g. <code>user@hostname:~$</code>). Type <code>exit</code> to return. If WSL2 is not working, enable it before booking the installation call — we cannot proceed without it.</p>
+          <div class="callout info" style="margin-top:8px;">
+            <span class="callout-icon">💡</span>
+            <div class="callout-body" style="font-size:0.85rem;">On most Windows 10/11 PCs, WSL2 just needs enabling. Run <code>wsl --install</code> in PowerShell as Administrator and restart. If you have issues, <a href="mailto:hello@weldai.uk">email us</a> and we will help.</div>
+          </div>
         </div>
       </div>
       <div class="step">
@@ -532,8 +539,8 @@ New-NetFirewallRule -DisplayName "Weld AI HTTPS" -Direction Inbound -Protocol TC
     <div class="callout success">
       <span class="callout-icon">✅</span>
       <div class="callout-body">
-        <strong>Ready for the installation call</strong>
-        Once WSL2 is confirmed working, we handle Docker Desktop install, Weld AI setup, and SSL certificates remotely.
+        <strong>Ready to book — email us once WSL2 is confirmed working</strong>
+        Once <code>wsl --status</code> shows Default Version: 2 and <code>wsl</code> gives a Linux prompt, email <a href="mailto:hello@weldai.uk">hello@weldai.uk</a> to book. We handle Docker Desktop install, Weld AI setup, and SSL certificates remotely during the call.
       </div>
     </div>
 

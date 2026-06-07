@@ -300,7 +300,15 @@
     <p class="subtitle">For prospective customers &nbsp;·&nbsp; Complete before your installation call &nbsp;·&nbsp; No installation required</p>
   </div>
 
-  <p>Before we book your Weld AI installation call, please: run the automated system check script, review the install type that matches your setup, and complete the information form below. This lets us confirm your system is ready and prepare your installation in advance.</p>
+  <p>Before we book your Weld AI installation call, please complete the three steps below. The installation call itself is short and straightforward — but only once your system is confirmed ready in advance.</p>
+
+  <div class="callout warning" style="margin-top:16px;">
+    <span class="callout-icon">⚠️</span>
+    <div class="callout-body">
+      <strong>Prerequisites must be in place before we book your installation call</strong>
+      We cannot begin installation until your system passes the automated check. For Windows PC and Windows Server Direct installs, this includes WSL2 being fully configured and working. If IT prerequisites are not in place on the day of the call, we will need to reschedule.
+    </div>
+  </div>
 
   <div class="callout info" style="margin-top:20px;">
     <span class="callout-icon">ℹ️</span>
@@ -645,10 +653,11 @@
       <li>
         <span class="check-icon">🐧</span>
         <div>
-          <strong>WSL2 enabled <span class="badge badge-required">Required</span></strong>
-          Windows Subsystem for Linux 2 must be enabled. To check: open PowerShell as Administrator and run <code>wsl --status</code>. Should show <code>Default Version: 2</code>.<br><br>
-          <strong>Note for Windows Server:</strong> WSL2 on Windows Server requires additional manual setup steps beyond a standard PC — including running Windows Update to completion, enabling WSL features via DISM, and installing a Linux distribution. We can guide IT through this, or consider the Ubuntu VM install type which avoids this entirely.<br><br>
-          <a href="/it-setup.html#windows-direct" style="color:#185FA5;font-weight:600;">→ Step-by-step WSL2 setup instructions in the IT Setup Guide</a>
+          <strong>WSL2 confirmed working <span class="badge badge-required">Must be done before install call</span></strong>
+          WSL2 must be fully installed and working before we book the installation call. To verify: open PowerShell as Administrator and run <code>wsl --status</code>. It must show <code>Default Version: 2</code> and have a Linux distribution installed (e.g. Ubuntu).<br><br>
+          To test fully: run <code>wsl</code> — you should get a Linux prompt. Type <code>exit</code> to return to PowerShell.<br><br>
+          <strong>Windows Server note:</strong> WSL2 on Windows Server requires running Windows Update to completion first (30–60 minutes, multiple reboots). This must be done by IT in advance — not during the installation call.<br><br>
+          <a href="/it-setup.html#windows-direct" style="color:#185FA5;font-weight:600;">→ Full step-by-step WSL2 setup instructions in the IT Setup Guide</a>
         </div>
       </li>
       <li>
@@ -710,6 +719,55 @@
       </li>
     </ul>
 
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 5b — PRE-BOOKING CONFIRMATION -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <h2 class="section-title"><span class="num">✓</span> Before You Book</h2>
+    <p>Please confirm all of the following before emailing us to book your installation call. Include this confirmation in your email.</p>
+
+    <ul class="checklist">
+      <li>
+        <span class="check-icon">🖥️</span>
+        <div><strong>Diagnostics script run and zip file ready to attach</strong><br>
+        <span style="font-size:13px;color:var(--grey-700);">The zip file from the automated script (Section 4) must be attached to your email.</span></div>
+      </li>
+      <li>
+        <span class="check-icon">🌐</span>
+        <div><strong>Outbound internet access confirmed</strong><br>
+        <span style="font-size:13px;color:var(--grey-700);">The server can reach api.anthropic.com on port 443 — confirmed in the diagnostics output.</span></div>
+      </li>
+      <li>
+        <span class="check-icon">🔑</span>
+        <div><strong>Anthropic API key obtained</strong><br>
+        <span style="font-size:13px;color:var(--grey-700);">API key created at console.anthropic.com with a payment method added.</span></div>
+      </li>
+      <li>
+        <span class="check-icon">🐧</span>
+        <div><strong>WSL2 working — Windows PC and Windows Server Direct installs only</strong><br>
+        <span style="font-size:13px;color:var(--grey-700);"><code>wsl --status</code> shows Default Version: 2 and running <code>wsl</code> gives a Linux prompt. Not required for Ubuntu VM or Linux installs.</span></div>
+      </li>
+      <li>
+        <span class="check-icon">📂</span>
+        <div><strong>Documents folder identified and accessible</strong><br>
+        <span style="font-size:13px;color:var(--grey-700);">You know where your documents are stored and the path is supported (see Section 3).</span></div>
+      </li>
+      <li>
+        <span class="check-icon">👤</span>
+        <div><strong>Administrator access available for the installation call</strong><br>
+        <span style="font-size:13px;color:var(--grey-700);">Someone with Administrator rights will be available on the day, or screen-sharing access arranged.</span></div>
+      </li>
+    </ul>
+
+    <div class="callout success" style="margin-top:16px;">
+      <span class="callout-icon">✅</span>
+      <div class="callout-body">
+        <strong>Once all boxes are ticked — email us to book</strong>
+        Send your diagnostics zip and completed form below to <a href="mailto:hello@weldai.uk">hello@weldai.uk</a> with subject: <strong>Pre-Install — [your company name]</strong>.
+      </div>
+    </div>
   </div>
 
   <!-- ═══════════════════════════════════════════════════════════ -->
