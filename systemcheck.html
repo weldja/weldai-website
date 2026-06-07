@@ -505,14 +505,14 @@
         <tr>
           <td><strong>Network mapped drive</strong> (e.g. U:\)</td>
           <td><span class="cross">❌ Not supported</span></td>
-          <td><span class="tick">✅ Supported</span> via Samba mount</td>
-          <td><span class="tick">✅ Supported</span> via NFS/Samba</td>
+          <td><span class="tick">✅ Supported</span> via Samba — domain credentials needed for corporate networks</td>
+          <td><span class="tick">✅ Supported</span> via NFS/Samba — domain credentials needed for corporate networks</td>
         </tr>
         <tr>
           <td><strong>UNC path</strong> (\\server\share)</td>
           <td><span class="cross">❌ Not supported</span></td>
-          <td><span class="tick">✅ Supported</span> via Samba mount</td>
-          <td><span class="tick">✅ Supported</span> via NFS/Samba</td>
+          <td><span class="tick">✅ Supported</span> via Samba — domain credentials needed for corporate networks</td>
+          <td><span class="tick">✅ Supported</span> via NFS/Samba — domain credentials needed for corporate networks</td>
         </tr>
         <tr>
           <td><strong>File server (documents only on server)</strong></td>
@@ -526,8 +526,16 @@
     <div class="callout warning">
       <span class="callout-icon">⚠️</span>
       <div class="callout-body">
-        <strong>Network mapped drives on Windows</strong>
-        Docker on Windows cannot access network mapped drives (e.g. <code>U:\docs</code>) or UNC paths (e.g. <code>\\server\documents</code>). This is a Docker on Windows limitation. If your documents are on a file server, the recommended solution is to install Weld AI directly on that server (Windows Server + Ubuntu VM or Linux). We will advise on the best approach during your pre-installation review.
+        <strong>Network mapped drives on Windows — not supported</strong>
+        Docker on Windows cannot access network mapped drives (e.g. <code>U:\docs</code>) or UNC paths (e.g. <code>\\server\documents</code>). This is a fundamental Docker on Windows limitation. If your documents are on a file server, the recommended solution is the <strong>Windows Server + Ubuntu VM</strong> install type — Ubuntu can mount Windows file server shares directly via Samba, giving Weld AI full access to your documents without copying. We will advise on the best approach during your pre-installation review.
+      </div>
+    </div>
+
+    <div class="callout success">
+      <span class="callout-icon">✅</span>
+      <div class="callout-body">
+        <strong>Windows Server + Ubuntu VM — full network share support (tested)</strong>
+        The Ubuntu VM can mount Windows file server shares directly using Samba. Weld AI indexes documents live from the share — no copying or syncing required. Tested with corporate domain credentials. This is the recommended install type for customers whose documents are on a file server.
       </div>
     </div>
 
@@ -543,10 +551,11 @@
     <div class="callout info">
       <span class="callout-icon">🔄</span>
       <div class="callout-body">
-        <strong>Documents on a file server — Windows PC install workaround</strong>
+        <strong>Documents on a file server — Windows PC workaround</strong>
         If you have a Windows PC install but documents are on a file server, they can be synced automatically using a scheduled robocopy task:<br><br>
         <code>robocopy \\server\share C:\WeldAI\docs /MIR /Z</code><br><br>
-        This mirrors your network share to a local folder nightly. Weld AI then indexes from the local copy. We can set this up during installation.
+        This mirrors your network share to a local folder nightly. Weld AI then indexes from the local copy. We can set this up during installation.<br><br>
+        <strong>Better alternative:</strong> if you have a server, the <a href="#ubuntu-vm">Windows Server + Ubuntu VM</a> install type gives live access to network shares with no copying needed.
       </div>
     </div>
 
@@ -689,7 +698,14 @@
         <span class="check-icon">🔗</span>
         <div>
           <strong>Network share access from Ubuntu VM <span class="badge badge-optional">If using network shares</span></strong>
-          If documents are on a network file share, IT will need to confirm the share path, credentials, and that the Ubuntu VM can reach the file server on the network. We will configure the Samba mount during installation.
+          If documents are on a Windows file server, Ubuntu can mount the share directly via Samba — no copying needed. IT will need to confirm:<br>
+          <ul style="margin:8px 0 0 0;font-size:0.88rem;">
+            <li>The UNC share path (e.g. <code>\\fileserver\documents</code>)</li>
+            <li>A Windows username and password with read access</li>
+            <li>Whether the account is a domain account (e.g. <code>CORP\username</code>) or local account</li>
+            <li>That the Ubuntu VM can reach the file server on the network (same subnet or firewall rule allowing TCP 445)</li>
+          </ul>
+          We will configure and test the Samba mount during the installation call. <a href="/it-setup.html#ubuntu-vm">See IT Setup Guide for details.</a>
         </div>
       </li>
     </ul>

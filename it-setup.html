@@ -134,6 +134,7 @@ ul,ol{padding-left:20px;margin-bottom:10px;font-size:0.88rem;color:var(--ink-mid
     <a href="#ubuntu-vm">Windows Server + Ubuntu VM</a>
     <a href="#windows-direct">Windows Server Direct</a>
     <a href="#linux">Linux Server</a>
+    <a href="#path-support">Path Support</a>
   </div>
 
   <!-- ═══════════════════════════════════════════════════ -->
@@ -330,6 +331,81 @@ New-NetFirewallRule -DisplayName "Weld AI HTTPS" -Direction Inbound -Protocol TC
         Once the Ubuntu VM is created and running, we handle everything else remotely — Docker, Weld AI, SSL certificates, and network share mounting.
       </div>
     </div>
+
+    <h4>Part C — Network Share Access (if documents are on a file server)</h4>
+
+    <div class="callout success">
+      <span class="callout-icon">✅</span>
+      <div class="callout-body">
+        <strong>Tested and working — Ubuntu can mount Windows file server shares directly</strong>
+        Unlike the Windows Direct install, the Ubuntu VM can connect to Windows SMB/Samba shares. Weld AI indexes documents live from the share — no copying or nightly sync required. Tested with corporate domain credentials.
+      </div>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-left"><div class="step-num">9</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h3>Confirm share details with IT</h3>
+          <p>Before the installation call, confirm:</p>
+          <ul>
+            <li>The UNC share path (e.g. <code>\\fileserver\documents</code>)</li>
+            <li>A Windows username with read access to the share</li>
+            <li>Whether it is a domain account (e.g. <code>CORP\username</code>) or local account</li>
+            <li>The Ubuntu VM can reach the file server on TCP port 445 (SMB)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-num">10</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h3>Install CIFS utilities (we do this during install call)</h3>
+          <pre>sudo apt install cifs-utils -y</pre>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-num">11</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h3>Mount the share</h3>
+          <p>Create the mount point and mount the share. For a <strong>domain account</strong>:</p>
+          <pre>sudo mkdir -p /mnt/weldai-docs
+sudo mount -t cifs //fileserver/documents /mnt/weldai-docs -o username=jamesw,domain=corp,vers=3.0</pre>
+          <p>For a <strong>local/workgroup account</strong>:</p>
+          <pre>sudo mount -t cifs //fileserver/documents /mnt/weldai-docs -o username=jamesw,vers=3.0</pre>
+          <p>Verify the share is mounted:</p>
+          <pre>df -h | grep weldai-docs</pre>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-num">12</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h3>Make the mount permanent (survives reboot)</h3>
+          <p>Create a credentials file to store the password securely:</p>
+          <pre>sudo nano /etc/samba-creds</pre>
+          <p>Add these lines (replace with actual values):</p>
+          <pre>username=jamesw
+password=yourpassword
+domain=corp</pre>
+          <p>Secure the file:</p>
+          <pre>sudo chmod 600 /etc/samba-creds</pre>
+          <p>Add to <code>/etc/fstab</code> for automatic mount on boot:</p>
+          <pre>sudo nano /etc/fstab</pre>
+          <p>Add this line at the bottom:</p>
+          <pre>//fileserver/documents /mnt/weldai-docs cifs credentials=/etc/samba-creds,vers=3.0,_netdev 0 0</pre>
+          <p>Test it:</p>
+          <pre>sudo mount -a</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <span class="callout-icon">💡</span>
+      <div class="callout-body">
+        <strong>Performance note</strong>
+        Indexing documents over a network share is slightly slower than indexing from a local folder — acceptable for most use cases. For very large document sets (500+ files), consider a nightly robocopy sync to a local folder instead. We will advise during the installation call.
+      </div>
+    </div>
+
   </div>
 
   <hr class="section-divider">
@@ -525,13 +601,14 @@ sudo ufw reload</pre>
       <div class="step">
         <div class="step-left"><div class="step-num">4</div><div class="step-line"></div></div>
         <div class="step-body">
-          <h3>Note network share details (if applicable)</h3>
-          <p>If documents are stored on a Windows file server, please confirm:</p>
+          <h3>Network share access — confirm details (if applicable)</h3>
+          <p>If documents are stored on a Windows file server, Linux can mount the share directly. Please confirm:</p>
           <ul>
             <li>The UNC path to the share (e.g. <code>\\fileserver\documents</code>)</li>
-            <li>A domain username and password with read access to the share</li>
+            <li>A username with read access (domain account e.g. <code>CORP\username</code>, or local account)</li>
+            <li>TCP port 445 is open between this server and the file server</li>
           </ul>
-          <p>We will configure the Samba mount during the installation call.</p>
+          <p>We will install <code>cifs-utils</code>, configure the Samba mount, and add it to <code>/etc/fstab</code> during the installation call.</p>
         </div>
       </div>
     </div>
@@ -541,6 +618,95 @@ sudo ufw reload</pre>
       <div class="callout-body">
         <strong>Ready for the installation call</strong>
         Once these steps are done, we handle Docker, Weld AI, SSL certificates, and network share mounting remotely.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PATH SUPPORT REFERENCE TABLE -->
+  <hr class="section-divider">
+  <div class="install-section" id="path-support">
+    <div class="install-section-header">
+      <span class="icon">📂</span>
+      <div>
+        <h2>Document Path Support Reference</h2>
+        <p>Which document locations work with each install type — tested results</p>
+      </div>
+    </div>
+
+    <p style="font-size:0.88rem;color:var(--ink-mid);margin-bottom:16px">This table summarises where your documents can live and which install type supports each location. All results are from real-world testing.</p>
+
+    <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
+    <table style="width:100%;border-collapse:collapse;font-size:0.85rem;min-width:520px;">
+      <thead>
+        <tr style="background:var(--surface-2);">
+          <th style="padding:10px 12px;text-align:left;border:1px solid var(--border);font-weight:700;">Document Location</th>
+          <th style="padding:10px 12px;text-align:center;border:1px solid var(--border);font-weight:700;">Windows PC</th>
+          <th style="padding:10px 12px;text-align:center;border:1px solid var(--border);font-weight:700;">Win Server + Ubuntu VM</th>
+          <th style="padding:10px 12px;text-align:center;border:1px solid var(--border);font-weight:700;">Win Server Direct</th>
+          <th style="padding:10px 12px;text-align:center;border:1px solid var(--border);font-weight:700;">Linux Server</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding:9px 12px;border:1px solid var(--border);"><strong>Local drive</strong><br><span style="color:var(--ink-light);font-size:0.8rem;">C:\docs or /home/user/docs</span></td>
+          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#059669;font-weight:700;">✅</td>
+          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#059669;font-weight:700;">✅</td>
+          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#059669;font-weight:700;">✅</td>
+          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#059669;font-weight:700;">✅</td>
+        </tr>
+        <tr style="background:var(--surface-2);">
+          <td style="padding:9px 12px;border:1px solid var(--border);"><strong>USB / external drive</strong><br><span style="color:var(--ink-light);font-size:0.8rem;">Must stay connected</span></td>
+          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#059669;font-weight:700;">✅</td>
+          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#059669;font-weight:700;">✅</td>
+          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#059669;font-weight:700;">✅</td>
+          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#059669;font-weight:700;">✅</td>
+        </tr>
+        <tr>
+          <td style="padding:9px 12px;border:1px solid var(--border);"><strong>Windows file server share</strong><br><span style="color:var(--ink-light);font-size:0.8rem;">\\server\documents</span></td>
+          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#c0392b;font-weight:700;">❌</td>
+          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#059669;font-weight:700;">✅ <span style="font-size:0.75rem;font-weight:400;">Tested</span></td>
+          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#c0392b;font-weight:700;">❌</td>
+          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#059669;font-weight:700;">✅ <span style="font-size:0.75rem;font-weight:400;">Tested</span></td>
+        </tr>
+        <tr style="background:var(--surface-2);">
+          <td style="padding:9px 12px;border:1px solid var(--border);"><strong>Mapped network drive</strong><br><span style="color:var(--ink-light);font-size:0.8rem;">Z:\docs</span></td>
+          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#c0392b;font-weight:700;">❌</td>
+          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#059669;font-weight:700;">✅ <span style="font-size:0.75rem;font-weight:400;">via Samba</span></td>
+          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#c0392b;font-weight:700;">❌</td>
+          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#059669;font-weight:700;">✅ <span style="font-size:0.75rem;font-weight:400;">via Samba</span></td>
+        </tr>
+        <tr>
+          <td style="padding:9px 12px;border:1px solid var(--border);"><strong>OneDrive / SharePoint synced folder</strong><br><span style="color:var(--ink-light);font-size:0.8rem;">Must be set to "Always keep on device"</span></td>
+          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#059669;font-weight:700;">✅</td>
+          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#d97706;font-weight:700;">⚠️ <span style="font-size:0.75rem;font-weight:400;">Complex</span></td>
+          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#d97706;font-weight:700;">⚠️ <span style="font-size:0.75rem;font-weight:400;">Complex</span></td>
+          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#d97706;font-weight:700;">⚠️ <span style="font-size:0.75rem;font-weight:400;">Complex</span></td>
+        </tr>
+        <tr style="background:var(--surface-2);">
+          <td style="padding:9px 12px;border:1px solid var(--border);"><strong>NFS mount</strong><br><span style="color:var(--ink-light);font-size:0.8rem;">Linux-to-Linux file servers</span></td>
+          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#c0392b;font-weight:700;">❌</td>
+          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#059669;font-weight:700;">✅ <span style="font-size:0.75rem;font-weight:400;">Not tested</span></td>
+          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#c0392b;font-weight:700;">❌</td>
+          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#059669;font-weight:700;">✅ <span style="font-size:0.75rem;font-weight:400;">Not tested</span></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div class="callout info" style="margin-top:16px;">
+      <span class="callout-icon">💡</span>
+      <div class="callout-body">
+        <strong>Documents on a Windows file server?</strong>
+        The <strong>Windows Server + Ubuntu VM</strong> or <strong>Linux Server</strong> install types support live Samba mounts — no copying or syncing required. Corporate domain accounts (e.g. <code>CORP\username</code>) are supported. We configure the mount during the installation call.
+      </div>
+    </div>
+
+    <div class="callout warning" style="margin-top:12px;">
+      <span class="callout-icon">⚠️</span>
+      <div class="callout-body">
+        <strong>Windows PC or Windows Server Direct — network shares not supported</strong>
+        Docker on Windows cannot mount network paths. If your documents are on a file server and you are using a Windows PC or Windows Server Direct install, we will set up a nightly robocopy sync to a local folder as a workaround. For best results, consider the Ubuntu VM install type instead.
       </div>
     </div>
 
