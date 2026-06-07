@@ -129,9 +129,8 @@ if ($isServer) {
         }
 
         # Check available RAM for VM headroom
-        $freeRAMGB = [math]::Round(($cs.TotalPhysicalMemory / 1GB) - (
-            (Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory / 1MB), 1)
-        $totalGB = [math]::Round($cs.TotalPhysicalMemory / 1GB, 1)
+        # $os.TotalVisibleMemorySize is in KB - convert to GB
+        $totalGB = [math]::Round($os.TotalVisibleMemorySize / 1MB, 1)
         Info "Server RAM: $totalGB GB total"
         if ($totalGB -ge 16) { Ok "$totalGB GB RAM - sufficient for Ubuntu VM (needs 4 GB)" }
         elseif ($totalGB -ge 8) { Warn "$totalGB GB RAM - tight for Ubuntu VM. 16 GB recommended." }
