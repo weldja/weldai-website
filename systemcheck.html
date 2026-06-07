@@ -475,6 +475,70 @@
   </div>
 
   <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 2b — DOCUMENT VOLUME GUIDE -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <h2 class="section-title"><span class="num">2b</span> How Many Documents Can Weld AI Handle?</h2>
+
+    <p>Weld AI can index any number of documents — the practical limit depends on your server's RAM and storage. Use the table below to check your setup is appropriate for your document collection.</p>
+
+    <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:16px;">
+    <table class="req-table" style="min-width:480px;">
+      <thead>
+        <tr>
+          <th>Document collection</th>
+          <th>Min RAM</th>
+          <th>Recommended RAM</th>
+          <th>Initial index time*</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Small</strong> — up to 50 documents</td>
+          <td>8GB</td>
+          <td>8GB</td>
+          <td>Under 5 minutes</td>
+        </tr>
+        <tr>
+          <td><strong>Medium</strong> — 50–200 documents</td>
+          <td>8GB</td>
+          <td>16GB</td>
+          <td>5–20 minutes</td>
+        </tr>
+        <tr>
+          <td><strong>Large</strong> — 200–500 documents</td>
+          <td>16GB</td>
+          <td>16GB+</td>
+          <td>20–60 minutes</td>
+        </tr>
+        <tr>
+          <td><strong>Very large</strong> — 500+ documents</td>
+          <td colspan="3">Contact us before purchase — we will advise on hardware and configuration.</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p style="font-size:0.82rem;color:var(--grey-400);margin-top:-8px;">* Initial index time for typical mixed documents (PDFs, Word, text) on a local drive with 16GB RAM. Network share (Samba) adds time. Index only runs once — incremental updates for new/changed files are fast.</p>
+
+    <div class="callout info">
+      <span class="callout-icon">💡</span>
+      <div class="callout-body">
+        <strong>Indexing only happens once</strong>
+        The initial index build can take time for large collections — but it only runs once. After that, Weld AI detects new or changed files and only re-indexes what has changed. Day-to-day queries are instant regardless of document volume.
+      </div>
+    </div>
+
+    <div class="callout warning">
+      <span class="callout-icon">⚠️</span>
+      <div class="callout-body">
+        <strong>Network shares (Samba) add indexing time</strong>
+        If documents are on a Windows file server mounted via Samba, indexing is slower than local storage — approximately 3–5× longer. For large collections over a network share, we recommend scheduling the initial index outside business hours. We will advise during the installation call.
+      </div>
+    </div>
+
+  </div>
+
   <!-- SECTION 3 — DOCUMENT PATHS -->
   <!-- ═══════════════════════════════════════════════════════════ -->
   <div class="section">
