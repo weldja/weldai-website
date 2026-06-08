@@ -519,13 +519,13 @@
     </table>
     </div>
 
-    <p style="font-size:0.82rem;color:var(--grey-400);margin-top:-8px;">* Initial index time for typical mixed documents (PDFs, Word, text) on a local drive with 16GB RAM. Network share (Samba) adds time. Index only runs once — incremental updates for new/changed files are fast.</p>
+    <p style="font-size:0.82rem;color:var(--grey-400);margin-top:-8px;">* Estimated times for typical mixed documents on a 16GB RAM server with local storage. Actual times depend heavily on hardware — see measured results below.</p>
 
     <div class="callout info">
       <span class="callout-icon">💡</span>
       <div class="callout-body">
-        <strong>Indexing only happens once</strong>
-        The initial index build can take time for large collections — but it only runs once. After that, Weld AI detects new or changed files and only re-indexes what has changed. Day-to-day queries are instant regardless of document volume.
+        <strong>Indexing only runs once — updates are fast</strong>
+        The initial index build can take time for large collections. After that, Weld AI detects new or changed files and only re-indexes what has changed. Adding a single document to a 50-doc collection takes a fraction of the original index time. Day-to-day queries are instant regardless of document volume.
       </div>
     </div>
 
@@ -533,7 +533,46 @@
       <span class="callout-icon">⚠️</span>
       <div class="callout-body">
         <strong>Network shares (Samba) add indexing time</strong>
-        If documents are on a Windows file server mounted via Samba, indexing is slower than local storage — approximately 3–5× longer. For large collections over a network share, we recommend scheduling the initial index outside business hours. We will advise during the installation call.
+        If documents are on a Windows file server mounted via Samba, indexing is slower than local storage. For large collections over a network share, we recommend scheduling the initial index outside business hours. We will advise during the installation call.
+      </div>
+    </div>
+
+    <div class="callout info" style="margin-top:12px;">
+      <span class="callout-icon">🧪</span>
+      <div class="callout-body">
+        <strong>Measured results — constrained test hardware</strong>
+        The following times were measured on a <strong>restricted test VM (3.3GB RAM, Samba network mount)</strong> — this represents a worst-case scenario. A properly specified server with 16GB RAM and local storage will be significantly faster (estimated 5–10× improvement).
+        <table style="width:100%;border-collapse:collapse;font-size:0.82rem;margin-top:10px;">
+          <thead>
+            <tr style="background:var(--surface-2);">
+              <th style="padding:6px 10px;text-align:left;border:1px solid var(--border);">Scenario</th>
+              <th style="padding:6px 10px;text-align:left;border:1px solid var(--border);">Documents</th>
+              <th style="padding:6px 10px;text-align:left;border:1px solid var(--border);">Chunks</th>
+              <th style="padding:6px 10px;text-align:left;border:1px solid var(--border);">Time (constrained)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding:6px 10px;border:1px solid var(--border);">First full build (incl. model download)</td>
+              <td style="padding:6px 10px;border:1px solid var(--border);">5 large PDFs</td>
+              <td style="padding:6px 10px;border:1px solid var(--border);">1,375</td>
+              <td style="padding:6px 10px;border:1px solid var(--border);">~18 minutes</td>
+            </tr>
+            <tr style="background:var(--surface-2);">
+              <td style="padding:6px 10px;border:1px solid var(--border);">Subsequent full rebuild</td>
+              <td style="padding:6px 10px;border:1px solid var(--border);">5 large PDFs</td>
+              <td style="padding:6px 10px;border:1px solid var(--border);">1,375</td>
+              <td style="padding:6px 10px;border:1px solid var(--border);">~17 minutes</td>
+            </tr>
+            <tr>
+              <td style="padding:6px 10px;border:1px solid var(--border);">Incremental update (1 new file added)</td>
+              <td style="padding:6px 10px;border:1px solid var(--border);">1 of 6</td>
+              <td style="padding:6px 10px;border:1px solid var(--border);">275</td>
+              <td style="padding:6px 10px;border:1px solid var(--border);">~3 minutes</td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="font-size:0.8rem;color:var(--ink-light);margin-top:8px;">Test hardware: Ubuntu VM, 3.3GB RAM, documents on Samba network share, 5MB PDFs (~275 pages each). Model: BAAI/bge-base-en-v1.5.</p>
       </div>
     </div>
 
