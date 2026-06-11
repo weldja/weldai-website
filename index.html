@@ -56,7 +56,7 @@ h2{font-family:'DM Serif Display',Georgia,serif;font-size:clamp(1.8rem,3.5vw,2.6
 .feature-icon{font-size:1.6rem;margin-bottom:12px}
 .feature-card h3{font-size:1rem;font-weight:700;margin-bottom:6px;color:var(--ink)}
 .feature-card p{font-size:0.88rem;color:var(--ink-mid);line-height:1.6}
-.new-badge{display:inline-block;background:var(--green-bg);color:var(--green);font-size:0.68rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:4px;margin-left:8px;vertical-align:middle}
+.new-badge{display:inline-block;background:var(--green-bg);color:var(--green);font-size:0.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:4px;margin-left:8px;vertical-align:middle}
 .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0}
 .step{padding:2rem}
 .step-num{width:36px;height:36px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9rem;margin-bottom:12px}
@@ -91,14 +91,17 @@ textarea{min-height:100px;resize:vertical}
 .trust-item::before{content:'✓';color:#4ADE80;font-weight:700}
 footer{background:var(--ink);color:rgba(255,255,255,0.5);padding:28px 2rem;text-align:center;font-size:0.84rem}
 footer a{color:rgba(255,255,255,0.7);text-decoration:none}
-@media(max-width:700px){.contact-grid{grid-template-columns:1fr}.nav-links{display:none}section{padding:60px 1.25rem}.hero{padding:60px 1.25rem}}
+@media(max-width:700px){.contact-grid{grid-template-columns:1fr}section{padding:60px 1.25rem}.hero{padding:60px 1.25rem}#nav-toggle{display:block!important}.nav-links{display:none;position:absolute;top:60px;left:0;right:0;background:#fff;border-bottom:1px solid var(--border);flex-direction:column;padding:1rem 2rem;gap:1rem;z-index:100}.nav-links.open{display:flex}.nav-links a{font-size:1rem}}
 </style>
 </head>
 <body>
 
 <nav>
   <a class="nav-logo" href="#"><span>Weld</span>AI</a>
-  <ul class="nav-links">
+  <button id="nav-toggle" aria-label="Toggle menu" style="display:none;background:none;border:none;cursor:pointer;padding:8px;color:var(--ink-mid)">
+    <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="19" y2="6"/><line x1="3" y1="12" x2="19" y2="12"/><line x1="3" y1="18" x2="19" y2="18"/></svg>
+  </button>
+  <ul class="nav-links" id="nav-links">
     <li><a href="#for">Who it's for</a></li>
     <li><a href="#how">How it works</a></li>
     <li><a href="#features">Features</a></li>
@@ -203,7 +206,7 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
     <div class="steps">
       <div class="step"><div class="step-num">1</div><h3>We install on your server</h3><p>We install remotely over a screen-share call on your existing Windows or Linux server. Typically under an hour.</p></div>
       <div class="step"><div class="step-num">2</div><h3>Load your documents</h3><p>Copy your policies, contracts, manuals, and reports into a shared folder. PDF, Word, Excel, PowerPoint — any format.</p></div>
-      <div class="step"><div class="step-num">3</div><h3>Index once, search forever</h3><p>Click one button and the AI reads all your documents. Smart Update re-indexes only what changed when you add new files.</p></div>
+      <div class="step"><div class="step-num">3</div><h3>Index once, search forever</h3><p>Click one button and the AI reads all your documents. Smart Update re-indexes only what changed when you add new files — much faster than starting from scratch.</p></div>
       <div class="step"><div class="step-num">4</div><h3>Ask anything, get answers</h3><p>Open a browser on any device. Ask follow-up questions — the AI remembers the conversation and understands context.</p></div>
     </div>
     <div style="margin-top:2rem;padding:20px 24px;background:#EBF4FF;border-radius:12px;border-left:4px solid #185FA5;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;box-sizing:border-box">
@@ -253,7 +256,7 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
       <div class="feature-card"><div class="feature-icon">🔒</div><h3>HTTPS encrypted access <span class="new-badge">New</span></h3><p>Secure access over HTTPS with SSL encryption. HTTP automatically redirects to HTTPS. Works from any browser on the office network.</p></div>
       <div class="feature-card"><div class="feature-icon">🔎</div><h3>Direct document search <span class="new-badge">New</span></h3><p>Search your document index directly to find specific passages. Click any result to open the source document in your browser.</p></div>
       <div class="feature-card"><div class="feature-icon">⚡</div><h3>Instant repeat answers</h3><p>Common questions are cached and answered in milliseconds. Your team stops asking the same questions twice.</p></div>
-      <div class="feature-card"><div class="feature-icon">🔄</div><h3>Smart document updates</h3><p>Add new documents any time. Smart Update only re-indexes what changed — seconds, not minutes.</p></div>
+      <div class="feature-card"><div class="feature-icon">🔄</div><h3>Smart document updates</h3><p>Add new documents any time. Smart Update only re-indexes what changed — much faster than a full rebuild.</p></div>
       <div class="feature-card"><div class="feature-icon">🎨</div><h3>Branded with your company name</h3><p>Your company name, colours, and tagline. Resizable sidebar, clean modern interface. Looks like your own product.</p></div>
     </div>
   </div>
@@ -283,7 +286,7 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
         <thead><tr><th>Feature</th><th>🏢 Weld AI</th><th>General AI Tools</th></tr></thead>
         <tbody>
           <tr><td>Documents stay on your server</td><td class="check">✓ Always</td><td class="cross">✗ Uploaded to cloud</td></tr>
-          <tr><td>AI provider trains on your data</td><td class="check">✓ No — API TOS prohibits it</td><td class="check">✓ No — API terms prevent it</td></tr>
+          <tr><td>AI provider trains on your data</td><td class="check">✓ No — API TOS prohibits it</td><td class="warn">⚠️ Varies — check your provider's terms</td></tr>
           <tr><td>Answer quality</td><td class="check">✓ Excellent (Claude)</td><td class="part">~ Good (generic)</td></tr>
           <tr><td>Knows your company documents</td><td class="check">✓ Your docs only</td><td class="part">~ Requires setup</td></tr>
           <tr><td>Source citations with page numbers</td><td class="check">✓ Every answer</td><td class="part">~ Sometimes</td></tr>
@@ -293,6 +296,7 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
           <tr><td>HTTPS encrypted</td><td class="check">✓ Built-in SSL</td><td class="check">✓ Yes</td></tr>
         </tbody>
       </table>
+    </div>
     </div>
   </div>
 </section>
@@ -465,7 +469,7 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
           Can it read documents stored on a network drive or file server?
           <span style="color:#185FA5;flex-shrink:0;margin-left:12px">＋</span>
         </summary>
-        <p style="padding:0 20px 18px;color:#3D5166;font-size:0.92rem;margin:0">Documents can be on any local drive — C:, D:, E:, or a USB drive — as long as the drive is connected when the system starts. OneDrive synced folders also work if files are set to "Always keep on this device". Network mapped drives (e.g. a shared drive via your office server) are not currently supported due to a Docker on Windows limitation. If your documents are only on a file server, we can install Weld AI directly on that server instead. We will advise on the best approach during the pre-installation review.</p>
+        <p style="padding:0 20px 18px;color:#3D5166;font-size:0.92rem;margin:0">Documents can be on any local drive — C:, D:, E:, or a USB drive — as long as the drive is connected when the system starts. OneDrive synced folders also work if files are set to "Always keep on this device". Network mapped drives (e.g. a shared drive via your office server) are supported on the <strong>Windows Server + Ubuntu VM</strong> and <strong>Linux Server</strong> install types via Samba network mounting — we configure this during installation. On Windows PC and Windows Server Direct installs, network mapped drives are not supported due to a Docker on Windows limitation. We will advise on the best approach during the pre-installation review.</p>
       </details>
 
       <details style="border:1px solid #DDE8F2;border-radius:12px;margin-bottom:10px;background:#fff;overflow:hidden">
