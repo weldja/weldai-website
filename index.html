@@ -95,6 +95,7 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
 .nav-burger{display:none}
 @media(max-width:700px){
 .contact-grid{grid-template-columns:1fr}
+.before-after-grid{grid-template-columns:1fr!important}
 section{padding:60px 1.25rem}.hero{padding:60px 1.25rem}
 nav{height:auto;min-height:60px;flex-wrap:wrap;padding:0 1.25rem}
 .nav-burger{display:flex;flex-direction:column;justify-content:center;gap:5px;cursor:pointer;padding:10px;margin:-10px -10px -10px 0}
@@ -131,23 +132,25 @@ nav{height:auto;min-height:60px;flex-wrap:wrap;padding:0 1.25rem}
 
 <div class="hero">
   <div class="hero-badge">🏢 Private company knowledge search for UK small businesses</div>
-  <h1>Your company's <em>private</em> knowledge assistant</h1>
-  <p>Stop losing time searching for information that already exists. Ask questions across all your company documents — get answers in seconds, with the exact source cited.</p>
+  <h1>Search all your company knowledge in seconds — not hours</h1>
+  <p>Stop wasting time hunting through files, emails, and shared drives. Ask questions across all your documents in natural language. Get answers in seconds with the exact source and page number — no guessing.</p>
+  <div style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:12px;padding:16px 20px;margin:20px 0;font-size:0.92rem;color:rgba(255,255,255,0.95);display:inline-block">
+    <strong>£350 to install</strong> (remote, includes 30-day support) + <strong>£2–5/month</strong> to run. No monthly subscription. <a href="#compare" style="color:#fff;text-decoration:underline">See how it compares</a>
+  </div>
   <div class="hero-btns">
-    <a href="#contact" class="btn-primary">See it answer questions from your own files</a>
-    <a href="https://www.weldai.uk/demo.html" class="btn-ghost">▶ Watch demo</a>
+    <a href="#contact" class="btn-primary">Book a free demo with your documents</a>
+    <a href="https://www.weldai.uk/demo.html" class="btn-ghost">▶ See it in action (2 min)</a>
   </div>
   <div class="hero-props">
+    <span class="hero-prop">Answers in 2–3 seconds</span>
+    <span class="hero-prop">Every answer cites the source and page</span>
     <span class="hero-prop">New staff productive from day one</span>
-    <span class="hero-prop">No more interrupting colleagues for answers</span>
-    <span class="hero-prop">Your documents stay on your server</span>
-    <span class="hero-prop">Every answer cites the source</span>
-    <span class="hero-prop">UK-wide remote install</span>
+    <span class="hero-prop">Your documents never leave your server</span>
+    <span class="hero-prop">Same-day remote installation</span>
   </div>
   <p style="color:rgba(255,255,255,0.55);font-size:0.8rem;margin-top:1.5rem">
     Founded by James Weld &middot; York, England &middot; hello@weldai.uk
   </p>
-  </div>
 </div>
 
 <div class="demo-wrap">
@@ -197,6 +200,32 @@ nav{height:auto;min-height:60px;flex-wrap:wrap;padding:0 1.25rem}
       <img src="/screenshot-chat.png" alt="Weld AI answering a question about notice periods, showing a formatted table with source citation" style="display:block;max-width:100%;height:auto">
     </div>
     <p style="color:#94A3B8;font-size:0.8rem;margin-top:12px">Answer includes formatted table and exact source — Staff_Handbook_v4.2.docx</p>
+  </div>
+</section>
+
+<section style="background:#0F3F72;padding:60px 2rem">
+  <div class="container" style="max-width:900px;margin:0 auto">
+    <div style="text-align:center;margin-bottom:2.5rem">
+      <div style="font-size:0.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:0.5rem">Why Weld AI</div>
+      <h2 style="font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,3.5vw,2.4rem);color:#fff;letter-spacing:-0.02em;margin-bottom:0.75rem">Built for professional services. Built to stay private.</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:24px">
+      <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:24px">
+        <div style="font-size:1.2rem;margin-bottom:12px">🎯</div>
+        <h3 style="color:#fff;font-size:1rem;margin-bottom:8px">Built for your documents</h3>
+        <p style="color:rgba(255,255,255,0.7);font-size:0.92rem">Not trained on the internet. Weld AI knows <em>only</em> your company knowledge — no hallucinations, no confusion with public information.</p>
+      </div>
+      <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:24px">
+        <div style="font-size:1.2rem;margin-bottom:12px">🔒</div>
+        <h3 style="color:#fff;font-size:1rem;margin-bottom:8px">Documents never leave your server</h3>
+        <p style="color:rgba(255,255,255,0.7);font-size:0.92rem">Not even to index. Only the question and a few relevant paragraphs are sent to Claude. Your full document corpus stays entirely private, under your control.</p>
+      </div>
+      <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:24px">
+        <div style="font-size:1.2rem;margin-bottom:12px">⚡</div>
+        <h3 style="color:#fff;font-size:1rem;margin-bottom:8px">Installed in a day. Running same day.</h3>
+        <p style="color:rgba(255,255,255,0.7);font-size:0.92rem">No long implementation. We install remotely in under an hour, train your team, and leave you running. You're productive immediately.</p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -338,7 +367,7 @@ nav{height:auto;min-height:60px;flex-wrap:wrap;padding:0 1.25rem}
       <div class="section-label">The difference it makes</div>
       <h2 style="font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,3.5vw,2.4rem);color:#0D1B2A;letter-spacing:-0.02em">Before and after Weld AI</h2>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:900px;margin:0 auto">
+    <div class="before-after-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:900px;margin:0 auto">
 
       <div style="background:#fff;border:1px solid #DDE8F2;border-radius:16px;padding:28px">
         <div style="font-size:0.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#EF4444;margin-bottom:1rem">Before</div>
@@ -589,3 +618,5 @@ document.querySelectorAll('.nav-links a').forEach(function(a){
   });
 })();
 </script>
+</body>
+</html>
