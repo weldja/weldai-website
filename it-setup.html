@@ -285,24 +285,23 @@ New-NetFirewallRule -DisplayName "Weld AI HTTPS" -Direction Inbound -Protocol TC
           <p>Open <strong>Hyper-V Manager</strong> as Administrator. Right-click your server name → <strong>New → Virtual Machine</strong> and use these settings:</p>
           <ul>
             <li>Name: <code>WeldAI-Ubuntu</code></li>
-            <li>Generation: <strong>Generation 2</strong></li>
+            <li>Generation: <strong>Generation 1</strong></li>
             <li>RAM: <strong>4096 MB</strong> — tick Use Dynamic Memory</li>
             <li>Networking: <strong>Default Switch</strong></li>
             <li>Hard disk: Create new — <strong>40GB</strong></li>
             <li>Installation: Install from ISO — browse to Ubuntu ISO</li>
           </ul>
+          <div class="callout warning" style="margin-top:10px;">
+            <span class="callout-icon">⚠️</span>
+            <div class="callout-body">
+              <strong>Set boot order before first start</strong>
+              Before starting the VM, right-click it → <strong>Settings → BIOS</strong>. Move <strong>DVD Drive</strong> to the top of the boot order so the VM boots from the Ubuntu ISO. After Ubuntu is installed you can move it back — the VM will then boot from the hard disk automatically.
+            </div>
+          </div>
         </div>
       </div>
       <div class="step">
         <div class="step-left"><div class="step-num">5</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Enable nested virtualisation</h3>
-          <p>Required for Docker to run inside the VM. Run on the host server with the VM powered off:</p>
-          <pre>Set-VMProcessor -VMName "WeldAI-Ubuntu" -ExposeVirtualizationExtensions $true</pre>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-left"><div class="step-num">6</div><div class="step-line"></div></div>
         <div class="step-body">
           <h3>Install Ubuntu</h3>
           <p>Start the VM and connect via Hyper-V Manager. Follow the Ubuntu Server installer — accept defaults. When asked:</p>
@@ -314,7 +313,7 @@ New-NetFirewallRule -DisplayName "Weld AI HTTPS" -Direction Inbound -Protocol TC
         </div>
       </div>
       <div class="step">
-        <div class="step-left"><div class="step-num">7</div><div class="step-line"></div></div>
+        <div class="step-left"><div class="step-num">6</div><div class="step-line"></div></div>
         <div class="step-body">
           <h3>Note the VM's IP address</h3>
           <p>Once Ubuntu has booted, log in and run:</p>
@@ -323,7 +322,7 @@ New-NetFirewallRule -DisplayName "Weld AI HTTPS" -Direction Inbound -Protocol TC
         </div>
       </div>
       <div class="step">
-        <div class="step-left"><div class="step-num">8</div><div class="step-line"></div></div>
+        <div class="step-left"><div class="step-num">7</div><div class="step-line"></div></div>
         <div class="step-body">
           <h3>Open firewall ports (multi-user only)</h3>
           <p>If staff will access Weld AI from other PCs, open ports 80 and 443 on the Windows Server firewall for the Ubuntu VM's IP address. We will advise on the exact rule during the installation call.</p>
@@ -351,7 +350,7 @@ New-NetFirewallRule -DisplayName "Weld AI HTTPS" -Direction Inbound -Protocol TC
 
     <div class="steps">
       <div class="step">
-        <div class="step-left"><div class="step-num">9</div><div class="step-line"></div></div>
+        <div class="step-left"><div class="step-num">8</div><div class="step-line"></div></div>
         <div class="step-body">
           <h3>Confirm share details with IT</h3>
           <p>Before the installation call, confirm:</p>
@@ -364,14 +363,14 @@ New-NetFirewallRule -DisplayName "Weld AI HTTPS" -Direction Inbound -Protocol TC
         </div>
       </div>
       <div class="step">
-        <div class="step-left"><div class="step-num">10</div><div class="step-line"></div></div>
+        <div class="step-left"><div class="step-num">9</div><div class="step-line"></div></div>
         <div class="step-body">
           <h3>Install CIFS utilities (we do this during install call)</h3>
           <pre>sudo apt install cifs-utils -y</pre>
         </div>
       </div>
       <div class="step">
-        <div class="step-left"><div class="step-num">11</div><div class="step-line"></div></div>
+        <div class="step-left"><div class="step-num">10</div><div class="step-line"></div></div>
         <div class="step-body">
           <h3>Mount the share</h3>
           <p>Create the mount point and mount the share. For a <strong>domain account</strong>:</p>
@@ -384,7 +383,7 @@ sudo mount -t cifs //fileserver/documents /mnt/weldai-docs -o username=jamesw,do
         </div>
       </div>
       <div class="step">
-        <div class="step-left"><div class="step-num">12</div><div class="step-line"></div></div>
+        <div class="step-left"><div class="step-num">11</div><div class="step-line"></div></div>
         <div class="step-body">
           <h3>Make the mount permanent (survives reboot)</h3>
           <p>Create a credentials file to store the password securely:</p>
