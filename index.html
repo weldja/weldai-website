@@ -91,13 +91,31 @@ textarea{min-height:100px;resize:vertical}
 .trust-item::before{content:'✓';color:#4ADE80;font-weight:700}
 footer{background:var(--ink);color:rgba(255,255,255,0.5);padding:28px 2rem;text-align:center;font-size:0.84rem}
 footer a{color:rgba(255,255,255,0.7);text-decoration:none}
-@media(max-width:700px){.contact-grid{grid-template-columns:1fr}.nav-links{display:none}section{padding:60px 1.25rem}.hero{padding:60px 1.25rem}}
+.nav-toggle{display:none}
+.nav-burger{display:none}
+@media(max-width:700px){
+.contact-grid{grid-template-columns:1fr}
+section{padding:60px 1.25rem}.hero{padding:60px 1.25rem}
+nav{height:auto;min-height:60px;flex-wrap:wrap;padding:0 1.25rem}
+.nav-burger{display:flex;flex-direction:column;justify-content:center;gap:5px;cursor:pointer;padding:10px;margin:-10px -10px -10px 0}
+.nav-burger span{display:block;width:22px;height:2px;background:var(--ink);border-radius:2px;transition:transform .2s,opacity .2s}
+.nav-links{display:none;flex-basis:100%;flex-direction:column;align-items:stretch;gap:0;width:100%;padding:6px 0 14px}
+.nav-links li{width:100%}
+.nav-links a{display:block;width:100%;padding:13px 2px;border-bottom:1px solid var(--border)}
+.nav-links .nav-cta{text-align:center;border-bottom:none;margin-top:10px}
+.nav-toggle:checked ~ .nav-links{display:flex}
+.nav-toggle:checked ~ .nav-burger span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-toggle:checked ~ .nav-burger span:nth-child(2){opacity:0}
+.nav-toggle:checked ~ .nav-burger span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+}
 </style>
 </head>
 <body>
 
 <nav>
   <a class="nav-logo" href="#"><span>Weld</span>AI</a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle">
+  <label for="nav-toggle" class="nav-burger" aria-label="Open menu"><span></span><span></span><span></span></label>
   <ul class="nav-links">
     <li><a href="#for">Who it's for</a></li>
     <li><a href="#how">How it works</a></li>
@@ -536,3 +554,8 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
   </div>
   <p>© 2026 Weld AI · weldai.uk · York, England</p>
 </footer>
+<script>
+document.querySelectorAll('.nav-links a').forEach(function(a){
+  a.addEventListener('click',function(){document.getElementById('nav-toggle').checked=false});
+});
+</script>
