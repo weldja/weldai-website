@@ -3,8 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="IT setup guide for Weld AI — step-by-step instructions for preparing Windows Server or Linux for Weld AI installation.">
-<title>IT Setup Guide — Weld AI</title>
+<meta name="description" content="Step-by-step IT setup guide for Weld AI installation on Windows PC, Windows Server with Ubuntu VM, Windows Server Direct, or Linux. Prerequisites and commands.">
+<title>IT Setup Guide — Weld AI Installation Prerequisites</title>
+<link rel="canonical" href="https://www.weldai.uk/it-setup.html">
+
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://www.weldai.uk/it-setup.html">
+<meta property="og:title" content="IT Setup Guide — Weld AI Installation Prerequisites">
+<meta property="og:description" content="Step-by-step IT setup guide for Weld AI installation on Windows PC, Windows Server with Ubuntu VM, or Linux. Prerequisites and exact commands.">
+<meta property="og:image" content="https://www.weldai.uk/screenshot-chat.png">
+<meta property="og:site_name" content="Weld AI">
+<meta property="og:locale" content="en_GB">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://www.weldai.uk/it-setup.html">
+<meta name="twitter:title" content="IT Setup Guide — Weld AI Installation Prerequisites">
+<meta name="twitter:description" content="Step-by-step IT setup guide for Weld AI installation on Windows PC, Windows Server with Ubuntu VM, or Linux. Prerequisites and exact commands.">
+<meta name="twitter:image" content="https://www.weldai.uk/screenshot-chat.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 <style>
@@ -98,6 +113,26 @@ ul,ol{padding-left:20px;margin-bottom:10px;font-size:0.88rem;color:var(--ink-mid
   code{word-break:break-all}
 }
 </style>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "IT Setup Guide — Weld AI Installation Prerequisites",
+  "description": "Step-by-step IT setup guide for Weld AI installation on Windows PC, Windows Server with Ubuntu VM, Windows Server Direct, or Linux. Covers prerequisites, exact PowerShell and shell commands, and WSL2 setup.",
+  "url": "https://www.weldai.uk/it-setup.html",
+  "inLanguage": "en-GB",
+  "isPartOf": {"@type": "WebSite", "url": "https://www.weldai.uk/", "name": "Weld AI"},
+  "publisher": {
+    "@type": "Organization",
+    "@id": "https://www.weldai.uk/#organization",
+    "name": "Weld AI",
+    "url": "https://www.weldai.uk/"
+  },
+  "audience": {"@type": "Audience", "audienceType": "IT staff and system administrators"}
+}
+</script>
+
 </head>
 <body>
 
@@ -166,7 +201,7 @@ ul,ol{padding-left:20px;margin-bottom:10px;font-size:0.88rem;color:var(--ink-mid
       <span class="callout-icon">✅</span>
       <div class="callout-body">
         <strong>Minimal IT preparation needed</strong>
-        For a standard Windows 10/11 PC, we handle WSL2 and Docker setup during the installation call. Your IT team just needs to confirm the requirements above are met and provide Administrator access.
+        On most Windows 10/11 PCs, IT enables WSL2 in advance with a single command (Step 2 below). We then handle Docker Desktop install, Weld AI setup, and SSL during the installation call.
       </div>
     </div>
 
