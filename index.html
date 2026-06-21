@@ -3,8 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Weld AI is a private company knowledge assistant for UK small businesses. Instant answers from your own documents, source cited, installed in a day. From £350.">
-<title>Private Company Knowledge Search for UK SMEs | Weld AI</title>
+<meta name="description" content="Self-hosted AI document search for UK accountants and solicitors. Source-cited answers, plain-English queries, documents stay on your server. From £350.">
+<title>Self-Hosted AI Document Search for UK Professional Services | Weld AI</title>
+<link rel="canonical" href="https://www.weldai.uk/">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.weldai.uk/">
+<meta property="og:title" content="Self-Hosted AI Document Search for UK Professional Services | Weld AI">
+<meta property="og:description" content="Ask questions across all your company documents in plain English. Source-cited answers in seconds. Documents never leave your server. From £350.">
+<meta property="og:image" content="https://www.weldai.uk/screenshot-chat.png">
+<meta property="og:site_name" content="Weld AI">
+<meta property="og:locale" content="en_GB">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://www.weldai.uk/">
+<meta name="twitter:title" content="Self-Hosted AI Document Search for UK Professional Services | Weld AI">
+<meta name="twitter:description" content="Ask questions across all your company documents in plain English. Source-cited answers in seconds. Documents never leave your server. From £350.">
+<meta name="twitter:image" content="https://www.weldai.uk/screenshot-chat.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 <style>
@@ -110,6 +125,117 @@ nav{height:auto;min-height:60px;flex-wrap:wrap;padding:0 1.25rem}
 .nav-toggle:checked ~ .nav-burger span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 }
 </style>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://www.weldai.uk/#organization",
+      "name": "Weld AI",
+      "url": "https://www.weldai.uk/",
+      "founder": {"@type": "Person", "name": "James Weld"},
+      "email": "hello@weldai.uk",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "York",
+        "addressCountry": "GB"
+      },
+      "areaServed": {"@type": "Country", "name": "United Kingdom"},
+      "description": "Self-hosted AI document search for UK professional services firms — accountants, solicitors, HR consultancies."
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Weld AI Document Assistant",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Windows, Linux",
+      "description": "Self-hosted AI document search. Ask questions in plain English across your firm's documents and get answers with exact source citations. Documents never leave your server.",
+      "offers": {
+        "@type": "Offer",
+        "price": "350",
+        "priceCurrency": "GBP",
+        "description": "One-time remote installation, includes 30 days support. Plus £2 to £5 per month in AI usage."
+      },
+      "provider": {"@id": "https://www.weldai.uk/#organization"}
+    }
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Do my documents leave my server?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Your documents remain on your server at all times. No full document uploads — ever. Only the question you ask and a few relevant paragraphs are sent to the AI to generate an answer. Everything else stays on your infrastructure."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What servers does it run on?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Weld AI supports four install configurations. Windows PC or Workstation: Windows 10 (21H2+) or Windows 11, 8GB RAM minimum — most common for small firms. Windows Server with Ubuntu VM: recommended for servers, a small Linux virtual machine runs inside Windows Server via Hyper-V with full network share support. Linux Server: Ubuntu 22.04 or Debian 12, simplest install with full network share support. Windows Server Direct: alternative only, requires complex WSL2 setup."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What's the install process like, and do we need IT staff?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Usually under one hour, remote over a Teams or Zoom screen-share. No engineer visit, no separate IT project. In most cases your team can start asking questions the same day. Day-to-day use needs no technical skill — staff open a browser and type a question, and adding new documents is just copying a file into a folder and clicking Refresh."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What document formats does it support?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "PDF, Word (.docx, .doc), PowerPoint (.pptx), Excel (.xlsx, .csv), and plain text files. Most business documents are supported out of the box."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What happens when I add new documents?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Copy the file into your documents folder and click Refresh in the app. Only new or changed files are re-indexed — the process takes seconds for most documents."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does it cost to run?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Installation is from £350 (remote, includes 30 days support). The only ongoing cost is the AI usage — typically £2 to £5 per month for a small business, paid directly to the AI provider. No monthly subscription to Weld AI."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Where can our documents live? OneDrive, network drives, file servers?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Local drives (C:, D:, E:, USB) work as long as they're connected at startup. OneDrive or SharePoint synced to the PC works, provided the documents folder is set to 'Always keep on this device' in File Explorer. Network mapped drives aren't supported on Windows installs due to a Docker on Windows limitation. If your documents only live on a file server, we install Weld AI directly on the server (Windows Server or Linux) — that gives full network-share support."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this suitable for our industry?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Weld AI works best for businesses with a significant volume of internal documents — policies, procedures, contracts, technical manuals, compliance guides. It works particularly well for accountancy practices, solicitors, HR firms, and engineering companies. If your team regularly spends time searching for information they know exists, it's a strong fit."
+      }
+    }
+  ]
+}
+</script>
+
 </head>
 <body>
 
