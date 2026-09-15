@@ -37,10 +37,10 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
 </nav>
 <div class="container">
   <h1>Privacy Policy</h1>
-  <p class="meta">Last updated: May 2026 &nbsp;·&nbsp; Weld AI &nbsp;·&nbsp; York, England</p>
+  <p class="meta">Last updated: September 2026 &nbsp;·&nbsp; Weld AI &nbsp;·&nbsp; York, England</p>
 
   <div class="highlight">
-    <strong>Plain English summary:</strong> Your documents never leave your server. Only your question and the most relevant text excerpts are sent to Claude AI per query. Anthropic does not train on your data. We collect only the minimum personal data needed to provide our services.
+    <strong>Plain English summary:</strong> Your documents, search index and chat history stay on your server. For each question, Weld AI sends Claude AI your question, the recent conversation, the names of the files it quotes, and a few short excerpts with common identifiers removed. Anthropic does not train on your data and deletes it within 30 days. We collect only the minimum personal data needed to provide our services.
   </div>
 
   <h2>1. Who we are</h2>
@@ -55,15 +55,19 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
     <tbody>
       <tr><td>Your documents (PDF, Word, Excel etc.)</td><td class="check">✓ Always</td><td class="cross">✗ Never</td></tr>
       <tr><td>Document index (vector database)</td><td class="check">✓ Always</td><td class="cross">✗ Never</td></tr>
-      <tr><td>Conversation history</td><td class="check">✓ Always</td><td class="cross">✗ Never</td></tr>
+      <tr><td>Conversation history (stored)</td><td class="check">✓ Always</td><td class="cross">✗ Never</td></tr>
       <tr><td>Your Anthropic API key</td><td class="check">✓ Always</td><td class="cross">✗ Never sent to Weld AI</td></tr>
       <tr><td>Your question (per query)</td><td></td><td>Sent to Anthropic Claude API only</td></tr>
-      <tr><td>Relevant document excerpts (per query)</td><td></td><td>The most relevant excerpts sent to Anthropic Claude API only</td></tr>
+      <tr><td>Recent conversation (per query)</td><td></td><td>The last few messages, so follow-up questions make sense. Sent to Anthropic Claude API only</td></tr>
+      <tr><td>Relevant document excerpts (per query)</td><td></td><td>Up to 8 short excerpts (about 1,000 characters each), with identifiers removed. Sent to Anthropic Claude API only</td></tr>
+      <tr><td>File names and page numbers of those excerpts</td><td></td><td>Sent so answers can cite their source. Anthropic Claude API only</td></tr>
       <tr><td>Usage analytics / telemetry</td><td class="check">✓ None collected</td><td class="cross">✗ Never</td></tr>
     </tbody>
   </table></div>
 
-  <p>Weld AI does not have access to your documents, queries, conversation history, or API key at any time.</p>
+  <p>Before excerpts are sent, Weld AI removes National Insurance numbers, UTRs, bank sort codes and account numbers, IBANs, payment card numbers, email addresses, phone numbers, passwords and PINs. This is pattern-based: it does <strong>not</strong> remove names, addresses or other free text, and your question is sent as typed. File names are sent as they are, so avoid putting sensitive details in file names.</p>
+
+  <p>Document search and ranking run entirely on your server. Weld AI does not have access to your documents, queries, conversation history, or API key at any time.</p>
 
   <h2>3. Anthropic Claude API</h2>
   <p>When using the Claude API integration, your questions and relevant document excerpts are sent to Anthropic's API to generate answers. Anthropic makes the following commitments for API customers:</p>
@@ -72,18 +76,18 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
     <li><strong>Data deleted within 30 days</strong> — Anthropic automatically deletes API inputs and outputs from their backend systems within 30 days of receipt. Data is never used to train their models. For full details see <a href="https://privacy.claude.com/en/articles/7996866-how-long-do-you-store-my-organization-s-data" target="_blank">Anthropic's commercial data retention policy</a>.</li>
     <li><strong>SOC 2 Type II certified</strong> — enterprise-grade security certification.</li>
     <li><strong>HTTPS encrypted</strong> — all communication is TLS encrypted in transit.</li>
-    <li><strong>Data Processing Agreement (DPA) available</strong> — Anthropic provides a DPA which includes Standard Contractual Clauses (SCCs) for EU data transfers and UK International Data Transfer Agreement (IDTA) for UK data transfers. This is automatically incorporated into Anthropic's Commercial Terms for API customers.</li>
+    <li><strong>Data Processing Addendum (DPA) available</strong> — Anthropic provides a DPA which includes Standard Contractual Clauses (SCCs) for EU data transfers and the UK International Data Transfer Addendum for UK data transfers. This is automatically incorporated into Anthropic's Commercial Terms for API customers.</li>
   </ul>
 
   <div class="warn">
-    <strong>Important — data location:</strong> Anthropic's API processes all data on servers located in the United States. There is no EU or UK hosting option. Data transfers from the UK to the US are covered by the UK IDTA included in Anthropic's DPA, but you should be aware that your data leaves the UK for processing.
+    <strong>Important — data location:</strong> Anthropic's API has no UK or EU processing option. Data is processed outside the UK, primarily in the United States. Transfers are covered by the UK International Data Transfer Addendum in Anthropic's DPA, but you should be aware that the data sent per question leaves the UK for processing.
   </div>
 
   <div class="warn">
     <strong>For solicitors, accountants, and regulated firms:</strong> As the data controller, your firm remains responsible for ensuring that sending document excerpts to Anthropic's API is consistent with your client confidentiality obligations and your firm's data protection policies. We recommend the following steps before processing client-specific documents:
     <ol style="margin-top:8px;padding-left:1.2rem">
       <li>Review <a href="https://www.anthropic.com/legal" target="_blank">Anthropic's Data Processing Agreement</a> — this is incorporated automatically when you create an API account under Anthropic's Commercial Terms.</li>
-      <li>Confirm with your compliance officer or DPO that processing under the UK IDTA is acceptable for your firm.</li>
+      <li>Confirm with your compliance officer or DPO that processing under the UK International Data Transfer Addendum is acceptable for your firm.</li>
       <li>Consider whether any documents contain information that should not leave UK jurisdiction before uploading them to the system.</li>
     </ol>
   </div>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Ask your own documents anything and get an answer in seconds, with the source and page. Runs on your server — nothing is ever uploaded. From £350, no subscription.">
+<meta name="description" content="Ask your own documents anything and get an answer in seconds, with the source and page. Runs on your server — your files are never uploaded. From £350, no subscription.">
 <title>Weld AI — AI document search that runs on your own server</title>
 <link rel="canonical" href="https://www.weldai.uk/">
 
@@ -150,7 +150,7 @@ nav{height:auto;min-height:60px;flex-wrap:wrap;padding:0 1.25rem}
       "name": "Weld AI Document Assistant",
       "applicationCategory": "BusinessApplication",
       "operatingSystem": "Windows, Linux",
-      "description": "Self-hosted AI document search. Ask questions in plain English across your firm's documents and get answers with exact source citations. Documents never leave your server.",
+      "description": "Self-hosted AI document search. Ask questions in plain English across your firm's documents and get answers with exact source citations. Your files are never uploaded.",
       "offers": {
         "@type": "Offer",
         "price": "350",
@@ -173,7 +173,7 @@ nav{height:auto;min-height:60px;flex-wrap:wrap;padding:0 1.25rem}
       "name": "Do my documents leave my server?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No. Your documents remain on your server at all times. No full document uploads — ever. Only the question you ask and a few relevant paragraphs are sent to the AI to generate an answer. Everything else stays on your infrastructure."
+        "text": "No. Your documents, the search index and your chat history stay on your server. To write an answer, Weld AI sends Anthropic's Claude your question, the recent conversation, the names of the files it quotes, and up to eight short excerpts with identifiers such as NI numbers, UTRs, bank details, emails and phone numbers removed. Anthropic does not use this data to train its models and deletes it within 30 days."
       }
     },
     {
@@ -258,7 +258,7 @@ nav{height:auto;min-height:60px;flex-wrap:wrap;padding:0 1.25rem}
 
 <div class="hero">
   <div class="hero-badge">🔒 For UK firms that can't put client files in the cloud</div>
-  <h1>Ask your documents anything.<br><em>They never leave your building.</em></h1>
+  <h1>Ask your documents anything.<br><em>Your files stay on your own server.</em></h1>
   <p>Weld AI installs on your own server, reads your files, and answers questions in plain English — with the exact document and page number.</p>
   <div class="hero-btns">
     <a href="#contact" class="btn-primary">Book a free demo</a>
@@ -378,10 +378,10 @@ nav{height:auto;min-height:60px;flex-wrap:wrap;padding:0 1.25rem}
   <div class="container">
     <div class="section-label">Data privacy</div>
     <h2>We bring the AI to your data, not your data to the AI</h2>
-    <p class="section-sub">Nothing is uploaded. Only your question and a few relevant paragraphs are sent out to write the answer.</p>
+    <p class="section-sub">Your files are never uploaded. To write each answer, only your question and a few short excerpts, with identifiers removed, are sent out.</p>
     <div class="privacy-grid">
-      <div class="privacy-card"><div class="privacy-icon">🗄️</div><div><h4>Your files stay where they are</h4><p>Documents are indexed on your own server and never stored anywhere else. Access is over HTTPS, encrypted end to end.</p></div></div>
-      <div class="privacy-card"><div class="privacy-icon">🤖</div><div><h4>Answers written by Claude</h4><p>Anthropic's Claude API is SOC 2 Type II certified and its terms prohibit training on your queries. Excerpts are processed and discarded.</p></div></div>
+      <div class="privacy-card"><div class="privacy-icon">🗄️</div><div><h4>Your files stay where they are</h4><p>Documents are indexed on your own server and never stored anywhere else. Access is over HTTPS, encrypted in transit.</p></div></div>
+      <div class="privacy-card"><div class="privacy-icon">🤖</div><div><h4>Answers written by Claude</h4><p>Anthropic's Claude API is SOC 2 Type II certified and its terms prohibit training on your data. Anthropic deletes what it receives within 30 days.</p></div></div>
     </div>
   </div>
 </section>
@@ -436,7 +436,7 @@ nav{height:auto;min-height:60px;flex-wrap:wrap;padding:0 1.25rem}
           Do my documents leave my server?
           <span style="color:#185FA5;flex-shrink:0;margin-left:12px">＋</span>
         </summary>
-        <p style="padding:0 20px 18px;color:#3D5166;font-size:0.92rem;margin:0">No. Your documents remain on your server at all times. No full document uploads — ever. Only the question you ask and a few relevant paragraphs are sent to the AI to generate an answer. Everything else stays on your infrastructure.</p>
+        <p style="padding:0 20px 18px;color:#3D5166;font-size:0.92rem;margin:0">No. Your documents, the search index and your chat history stay on your server. To write an answer, Weld AI sends Anthropic's Claude your question, the recent conversation, the names of the files it quotes, and up to eight short excerpts with identifiers such as NI numbers, UTRs, bank details, emails and phone numbers removed. Anthropic does not use this data to train its models and deletes it within 30 days.</p>
       </details>
 
       <details style="border:1px solid #DDE8F2;border-radius:12px;margin-bottom:10px;background:#fff;overflow:hidden">
