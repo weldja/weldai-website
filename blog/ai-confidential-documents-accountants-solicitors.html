@@ -76,7 +76,7 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
     <h1>Can You Use AI with Confidential Documents? What UK Accountants and Solicitors Need to Know</h1>
     <div class="hero-meta">
       <span>By James Weld</span>
-      <span>May 2026</span>
+      <span>May 2026 (updated September 2026)</span>
       <span>7 min read</span>
     </div>
   </div>
@@ -105,18 +105,18 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
   <p>Not all AI document tools work the same way. There's a crucial architectural difference between them.</p>
 
   <h3>Approach 1: Cloud-based AI (documents uploaded to third-party servers)</h3>
-  <p>Tools like Microsoft Copilot, ChatGPT file uploads, Google NotebookLM, and most SaaS AI assistants work by sending your documents to their cloud infrastructure. Your files are processed, stored, and indexed on servers you don't own or control.</p>
+  <p>ChatGPT file uploads, Google NotebookLM, and most SaaS AI assistants need your documents uploaded to their cloud. Microsoft 365 Copilot works on files you have already moved into Microsoft's cloud (SharePoint and OneDrive). Either way, your files are processed, stored, and indexed on servers you don't own or control.</p>
 
   <p>These services are convenient and often well-designed. But they require you to transfer your documents outside your own infrastructure — which for professional services firms raises immediate questions about client confidentiality, data protection, and professional conduct rules.</p>
 
-  <h3>Approach 2: Locally-hosted AI (documents never leave your server)</h3>
-  <p>A locally-hosted system installs on your own server or PC. Your documents are indexed and stored entirely on your own infrastructure. When a question is asked, only the question and a few relevant paragraphs are sent to an AI model to generate the answer.</p>
+  <h3>Approach 2: Locally-hosted AI (your files stay on your server)</h3>
+  <p>A locally-hosted system installs on your own server or PC. Your documents are indexed and stored entirely on your own infrastructure. When a question is asked, only the question, the recent conversation and a few short excerpts are sent to an AI model to write the answer.</p>
 
-  <p>Your full documents never leave your building.</p>
+  <p>Your full documents are never uploaded anywhere.</p>
 
   <div class="callout">
     <h4>How a locally-hosted system handles a query</h4>
-    <p>User asks: "What is our standard fee for a probate matter under £500,000?" → System finds the relevant clause in your fee schedule on your local server → Sends only that clause + the question to Claude AI → Returns the answer with source citation. The rest of your documents stay untouched on your server.</p>
+    <p>User asks: "What is our standard fee for a probate matter under £500,000?" → System finds the relevant clause in your fee schedule on your local server → Sends that clause (with identifiers such as NI numbers and bank details removed) + the question to Claude AI → Returns the answer with source citation. The rest of your documents stay untouched on your server.</p>
   </div>
 
   <h2>What Actually Gets Sent to the AI — A Plain-English Comparison</h2>
@@ -133,8 +133,9 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
       <tr><td>Your documents uploaded to external servers</td><td>✗ Yes</td><td>✓ Never</td></tr>
       <tr><td>Documents stored on third-party infrastructure</td><td>✗ Yes</td><td>✓ Never</td></tr>
       <tr><td>Used to train AI models</td><td>~ Depends on settings</td><td>✓ No — Anthropic API TOS prohibits it</td></tr>
-      <tr><td>What gets sent per query</td><td>Varies — often full document</td><td>Question + 2–3 relevant paragraphs only</td></tr>
-      <tr><td>Data remains under your control</td><td>✗ Partial</td><td>✓ Full control</td></tr>
+      <tr><td>What gets sent per query</td><td>Varies — often full document</td><td>Question, recent conversation, file names and up to 8 short excerpts, with identifiers removed</td></tr>
+      <tr><td>Data remains under your control</td><td>✗ Partial</td><td>✓ Documents and index stay on your server</td></tr>
+      <tr><td>How long the AI provider keeps what it receives</td><td>~ Varies by product and plan</td><td>✓ Deleted by Anthropic within 30 days</td></tr>
       <tr><td>GDPR data processor agreement available</td><td>✓ Usually yes</td><td>✓ Yes (Anthropic)</td></tr>
     </tbody>
   </table>
@@ -175,11 +176,15 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
   <p>Weld AI uses Anthropic's Claude API to generate answers. When a question is asked, the question and relevant document excerpts are sent to Anthropic's API. Here's what Anthropic commits to:</p>
 
   <ul>
-    <li><strong>No training on API data</strong> — Anthropic's API Terms of Service explicitly state that inputs and outputs from the API are not used to train their models. This is different from their consumer products (Claude.ai), where data handling depends on your subscription tier.</li>
+    <li><strong>No training on API data</strong> — Anthropic's API Terms of Service explicitly state that inputs and outputs from the API are not used to train their models. This is different from their consumer products (Claude.ai), where data use depends on your account settings.</li>
     <li><strong>SOC 2 Type II certified</strong> — independently audited security controls, the same standard required by most enterprise procurement teams.</li>
-    <li><strong>Data Processing Agreement available</strong> — Anthropic offers a DPA for business customers, covering UK GDPR and Standard Contractual Clauses for international data transfers.</li>
+    <li><strong>Deleted within 30 days</strong> — Anthropic automatically deletes API inputs and outputs from its systems within 30 days.</li>
+    <li><strong>Data Processing Addendum included</strong> — Anthropic's DPA is part of its Commercial Terms for API customers. It includes Standard Contractual Clauses and the UK International Data Transfer Addendum.</li>
+    <li><strong>Processed outside the UK</strong> — Anthropic's API has no UK or EU processing option; data is processed primarily in the United States. Your compliance lead should confirm this is acceptable.</li>
     <li><strong>HTTPS encrypted in transit</strong> — all communication between your server and the Claude API is TLS encrypted.</li>
   </ul>
+
+  <p>Before anything is sent, Weld AI also strips common identifiers from the excerpts: NI numbers, UTRs, bank details, card numbers, email addresses and phone numbers. It does not remove names, addresses or other free text, which is why the traffic-light framework below still matters.</p>
 
   <p>You can review Anthropic's full privacy policy and DPA at <a href="https://www.anthropic.com/legal" target="_blank" style="color:var(--blue)">anthropic.com/legal</a>.</p>
 
@@ -215,7 +220,7 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
 
   <h2>The Bottom Line</h2>
 
-  <p>AI document search is not inherently incompatible with client confidentiality — but the architecture matters enormously. A cloud tool that stores your documents on external servers is a fundamentally different proposition from a locally-hosted system where your documents never leave your network.</p>
+  <p>AI document search is not inherently incompatible with client confidentiality — but the architecture matters enormously. A cloud tool that stores your documents on external servers is a fundamentally different proposition from a locally-hosted system where your documents stay on your own network.</p>
 
   <p>For most small professional services firms, the pragmatic starting point is clear: deploy AI for your internal knowledge first, get comfortable with how it works, and expand carefully from there.</p>
 

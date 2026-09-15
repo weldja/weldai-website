@@ -66,7 +66,7 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
     <h1>How Small Businesses Can Search Their Documents with AI — Without the Privacy Risk</h1>
     <div class="hero-meta">
       <span>By James Weld</span>
-      <span>May 2026</span>
+      <span>May 2026 (updated September 2026)</span>
       <span>8 min read</span>
     </div>
   </div>
@@ -113,27 +113,27 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
   <p>AI document search — sometimes called a RAG system (Retrieval-Augmented Generation) — works in two stages:</p>
 
   <h3>Stage 1: Indexing your documents</h3>
-  <p>The AI reads all your documents and builds a searchable index. Unlike a traditional keyword search, it understands the <em>meaning</em> of text — so asking "what's our policy on flexible working?" will find the relevant section even if those exact words don't appear in the document.</p>
+  <p>The AI reads all your documents and builds a searchable index. Unlike a traditional keyword search, it understands the <em>meaning</em> of text — so asking "what's our policy on flexible working?" will find the relevant section even if those exact words don't appear in the document. It also still matches exact terms, so a form number, clause reference or client name is found precisely.</p>
 
   <h3>Stage 2: Answering questions</h3>
   <p>When a staff member asks a question, the system finds the most relevant paragraphs from your documents and passes them to an AI language model — in our case, Claude by Anthropic — to generate a clear, specific answer. The response includes the exact document name and page number so staff can verify it.</p>
 
-  <blockquote>"What is our notice period for Grade 4 staff?" → Answer in 2 seconds, with source cited. No searching required."</blockquote>
+  <blockquote>"What is our notice period for Grade 4 staff?" → Answer in 2 seconds, with source cited. No searching required.</blockquote>
 
   <h2>The Privacy Question You Must Ask</h2>
 
   <p>Here's where most AI document tools fall short for professional services firms.</p>
 
-  <p>Tools like Microsoft Copilot, ChatGPT with file uploads, and most cloud-based AI assistants work by uploading your documents to their servers. Your client contracts, HR files, financial data, and confidential procedures are sent to and stored on infrastructure you don't control.</p>
+  <p>ChatGPT file uploads and most cloud-based AI assistants need your documents uploaded to their servers, and Microsoft 365 Copilot works on files you have already moved into Microsoft's cloud. Either way, your client contracts, HR files, financial data, and confidential procedures are stored on infrastructure you don't control.</p>
 
   <p>For many businesses — particularly those subject to SRA, FCA, or ICO oversight — this creates real compliance risk.</p>
 
   <div class="callout">
     <h4>What actually gets sent to the AI — and what doesn't</h4>
-    <p>With a properly configured private AI system, your documents never leave your server. When a question is asked, only the question itself and a few relevant paragraphs are sent to the AI model to generate an answer. The full documents stay on your own infrastructure at all times.</p>
+    <p>With a properly configured private AI system, your documents are never uploaded. When a question is asked, only the question, the recent conversation and a few short excerpts are sent to the AI model to write the answer, with identifiers such as NI numbers, bank details and phone numbers removed first. The full documents and the search index stay on your own infrastructure at all times.</p>
   </div>
 
-  <p>Anthropic — the company behind Claude AI, which powers Weld AI — explicitly prohibits using API inputs to train their models. Your queries are processed and discarded. They are also SOC 2 Type II certified, the same security standard used by enterprise cloud providers.</p>
+  <p>Anthropic — the company behind Claude AI, which powers Weld AI — explicitly prohibits using API inputs to train their models. Anthropic deletes what it receives within 30 days. They are also SOC 2 Type II certified, the same security standard used by enterprise cloud providers.</p>
 
   <h2>Five Use Cases Where This Makes an Immediate Difference</h2>
 
@@ -171,7 +171,7 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
   <p>Click one button — the system re-indexes only the changed files in seconds. No need to rebuild the whole index every time.</p>
 
   <h3>"Is this suitable for client-facing data?"</h3>
-  <p>That depends on your firm's policies and regulatory obligations. For highly sensitive client-specific matters, we'd recommend using the system for internal knowledge and procedures rather than client files. Your data protection officer or compliance lead should review Anthropic's Data Processing Agreement before going live with sensitive data.</p>
+  <p>That depends on your firm's policies and regulatory obligations. For highly sensitive client-specific matters, we'd recommend using the system for internal knowledge and procedures rather than client files. Your data protection officer or compliance lead should review Anthropic's Data Processing Addendum before going live with sensitive data.</p>
 
   <h2>The Bottom Line</h2>
 
