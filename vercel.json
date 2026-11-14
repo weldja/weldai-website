@@ -38,6 +38,10 @@
     {
       "source": "/demo",
       "destination": "/demo.html"
+    },
+    {
+      "source": "/it-setup",
+      "destination": "/it-setup.html"
     }
   ]
 }

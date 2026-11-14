@@ -1,22 +1,32 @@
 <#
 .SYNOPSIS
-    Weld AI Pre-Installation Diagnostics v1.4
+    Weld AI System Check v2.0 (on-premise edition)
 .DESCRIPTION
-    Checks the server environment against Weld AI installation requirements.
-    Produces a plain-text report zipped to the Desktop.
-    Makes NO changes to the system.
+    Checks whether this Windows PC can run Weld AI, which runs entirely on
+    this machine with no cloud service.
+
+    - Makes NO changes to the system.
+    - Makes NO internet connections.
+    - Reads NO documents and NO file names. It records hardware, Windows and
+      network settings only (the report is plain text - open it and look).
+
+    Writes weldai-diagnostics.zip to your Desktop.
 .USAGE
     Right-click > Run with PowerShell
     Email weldai-diagnostics.zip from your Desktop to hello@weldai.uk
-    Subject: Diagnostics - [your company name]
+    Subject: System check - [your business name]
 #>
+param(
+    [switch]$NoPause,          # for unattended runs: skip Explorer and the final prompt
+    [string]$OutDir = "$env:USERPROFILE\Desktop"
+)
 
 $ErrorActionPreference = 'SilentlyContinue'
 
 # -- Output setup --------------------------------------------------------------
 $timestamp  = Get-Date -Format 'yyyy-MM-dd_HH-mm'
 $reportPath = "$env:TEMP\weldai-diagnostics_$timestamp.txt"
-$zipPath    = "$env:USERPROFILE\Desktop\weldai-diagnostics.zip"
+$zipPath    = Join-Path $OutDir 'weldai-diagnostics.zip'
 $lines      = [System.Collections.Generic.List[string]]::new()
 
 function Add  { param($t = '') $lines.Add($t); Write-Host $t }
@@ -26,447 +36,251 @@ function Ok   { param($t) Add "  [PASS]  $t" }
 function Warn { param($t) Add "  [WARN]  $t" }
 function Fail { param($t) Add "  [FAIL]  $t" }
 function Info { param($t) Add "  [INFO]  $t" }
-function Skip { param($t) Add "  [SKIP]  $t (requires Administrator - please confirm manually)" }
+function Skip { param($t) Add "  [SKIP]  $t (needs Administrator - please confirm manually)" }
 
 $isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 
-Add "Weld AI Pre-Installation Diagnostics"
+Add "Weld AI System Check v2.0 (on-premise edition)"
 Add "Generated : $(Get-Date -Format 'dd MMM yyyy HH:mm')"
-Add "Hostname  : $env:COMPUTERNAME"
-Add "Run as    : $env:USERDOMAIN\$env:USERNAME"
+Add "Computer  : $env:COMPUTERNAME"
 Add "Admin     : $isAdmin"
+Add ""
+Add "This report holds hardware, Windows and network settings only."
+Add "No documents or file names were read. No internet connection was made."
 if (-not $isAdmin) {
     Add ""
-    Add "  NOTE: Running as standard user. Some checks marked [SKIP] require"
-    Add "  Administrator rights. Please confirm those items manually."
+    Add "  NOTE: Run as a standard user. Checks marked [SKIP] need Administrator"
+    Add "  rights. That is fine - they can be confirmed on the install call."
 }
 Sep
 
 # -- 1. WINDOWS VERSION -------------------------------------------------------
-Head "1. Windows Operating System"
+Head "1. Windows"
 
 $os      = Get-CimInstance Win32_OperatingSystem
 $build   = [int]$os.BuildNumber
-$version = (Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -ErrorAction SilentlyContinue).DisplayVersion
+$cv      = Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion'
+$version = $cv.DisplayVersion
+$installType = $cv.InstallationType
 
 Info "OS      : $($os.Caption)"
 Info "Version : $version  (Build $build)"
 
-# Check InstallationType first — Server builds overlap with Win10 build numbers
-$installType = (Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -ErrorAction SilentlyContinue).InstallationType
-
 if ($installType -in @('Server', 'Server Core')) {
-    # Windows Server
-    Info "Windows Server installation type: $installType"
-    if ($installType -eq 'Server Core') {
-        Fail "Windows Server Core detected - Weld AI requires Desktop Experience edition. Reinstall Windows Server with Desktop Experience."
-    } else {
-        Ok "Windows Server 2022 with Desktop Experience detected (build $build) - supported"
-    }
+    Warn "Windows Server detected. The standard install is for Windows 10 or 11 PCs - email hello@weldai.uk before going further."
 } elseif ($build -ge 22000) {
-    Ok "Windows 11 detected - fully supported"
+    Ok "Windows 11 - supported"
 } elseif ($build -ge 19044) {
-    Ok "Windows 10 $version (build $build) - meets 21H2 minimum"
+    Ok "Windows 10 $version (build $build) - meets the 21H2 minimum"
 } else {
-    Fail "Windows 10 build $build is below the 21H2 minimum (19044). OS update required."
+    Fail "Windows 10 build $build is older than 21H2 (19044). Run Windows Update first."
 }
 
-# -- 2. WSL2 ------------------------------------------------------------------
-Head "2. WSL2"
-
-if ($isAdmin) {
-    $wslF = Get-WindowsOptionalFeature -Online -FeatureName 'Microsoft-Windows-Subsystem-Linux' -ErrorAction SilentlyContinue
-    $vmpF = Get-WindowsOptionalFeature -Online -FeatureName 'VirtualMachinePlatform'            -ErrorAction SilentlyContinue
-
-    if ($wslF.State -eq 'Enabled') { Ok "WSL feature enabled" }
-    else                            { Fail "WSL feature NOT enabled. Run: wsl --install" }
-
-    if ($vmpF.State -eq 'Enabled') { Ok "Virtual Machine Platform enabled" }
-    else                            { Fail "Virtual Machine Platform NOT enabled. Run: wsl --install" }
-} else {
-    Skip "WSL feature status"
-    Skip "Virtual Machine Platform status"
-}
-
-# WSL network adapter is visible to standard users and is a reliable proxy
-# for WSL2 being installed and active
-$wslAdapter = Get-NetAdapter -ErrorAction SilentlyContinue | Where-Object { $_.Name -like '*WSL*' }
-if ($wslAdapter) {
-    Ok "WSL network adapter detected - WSL2 appears to be active"
-} else {
-    Info "WSL network adapter not found - WSL2 may not be installed or not currently running"
-}
-
-$wslStatus = & wsl --status 2>&1 | Out-String
-if     ($wslStatus -match 'Default Version\s*:\s*2') { Ok "WSL default version is 2" }
-elseif ($wslStatus -match 'Default Version\s*:\s*1') {
-    Warn "WSL default version is 1. Run: wsl --set-default-version 2"
-    if ($build -ge 17763 -and $build -lt 22000) {
-        Warn "Windows Server detected: WSL2 setup requires Windows Update to be fully applied first."
-        Warn "Run Windows Update then: wsl.exe --update  then: wsl --set-default-version 2"
-        Info "See: weldai.uk/it-setup.html#windows-direct for full step-by-step instructions"
-    }
-} elseif ($wslStatus -match 'Usage:') {
-    Fail "wsl.exe is too old to report status - Windows Update must be run to get a current wsl.exe"
-    Info "See: weldai.uk/it-setup.html#windows-direct for step-by-step WSL2 setup instructions"
-} else {
-    # wsl.exe exists but output is unrecognised — likely old inbox version printing usage text
-    $wslExe = & where.exe wsl 2>$null
-    if ($wslExe) {
-        Warn "wsl.exe found but too old to report status - Windows Update has not been fully applied"
-        Warn "Run Windows Update to completion, then: wsl.exe --update"
-        Info "See: weldai.uk/it-setup.html#windows-direct for step-by-step instructions"
-    } else {
-        Warn "wsl.exe not found in PATH - WSL may not be installed or features not yet enabled"
-        Info "Run: dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart"
-        Info "Then restart and run: wsl.exe --update"
-    }
-}
-
-# -- 3. HYPER-V (Windows Server only) ----------------------------------------
-Head "3. Hyper-V"
-
-$isServer = ($installType -in @('Server', 'Server Core'))
-if ($isServer) {
-    if ($isAdmin) {
-        $hvFeature = Get-WindowsFeature -Name Hyper-V -ErrorAction SilentlyContinue
-        if ($hvFeature) {
-            if ($hvFeature.InstallState -eq 'Installed') {
-                Ok "Hyper-V role is installed - Ubuntu VM install type is available"
-            } elseif ($hvFeature.InstallState -eq 'Available') {
-                Info "Hyper-V role is available but not installed"
-                Info "For the recommended Ubuntu VM install type, run: Install-WindowsFeature -Name Hyper-V -IncludeManagementTools -Restart"
-                Info "See: weldai.uk/it-setup.html#ubuntu-vm"
-            } else {
-                Warn "Hyper-V status: $($hvFeature.InstallState)"
-            }
-        } else {
-            Info "Could not determine Hyper-V status - check Server Manager"
-        }
-
-        # Check available RAM for VM headroom
-        # $os.TotalVisibleMemorySize is in KB - convert to GB
-        $totalGB = [math]::Round($os.TotalVisibleMemorySize / 1MB, 1)
-        Info "Server RAM: $totalGB GB total"
-        if ($totalGB -ge 16) { Ok "$totalGB GB RAM - sufficient for Ubuntu VM (needs 4 GB)" }
-        elseif ($totalGB -ge 8) { Warn "$totalGB GB RAM - tight for Ubuntu VM. 16 GB recommended." }
-        else { Fail "$totalGB GB RAM - insufficient for Ubuntu VM install type. Minimum 8 GB, recommended 16 GB." }
-    } else {
-        Skip "Hyper-V role status (requires Administrator)"
-    }
-} else {
-    Info "Not a Windows Server build - Hyper-V check skipped"
-}
-
-# -- 4. CPU AND VIRTUALISATION ------------------------------------------------
-Head "4. CPU and Virtualisation"
+# -- 2. PROCESSOR -------------------------------------------------------------
+Head "2. Processor"
 
 $cpu = Get-CimInstance Win32_Processor | Select-Object -First 1
 $cs  = Get-CimInstance Win32_ComputerSystem
-$archMap  = @{0='x86';1='MIPS';2='Alpha';3='PowerPC';5='ARM';6='ia64';9='x64/x86_64'}
-$archName = if ($archMap.ContainsKey([int]$cpu.Architecture)) { $archMap[[int]$cpu.Architecture] } else { "$($cpu.Architecture)" }
 
 Info "CPU   : $($cpu.Name)"
 Info "Cores : $($cpu.NumberOfCores) cores / $($cpu.NumberOfLogicalProcessors) logical"
-Info "Arch  : $archName"
 
-if ($cpu.NumberOfCores -ge 4) { Ok "$($cpu.NumberOfCores) cores - meets minimum (4)" }
-else                           { Warn "Only $($cpu.NumberOfCores) cores - 4 minimum recommended" }
+if     ($cpu.NumberOfCores -ge 8) { Ok "$($cpu.NumberOfCores) cores - recommended (8+)" }
+elseif ($cpu.NumberOfCores -ge 4) { Ok "$($cpu.NumberOfCores) cores - meets the minimum (4). 8+ is better on a PC without a graphics card." }
+else                              { Fail "$($cpu.NumberOfCores) cores - at least 4 are needed" }
 
-if ($cpu.Architecture -eq 9)  { Ok "x86_64 architecture confirmed" }
-else                           { Fail "Non-x64 architecture ($archName) - ARM not currently supported" }
+if ($cpu.Architecture -eq 9) { Ok "64-bit Intel/AMD processor" }
+else                         { Fail "Not a 64-bit Intel/AMD processor (ARM PCs are not supported)" }
 
-# Virtualisation: hypervisor running is the definitive check.
-# VirtualizationFirmwareEnabled is a raw BIOS flag that can read false even
-# when the hypervisor is fully active (common on corporate/managed machines).
-$hvPresent = $cs.HypervisorPresent
-$virtFlag  = $cpu.VirtualizationFirmwareEnabled
-
-if ($hvPresent) {
-    Ok "Hypervisor is active - virtualisation confirmed working"
-    if ($virtFlag -eq $false) {
-        Info "Note: BIOS virtualisation flag reads as disabled but hypervisor is running - this is normal on some managed machines"
-    }
-} elseif ($virtFlag -eq $true) {
-    Ok "Virtualisation enabled in BIOS firmware (hypervisor not yet active - expected before Docker is running)"
-} elseif ($virtFlag -eq $false) {
-    Fail "Virtualisation DISABLED in BIOS and hypervisor is not active. Enable Intel VT-x or AMD-V in server BIOS."
-} else {
-    Info "Virtualisation status could not be determined - check Task Manager > Performance > CPU > Virtualisation manually"
+# AVX2 speeds up the AI model on the processor (PF_AVX2_INSTRUCTIONS_AVAILABLE = 40)
+try {
+    Add-Type -Namespace WeldAI -Name Cpu -ErrorAction Stop -MemberDefinition '[DllImport("kernel32.dll")] public static extern bool IsProcessorFeaturePresent(uint feature);'
+    if ([WeldAI.Cpu]::IsProcessorFeaturePresent(40)) { Ok "Processor supports AVX2" }
+    else { Warn "Processor does not report AVX2 - the AI model will run much slower without a graphics card" }
+} catch {
+    Info "Could not check for AVX2 on this PC (most processors made since 2015 have it)"
 }
 
-# -- 4. RAM -------------------------------------------------------------------
-Head "5. RAM"
+# Virtualisation: a running hypervisor is the definitive check. The firmware
+# flag can read false on managed PCs even when the hypervisor is active.
+if ($cs.HypervisorPresent) {
+    Ok "Virtualisation is active"
+} elseif ($cpu.VirtualizationFirmwareEnabled -eq $true) {
+    Ok "Virtualisation is enabled in the BIOS"
+} elseif ($cpu.VirtualizationFirmwareEnabled -eq $false) {
+    Fail "Virtualisation is switched off in the BIOS. Enable Intel VT-x or AMD-V (your IT person or PC supplier can do this)."
+} else {
+    Info "Could not tell whether virtualisation is on - check Task Manager > Performance > CPU > Virtualisation"
+}
 
+# -- 3. MEMORY ----------------------------------------------------------------
+Head "3. Memory (RAM)"
+
+# A "16 GB" PC reports slightly under 16, so compare against 15.5 and 11.5.
 $ramGB = [math]::Round($cs.TotalPhysicalMemory / 1GB, 1)
-Info "Total installed RAM: $ramGB GB"
+Info "Installed RAM: $ramGB GB"
 
-if     ($ramGB -ge 16) { Ok "$ramGB GB - recommended (16 GB+)" }
-elseif ($ramGB -ge 8)  { Ok "$ramGB GB - meets minimum (8 GB)" }
-elseif ($ramGB -ge 4)  { Warn "$ramGB GB - below minimum. Upgrade to 8 GB+ before installation." }
-else                   { Fail "$ramGB GB - insufficient. 8 GB minimum required." }
+if     ($ramGB -ge 15.5) { Ok "$ramGB GB - recommended (16 GB+)" }
+elseif ($ramGB -ge 11.5) { Warn "$ramGB GB - enough, with little headroom. 16 GB is recommended." }
+else                     { Fail "$ramGB GB - at least 12 GB is needed (16 GB recommended)" }
+
+# -- 4. GRAPHICS CARD ---------------------------------------------------------
+Head "4. Graphics card (decides how fast answers are)"
+
+$cards = Get-CimInstance Win32_VideoController
+foreach ($card in $cards) { Info "Display adapter: $($card.Name)" }
+
+$gpuLine = $null
+if (Get-Command nvidia-smi -ErrorAction SilentlyContinue) {
+    $gpuLine = & nvidia-smi --query-gpu=name,memory.total,driver_version --format=csv,noheader,nounits 2>$null | Select-Object -First 1
+}
+
+if ($gpuLine -and $gpuLine -match ',') {
+    $parts  = $gpuLine -split ',\s*'
+    $vramMB = 0
+    [void][int]::TryParse(($parts[1] -replace '[^\d]', ''), [ref]$vramMB)
+    $vramGB = [math]::Round($vramMB / 1024, 1)
+    Info "NVIDIA card : $($parts[0])"
+    Info "Card memory : $vramGB GB    Driver: $($parts[2])"
+
+    if     ($vramMB -ge 7500) { Ok "$vramGB GB NVIDIA card - recommended. Both AI models fit on the card." }
+    elseif ($vramMB -ge 5500) { Ok "$vramGB GB NVIDIA card - both AI models fit, using compact settings." }
+    elseif ($vramMB -ge 3500) { Warn "$vramGB GB NVIDIA card - works. Measured on a 4 GB card: first words in about 10 seconds, summaries about 30 seconds. 8 GB+ is recommended." }
+    else                      { Warn "$vramGB GB NVIDIA card - too small to hold the AI model. Expect answers at no-graphics-card speed (20-60 seconds or more)." }
+} elseif ($cards | Where-Object { $_.Name -match 'NVIDIA' }) {
+    Warn "An NVIDIA card is fitted but its driver tools (nvidia-smi) were not found. Install the current NVIDIA driver so the card can be used."
+} else {
+    Warn "No NVIDIA graphics card found. Weld AI will still work, but answers take 20-60 seconds or more. An NVIDIA card with 8 GB+ is recommended."
+}
 
 # -- 5. DISK SPACE ------------------------------------------------------------
-Head "6. Disk Space"
+Head "5. Disk space"
 
 $c      = Get-PSDrive C
 $freeGB = [math]::Round($c.Free / 1GB, 1)
-$usedGB = [math]::Round($c.Used / 1GB, 1)
-Info "C: drive - Free: $freeGB GB  Used: $usedGB GB"
+Info "C: drive - $freeGB GB free"
 
-if     ($freeGB -ge 20) { Ok "$freeGB GB free - good headroom" }
-elseif ($freeGB -ge 10) { Ok "$freeGB GB free - meets 10 GB minimum" }
-else                    { Fail "$freeGB GB free - below 10 GB minimum. Free up space before installation." }
+if     ($freeGB -ge 40) { Ok "$freeGB GB free - recommended (40 GB+)" }
+elseif ($freeGB -ge 25) { Warn "$freeGB GB free - enough to install, with little room for documents and backups. 40 GB+ is recommended." }
+else                    { Fail "$freeGB GB free - at least 25 GB is needed" }
 
-# -- 6. ALL DRIVES ------------------------------------------------------------
-Head "7. All Available Drives"
-
-$drives = Get-PSDrive -PSProvider FileSystem -ErrorAction SilentlyContinue
-foreach ($drive in $drives) {
-    try {
-        $label = if ($drive.Description) { $drive.Description } else { 'No label' }
-        if ($drive.Root -match '^[A-Z]:\\') {
-            $df = [math]::Round($drive.Free / 1GB, 1)
-            $du = [math]::Round($drive.Used / 1GB, 1)
-            Info "$($drive.Root)  Local   Free: $df GB  Used: $du GB  Label: $label"
-        } else {
-            Info "$($drive.Root)  Network/Other  Label: $label"
-        }
-    } catch { Info "$($drive.Root)  Not accessible" }
+foreach ($drive in (Get-PSDrive -PSProvider FileSystem)) {
+    if ($drive.Root -match '^[A-Z]:\\$' -and $drive.Name -ne 'C' -and $null -ne $drive.Free) {
+        Info "$($drive.Root)  $([math]::Round($drive.Free / 1GB, 1)) GB free"
+    }
 }
 
-$netDrives = Get-CimInstance Win32_MappedLogicalDisk -ErrorAction SilentlyContinue
+# -- 6. WHERE THE DOCUMENTS LIVE ----------------------------------------------
+Head "6. Network drives"
+
+$netDrives = Get-CimInstance Win32_MappedLogicalDisk
 if ($netDrives) {
-    Info "Mapped network drives:"
-    $netDrives | ForEach-Object { Info "  $($_.DeviceID)  ->  $($_.ProviderName)" }
-    Warn "Mapped network drives detected - Docker on Windows CANNOT mount network drives as document folders."
-    Warn "Options: (1) copy documents to a local folder, (2) use Windows Server + Ubuntu VM install type"
-    Info "See: weldai.uk/systemcheck.html for supported document locations"
+    $netDrives | ForEach-Object { Info "Mapped drive $($_.DeviceID)  ->  $($_.ProviderName)" }
+    Warn "Mapped network drives found. If your documents are on one, they need a copy in a folder on this PC (I can set up an automatic nightly copy)."
 } else {
-    Info "No mapped network drives detected"
+    Info "No mapped network drives"
 }
-Info "NOTE: Please identify which drive/folder contains your company documents before the installation call."
+Info "Before the install call, decide which folder on this PC holds the documents to search."
 
-# -- 7. WELDAI INSTALL FOLDER -------------------------------------------------
-Head "8. Weld AI Installation Folder (C:\WeldAI)"
-
-if (Test-Path 'C:\WeldAI') {
-    $existing = Get-ChildItem 'C:\WeldAI' -ErrorAction SilentlyContinue
-    Warn "C:\WeldAI already exists - $($existing.Count) file(s)/folder(s) found. Previous installation may be present."
-} else {
-    Ok "C:\WeldAI does not exist yet - will be created during installation"
-}
-
-# -- 8. DOCKER DESKTOP --------------------------------------------------------
-Head "9. Docker Desktop"
-
-$dockerVer = & docker --version 2>&1
-if ($dockerVer -match 'Docker version ([\d.]+)') {
-    $dv = $Matches[1]
-    Info "Docker version: $dv"
-    if ([int]($dv -split '\.')[0] -ge 20) { Ok "Docker version $dv meets minimum (v20.0)" }
-    else                                   { Fail "Docker version $dv is below minimum v20.0. Update Docker Desktop." }
-} else {
-    Fail "Docker not installed or not in PATH. Install from docker.com/products/docker-desktop"
-}
-
-# -- 9. DOCKER WINDOWS SERVICE ------------------------------------------------
-Head "10. Docker Windows Service"
+# -- 7. WSL2 ------------------------------------------------------------------
+Head "7. WSL2 (Windows feature that Docker needs)"
 
 if ($isAdmin) {
-    $svc = Get-Service 'com.docker.service' -ErrorAction SilentlyContinue
-    if ($svc) {
-        Info "Status       : $($svc.Status)"
-        Info "Startup type : $($svc.StartType)"
-
-        if ($svc.StartType -in @('Automatic','AutomaticDelayedStart')) { Ok "Docker service startup type is $($svc.StartType)" }
-        else { Fail "Docker service startup type is '$($svc.StartType)'. Run: Set-Service -Name 'com.docker.service' -StartupType Automatic" }
-
-        # Service stopped is only a problem if the Docker engine is also not responding
-        if ($svc.Status -ne 'Running') {
-            $engineTest = & docker info 2>&1 | Out-String
-            if ($engineTest -match 'Server Version') {
-                Info "Docker service shows Stopped but engine is responding - Docker Desktop manages the engine directly on this machine (normal)"
-            } else {
-                Warn "Docker service is not running. Start Docker Desktop or run: Start-Service 'com.docker.service'"
-            }
-        } else {
-            Ok "Docker service is running"
-        }
-    } else {
-        Warn "Service 'com.docker.service' not found - Docker Desktop may not be installed yet"
-        $any = Get-Service | Where-Object { $_.Name -like '*docker*' -or $_.DisplayName -like '*docker*' }
-        if ($any) { $any | ForEach-Object { Info "  Found: $($_.Name) [$($_.Status)] StartType: $($_.StartType)" } }
-    }
+    $wslF = Get-WindowsOptionalFeature -Online -FeatureName 'Microsoft-Windows-Subsystem-Linux'
+    $vmpF = Get-WindowsOptionalFeature -Online -FeatureName 'VirtualMachinePlatform'
+    if ($wslF.State -eq 'Enabled') { Ok "WSL feature enabled" }
+    else                           { Warn "WSL feature not enabled yet. Run in PowerShell as Administrator: wsl --install   then restart." }
+    if ($vmpF.State -eq 'Enabled') { Ok "Virtual Machine Platform enabled" }
+    else                           { Warn "Virtual Machine Platform not enabled yet. 'wsl --install' turns it on." }
 } else {
-    $svc = Get-Service 'com.docker.service' -ErrorAction SilentlyContinue
-    if ($svc) {
-        Info "Service found: $($svc.DisplayName) - Status: $($svc.Status)"
-        if ($svc.Status -ne 'Running') {
-            # Check if engine is actually responding before warning
-            $engineTest = & docker info 2>&1 | Out-String
-            if ($engineTest -match 'Server Version') {
-                Info "Docker service shows Stopped but engine is responding - Docker Desktop manages the engine directly (normal)"
-            } else {
-                Warn "Docker service is not running. Start Docker Desktop before the installation call."
-            }
-        } else {
-            Ok "Docker service is running"
-        }
-        Skip "Docker service startup type"
-    } else {
-        Warn "Service 'com.docker.service' not found - Docker Desktop may not be installed yet"
-    }
+    Skip "WSL feature status"
 }
 
-# -- 10. DOCKER ENGINE AND PULL TEST ------------------------------------------
-Head "11. Docker Engine and Image Pull Test"
+# wsl.exe writes UTF-16; strip the null characters before matching.
+$wslStatus = ((& wsl.exe --status 2>&1 | Out-String) -replace "`0", '')
+if     ($wslStatus -match 'Default Version\s*:\s*2') { Ok "WSL default version is 2" }
+elseif ($wslStatus -match 'Default Version\s*:\s*1') { Warn "WSL default version is 1. Run: wsl --set-default-version 2" }
+else   { Info "WSL2 is not set up yet. See weldai.uk/it-setup.html (one command and a restart)." }
 
-$dockerInfo = & docker info 2>&1 | Out-String
-if ($dockerInfo -match 'Server Version') {
-    Ok "Docker engine is running and responsive"
-    if ($dockerInfo -match 'Server Version: ([\S]+)') { Info "Engine version: $($Matches[1])" }
+# -- 8. DOCKER DESKTOP --------------------------------------------------------
+Head "8. Docker Desktop"
 
-    Info "Testing Docker Hub pull (may take 10-30 seconds)..."
-    $pull = & docker pull hello-world 2>&1 | Out-String
-    if ($pull -match 'Pull complete|Already exists|Status: Downloaded|Status: Image is up to date') {
-        Ok "Docker Hub pull succeeded - internet access confirmed"
+$dockerVer = & docker --version 2>&1 | Out-String
+if ($dockerVer -match 'Docker version ([\d.]+)') {
+    $dv = $Matches[1]
+    if ([int]($dv -split '\.')[0] -ge 24) { Ok "Docker $dv installed" }
+    else                                  { Warn "Docker $dv is older than version 24 - it will be updated on the install call" }
+
+    $dockerInfo = & docker info 2>&1 | Out-String
+    if ($dockerInfo -match 'Server Version') {
+        Ok "Docker is running"
+        if ($dockerInfo -match '(?i)nvidia') { Ok "Docker can see the NVIDIA graphics card" }
     } else {
-        Fail "Docker Hub pull failed. IT may need to whitelist hub.docker.com and registry-1.docker.io"
-        Info "Output: $($pull.Trim() -replace '\r?\n',' | ')"
+        Info "Docker is installed but not running at the moment"
     }
 } else {
-    Warn "Docker engine not responding - Docker Desktop may not be running. Start it and re-run for a full report."
+    Info "Docker Desktop is not installed yet. That is expected - it is installed on the call."
 }
 
-# -- 11. PORT CONFLICTS -------------------------------------------------------
-Head "12. Port Conflicts (80, 443)"
+if (Test-Path 'C:\WeldAI') {
+    Warn "C:\WeldAI already exists - an earlier installation may be present. Mention this when you email the report."
+}
 
-# Ports 80/443 used by Weld AI - only flag if something else is using them
-$weldaiRunning = $dockerInfo -match 'Server Version'
+# -- 9. PORTS -----------------------------------------------------------------
+Head "9. Ports 80 and 443 (how staff reach Weld AI in a browser)"
 
 foreach ($port in @(80, 443)) {
-    $inUse = Get-NetTCPConnection -LocalPort $port -State Listen -ErrorAction SilentlyContinue
-    if ($inUse) {
-        if ($weldaiRunning) {
-            Info "Port $port in use - likely Weld AI or its reverse proxy (nginx)"
-        } else {
-            Warn "Port $port in use - another service (e.g. IIS) may conflict with Weld AI"
-        }
-    } else {
-        Ok "Port $port is free"
-    }
+    $inUse = Get-NetTCPConnection -LocalPort $port -State Listen
+    if ($inUse) { Warn "Port $port is already in use on this PC - another web service (e.g. IIS) may clash. Weld AI can use a different port." }
+    else        { Ok "Port $port is free" }
 }
-
-# -- 12. FIREWALL RULES -------------------------------------------------------
-Head "13. Windows Firewall - Inbound Rules"
 
 if ($isAdmin) {
     foreach ($port in @(80, 443)) {
-        $rules = Get-NetFirewallRule -Direction Inbound -Enabled True -ErrorAction SilentlyContinue |
-                 Where-Object { $_ | Get-NetFirewallPortFilter -ErrorAction SilentlyContinue |
+        $rules = Get-NetFirewallRule -Direction Inbound -Enabled True |
+                 Where-Object { $_ | Get-NetFirewallPortFilter |
                                 Where-Object { $_.LocalPort -eq $port -and $_.Protocol -eq 'TCP' } }
-        if ($rules) { Ok  "Inbound TCP $port - rule found: '$($rules[0].DisplayName)'" }
-        else        { Warn "No inbound TCP $port firewall rule found - may need adding if staff access Weld AI from other PCs" }
+        if ($rules) { Ok   "Firewall allows inbound port $port ('$($rules[0].DisplayName)')" }
+        else        { Info "No inbound firewall rule for port $port yet - only needed if staff use Weld AI from other PCs" }
     }
 } else {
-    Skip "Firewall rule check for port 80"
-    Skip "Firewall rule check for port 443"
+    Skip "Windows Firewall rules for ports 80 and 443"
 }
 
-# -- 13. NETWORK CONFIGURATION ------------------------------------------------
-Head "14. Network Configuration"
+# -- 10. NETWORK ADDRESS ------------------------------------------------------
+Head "10. Network address"
 
-# Filter out virtual/internal adapters - only show physical and VPN adapters
 $skipPatterns = @('Loopback','vEthernet','Default Switch','WSL','Bluetooth','Teredo','ISATAP','6to4')
-
-Get-NetIPAddress -AddressFamily IPv4 -ErrorAction SilentlyContinue |
+Get-NetIPAddress -AddressFamily IPv4 |
     Where-Object {
-        $ip = $_.IPAddress
         $iface = $_.InterfaceAlias
-        $ip -notlike '127.*' -and
-        $ip -notlike '169.*' -and
+        $_.IPAddress -notlike '127.*' -and $_.IPAddress -notlike '169.*' -and
         -not ($skipPatterns | Where-Object { $iface -like "*$_*" })
     } |
     ForEach-Object {
-        Info "Interface: $($_.InterfaceAlias)   IP: $($_.IPAddress)   Origin: $($_.PrefixOrigin)"
-        if     ($_.PrefixOrigin -eq 'Manual') { Ok  "Static IP on $($_.InterfaceAlias)" }
-        elseif ($_.PrefixOrigin -eq 'Dhcp')   { Warn "DHCP address on '$($_.InterfaceAlias)' ($($_.IPAddress)) - request a static IP or DHCP reservation from IT to prevent address changing after reboot" }
+        Info "$($_.InterfaceAlias): $($_.IPAddress) ($($_.PrefixOrigin))"
+        if     ($_.PrefixOrigin -eq 'Manual') { Ok   "Fixed address on $($_.InterfaceAlias)" }
+        elseif ($_.PrefixOrigin -eq 'Dhcp')   { Info "Automatic (DHCP) address. If other PCs will use Weld AI, ask for a fixed address or DHCP reservation for this PC." }
     }
-
-# -- 14. OUTBOUND CONNECTIVITY ------------------------------------------------
-Head "15. Outbound Internet Connectivity"
-
-$targets = @(
-    @{ Host='api.anthropic.com';                          Port=443; Label='Anthropic Claude API' },
-    @{ Host='hub.docker.com';                             Port=443; Label='Docker Hub' },
-    @{ Host='registry-1.docker.io';                       Port=443; Label='Docker Registry' },
-    @{ Host='wslstorestorage.blob.core.windows.net';      Port=443; Label='WSL Kernel Update (Windows Server)' },
-    @{ Host='windowsupdate.microsoft.com';                Port=443; Label='Windows Update' }
-)
-
-foreach ($t in $targets) {
-    $result = Test-NetConnection -ComputerName $t.Host -Port $t.Port -WarningAction SilentlyContinue -InformationLevel Quiet
-    if ($result) { Ok  "$($t.Label) ($($t.Host):$($t.Port)) - reachable" }
-    else         { Fail "$($t.Label) ($($t.Host):$($t.Port)) - UNREACHABLE. Check outbound firewall/proxy." }
-}
+Info "Weld AI needs NO outbound internet access to run. Internet is used on install day only."
 
 # -- SUMMARY ------------------------------------------------------------------
 Head "SUMMARY"
 
-$passCount = ($lines | Where-Object { $_ -match '^\s*\[PASS\]' }).Count
-$failCount = ($lines | Where-Object { $_ -match '^\s*\[FAIL\]' }).Count
-$warnCount = ($lines | Where-Object { $_ -match '^\s*\[WARN\]' }).Count
-$skipCount = ($lines | Where-Object { $_ -match '^\s*\[SKIP\]' }).Count
+$passCount = @($lines | Where-Object { $_ -match '^\s*\[PASS\]' }).Count
+$failCount = @($lines | Where-Object { $_ -match '^\s*\[FAIL\]' }).Count
+$warnCount = @($lines | Where-Object { $_ -match '^\s*\[WARN\]' }).Count
+$skipCount = @($lines | Where-Object { $_ -match '^\s*\[SKIP\]' }).Count
 
 Add "PASS : $passCount"
-Add "WARN : $warnCount   (review before installation call)"
-Add "FAIL : $failCount   (must be resolved before installation)"
-if ($skipCount -gt 0) {
-    Add "SKIP : $skipCount   (re-run as Administrator for complete results)"
-}
+Add "WARN : $warnCount   (worth a look - none of these stop an install)"
+Add "FAIL : $failCount   (must be fixed before installing)"
+if ($skipCount -gt 0) { Add "SKIP : $skipCount   (needs Administrator; can be confirmed on the call)" }
 Add ""
 
-if     ($failCount -eq 0 -and $warnCount -eq 0 -and $skipCount -eq 0) { Add "All checks passed. Server appears ready for Weld AI installation." }
-elseif ($failCount -eq 0 -and $skipCount -gt 0)                        { Add "No failures found. $skipCount check(s) skipped - re-run as Administrator for a complete report." }
-elseif ($failCount -eq 0)                                              { Add "No failures. Please review warnings above before the installation call." }
-else                                                                   { Add "ACTION REQUIRED: $failCount item(s) must be resolved. See [FAIL] items above." }
-
-# Install type recommendation
-Add ""
-Add "--- RECOMMENDED INSTALL TYPE ---"
-Add ""
-$isServer = ($installType -in @('Server', 'Server Core'))
-$isWin11  = (-not $isServer -and $build -ge 22000)
-$isWin10  = (-not $isServer -and $build -ge 19044 -and $build -lt 22000)
-
-if ($isServer) {
-    $hvInstalled = $false
-    if ($isAdmin) {
-        $hvF = Get-WindowsFeature -Name Hyper-V -ErrorAction SilentlyContinue
-        $hvInstalled = ($hvF -and $hvF.InstallState -eq 'Installed')
-    }
-    if ($hvInstalled) {
-        Add "  Windows Server with Hyper-V detected."
-        Add "  RECOMMENDED: Windows Server + Ubuntu VM install type."
-        Add "  Your IT team creates a Ubuntu 22.04 VM via Hyper-V, then we install Weld AI inside it."
-        Add "  This supports network shares and avoids WSL2 complexity."
-        Add "  See: weldai.uk/it-setup.html#ubuntu-vm"
-    } else {
-        Add "  Windows Server without Hyper-V (or could not confirm)."
-        Add "  Options:"
-        Add "    (1) Enable Hyper-V and use Ubuntu VM install type (recommended)"
-        Add "    (2) Windows Server Direct install (requires manual WSL2 setup)"
-        Add "  See: weldai.uk/it-setup.html"
-    }
-} elseif ($isWin10 -or $isWin11) {
-    Add "  Windows 10/11 PC detected."
-    Add "  RECOMMENDED: Standard Windows PC install type."
-    Add "  We handle Docker and WSL2 setup during the installation call."
-    Add "  See: weldai.uk/systemcheck.html"
-} else {
-    Add "  Could not determine recommended install type. Contact hello@weldai.uk for advice."
-}
+if     ($failCount -gt 0) { Add "ACTION NEEDED: $failCount item(s) must be fixed. See the [FAIL] lines above." }
+elseif ($warnCount -gt 0) { Add "This PC can run Weld AI. Please read the [WARN] lines above." }
+else                      { Add "This PC looks ready for Weld AI." }
 
 Sep
 Add "Weld AI - weldai.uk - hello@weldai.uk"
@@ -479,22 +293,22 @@ Compress-Archive -Path $reportPath -DestinationPath $zipPath -Force
 # -- CONSOLE SUMMARY ----------------------------------------------------------
 Write-Host ""
 Write-Host "============================================" -ForegroundColor Cyan
-Write-Host "  Weld AI Diagnostics Complete"              -ForegroundColor Cyan
+Write-Host "  Weld AI System Check complete"              -ForegroundColor Cyan
 Write-Host "============================================" -ForegroundColor Cyan
-Write-Host "  PASS : $passCount"                         -ForegroundColor Green
+Write-Host "  PASS : $passCount"                          -ForegroundColor Green
 if ($warnCount -gt 0) { Write-Host "  WARN : $warnCount" -ForegroundColor Yellow }
 if ($failCount -gt 0) { Write-Host "  FAIL : $failCount" -ForegroundColor Red }
-if ($skipCount -gt 0) { Write-Host "  SKIP : $skipCount  (re-run as Administrator for full results)" -ForegroundColor DarkGray }
+if ($skipCount -gt 0) { Write-Host "  SKIP : $skipCount" -ForegroundColor DarkGray }
 Write-Host ""
-Write-Host "  Report saved to your Desktop:"            -ForegroundColor White
-Write-Host "  weldai-diagnostics.zip"                   -ForegroundColor White
+Write-Host "  Report saved to:"                           -ForegroundColor White
+Write-Host "  $zipPath"                                   -ForegroundColor White
 Write-Host ""
-Write-Host "  Please email the zip to:"                 -ForegroundColor White
-Write-Host "  hello@weldai.uk"                          -ForegroundColor White
-Write-Host "  Subject: Diagnostics - [your company]"   -ForegroundColor White
+Write-Host "  Please email the zip to hello@weldai.uk"    -ForegroundColor White
+Write-Host "  Subject: System check - [your business]"    -ForegroundColor White
 Write-Host "============================================" -ForegroundColor Cyan
 Write-Host ""
 
-Start-Process explorer.exe -ArgumentList "/select,`"$zipPath`""
-
-Read-Host "Press Enter to close"
+if (-not $NoPause) {
+    Start-Process explorer.exe -ArgumentList "/select,`"$zipPath`""
+    Read-Host "Press Enter to close"
+}

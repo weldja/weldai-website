@@ -1,787 +1,191 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Step-by-step IT setup guide for Weld AI installation on Windows PC, Windows Server with Ubuntu VM, Windows Server Direct, or Linux. Prerequisites and commands.">
-<title>IT Setup Guide — Weld AI Installation Prerequisites</title>
+<title>IT Setup Guide: On-Premise AI on a Windows PC | Weld AI</title>
+<meta name="description" content="Technical guide for IT staff: how Weld AI runs fully offline on a Windows 10 or 11 PC with Docker Desktop, what to prepare before install, and how its network isolation works.">
 <link rel="canonical" href="https://www.weldai.uk/it-setup.html">
-
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://www.weldai.uk/it-setup.html">
-<meta property="og:title" content="IT Setup Guide — Weld AI Installation Prerequisites">
-<meta property="og:description" content="Step-by-step IT setup guide for Weld AI installation on Windows PC, Windows Server with Ubuntu VM, or Linux. Prerequisites and exact commands.">
-<meta property="og:image" content="https://www.weldai.uk/screenshot-chat.png">
+<meta property="og:title" content="IT setup guide: on-premise AI on a Windows PC">
+<meta property="og:description" content="How Weld AI runs fully offline on a Windows PC, what to prepare before install, and how its network isolation works.">
+<meta property="og:image" content="https://www.weldai.uk/screenshot-summary.png">
 <meta property="og:site_name" content="Weld AI">
 <meta property="og:locale" content="en_GB">
-
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:url" content="https://www.weldai.uk/it-setup.html">
-<meta name="twitter:title" content="IT Setup Guide — Weld AI Installation Prerequisites">
-<meta name="twitter:description" content="Step-by-step IT setup guide for Weld AI installation on Windows PC, Windows Server with Ubuntu VM, or Linux. Prerequisites and exact commands.">
-<meta name="twitter:image" content="https://www.weldai.uk/screenshot-chat.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
-<style>
-:root{--blue:#185FA5;--blue-dark:#0F3F72;--blue-light:#EBF3FB;--blue-mid:#D0E6F7;--ink:#0D1B2A;--ink-mid:#3D5166;--ink-light:#7A90A4;--surface:#FFFFFF;--surface-2:#F7FAFD;--border:#DDE8F2;--green:#059669;--green-bg:#ECFDF5;--radius:12px;--radius-lg:20px;--shadow:0 4px 20px rgba(15,63,114,0.08),0 1px 4px rgba(15,63,114,0.05)}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'DM Sans',-apple-system,sans-serif;color:var(--ink);background:var(--surface);line-height:1.6;-webkit-font-smoothing:antialiased}
-nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:60px}
-.nav-logo{font-weight:700;font-size:1.15rem;color:var(--blue);letter-spacing:-0.02em;text-decoration:none}.nav-logo span{color:var(--ink)}
-.nav-links{display:flex;align-items:center;gap:2rem;list-style:none}.nav-links a{text-decoration:none;font-size:0.88rem;color:var(--ink-mid);font-weight:500;transition:color .15s}.nav-links a:hover{color:var(--blue)}
-.nav-cta{background:var(--blue);color:#fff!important;padding:8px 18px;border-radius:8px;font-size:0.88rem;font-weight:600}
-a{color:var(--blue);text-decoration:none}.a:hover{text-decoration:underline}
-
-/* PAGE */
-.page{max-width:820px;margin:0 auto;padding:48px 24px 80px}
-.page-header{margin-bottom:40px;padding-bottom:24px;border-bottom:2px solid var(--blue)}
-.page-header .label{font-size:0.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:8px}
-.page-header h1{font-family:'DM Serif Display',Georgia,serif;font-size:clamp(1.8rem,4vw,2.4rem);color:var(--ink);letter-spacing:-0.02em;line-height:1.2;margin-bottom:10px}
-.page-header p{color:var(--ink-mid);font-size:1rem;line-height:1.7}
-
-/* INSTALL TYPE NAV */
-.install-nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:40px}
-.install-nav a{padding:8px 16px;border-radius:999px;font-size:0.85rem;font-weight:600;border:1.5px solid var(--border);color:var(--ink-mid);text-decoration:none;transition:all .15s}
-.install-nav a:hover,.install-nav a.active{background:var(--blue);color:#fff;border-color:var(--blue)}
-
-/* SECTION */
-.install-section{margin-bottom:56px;scroll-margin-top:80px}
-.install-section-header{background:linear-gradient(135deg,var(--blue-dark) 0%,var(--blue) 100%);border-radius:var(--radius);padding:20px 24px;margin-bottom:24px;display:flex;align-items:center;gap:14px}
-.install-section-header .icon{font-size:1.6rem;flex-shrink:0}
-.install-section-header h2{font-family:'DM Serif Display',Georgia,serif;font-size:1.4rem;color:#fff;letter-spacing:-0.01em;margin-bottom:2px}
-.install-section-header p{color:rgba(255,255,255,0.75);font-size:0.88rem}
-.install-section-header .badge{background:rgba(255,255,255,0.2);color:#fff;font-size:0.75rem;font-weight:700;padding:3px 10px;border-radius:999px;margin-top:6px;display:inline-block}
-
-/* STEPS */
-.steps{display:flex;flex-direction:column;gap:0}
-.step{display:flex;gap:16px;padding:20px 0;border-bottom:1px solid var(--border)}
-.step:last-child{border-bottom:none}
-.step-left{display:flex;flex-direction:column;align-items:center;gap:0;flex-shrink:0}
-.step-num{width:32px;height:32px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem;flex-shrink:0}
-.step-line{width:2px;background:var(--border);flex:1;margin-top:4px;min-height:20px}
-.step:last-child .step-line{display:none}
-.step-body{flex:1;padding-bottom:4px}
-.step-body h3{font-size:0.95rem;font-weight:700;margin-bottom:6px;color:var(--ink)}
-.step-body p{font-size:0.88rem;color:var(--ink-mid);line-height:1.6;margin-bottom:8px}
-.step-body p:last-child{margin-bottom:0}
-
-/* CODE */
-pre{background:#0D1B2A;color:#e2e8f0;padding:14px 16px;border-radius:8px;font-size:0.82rem;font-family:'Cascadia Code','Consolas',monospace;overflow-x:auto;margin:10px 0;line-height:1.5}
-code{background:var(--surface-2);border:1px solid var(--border);padding:1px 6px;border-radius:4px;font-size:0.82rem;font-family:'Cascadia Code','Consolas',monospace;color:var(--blue)}
-
-/* CALLOUTS */
-.callout{border-radius:8px;padding:14px 16px;font-size:0.88rem;margin:14px 0;display:flex;gap:10px;line-height:1.6}
-.callout-icon{flex-shrink:0;font-size:1rem;margin-top:1px}
-.callout-body{flex:1}
-.callout-body strong{display:block;margin-bottom:3px;font-size:0.9rem}
-.callout.info{background:var(--blue-light);border-left:3px solid var(--blue)}
-.callout.warning{background:#FFF8E6;border-left:3px solid #D97706}
-.callout.success{background:var(--green-bg);border-left:3px solid var(--green)}
-.callout.tip{background:#F5F0FF;border-left:3px solid #7C3AED}
-
-/* REQUIREMENTS BOX */
-.req-box{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;margin-bottom:20px}
-.req-box h4{font-size:0.88rem;font-weight:700;margin-bottom:10px;color:var(--ink)}
-.req-list{list-style:none;padding:0;display:flex;flex-direction:column;gap:6px}
-.req-list li{font-size:0.85rem;color:var(--ink-mid);display:flex;align-items:flex-start;gap:8px}
-.req-list li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0;margin-top:1px}
-
-/* DIVIDER */
-.section-divider{border:none;border-top:2px solid var(--border);margin:48px 0}
-
-/* FOOTER LINKS */
-.footer-links{background:var(--surface-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:12px 2rem;display:flex;justify-content:center;gap:2rem;flex-wrap:wrap}
-.footer-links a{font-size:0.82rem;color:var(--ink-light);text-decoration:none;display:flex;align-items:center;gap:5px}
-.footer-links a:hover{color:var(--blue)}
-footer{background:var(--ink);color:rgba(255,255,255,0.5);padding:28px 2rem;text-align:center;font-size:0.84rem}
-footer a{color:rgba(255,255,255,0.7);text-decoration:none}
-
-p{margin-bottom:10px}
-h4{font-size:0.92rem;font-weight:700;margin:16px 0 6px;color:var(--ink)}
-ul,ol{padding-left:20px;margin-bottom:10px;font-size:0.88rem;color:var(--ink-mid);line-height:1.8}
-
-@media(max-width:700px){
-  nav .nav-links{display:none}
-  .page{padding:28px 16px 60px}
-  .install-section-header{flex-direction:column;align-items:flex-start;gap:8px}
-  .step{flex-direction:column;gap:10px}
-  .step-left{flex-direction:row;align-items:center}
-  .step-line{display:none}
-  pre{font-size:0.75rem}
-  .install-nav{gap:6px}
-  .install-nav a{font-size:0.8rem;padding:6px 12px}
-  code{word-break:break-all}
-}
-</style>
-
+<link rel="stylesheet" href="/styles.css">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "TechArticle",
-  "headline": "IT Setup Guide — Weld AI Installation Prerequisites",
-  "description": "Step-by-step IT setup guide for Weld AI installation on Windows PC, Windows Server with Ubuntu VM, Windows Server Direct, or Linux. Covers prerequisites, exact PowerShell and shell commands, and WSL2 setup.",
+  "headline": "IT Setup Guide: On-Premise AI on a Windows PC",
+  "description": "How Weld AI runs fully offline on a Windows 10 or 11 PC with Docker Desktop, what to prepare before install, and how its network isolation works.",
   "url": "https://www.weldai.uk/it-setup.html",
   "inLanguage": "en-GB",
-  "isPartOf": {"@type": "WebSite", "url": "https://www.weldai.uk/", "name": "Weld AI"},
-  "publisher": {
-    "@type": "Organization",
-    "@id": "https://www.weldai.uk/#organization",
-    "name": "Weld AI",
-    "url": "https://www.weldai.uk/"
-  },
+  "dateModified": "2026-11-14",
+  "author": {"@type": "Person", "name": "James Weld"},
+  "publisher": {"@type": "Organization", "@id": "https://www.weldai.uk/#organization", "name": "Weld AI", "url": "https://www.weldai.uk/"},
   "audience": {"@type": "Audience", "audienceType": "IT staff and system administrators"}
 }
 </script>
-
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 
-<nav>
-  <a class="nav-logo" href="https://weldai.uk"><span>Weld</span>AI</a>
+<nav class="site-nav" aria-label="Main">
+  <a class="nav-logo" href="/"><span>Weld</span>AI</a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-hidden="true">
+  <label for="nav-toggle" class="nav-burger" aria-label="Open menu"><span></span><span></span><span></span></label>
   <ul class="nav-links">
-    <li><a href="https://weldai.uk">Home</a></li>
-    <li><a href="/systemcheck.html">System Check</a></li>
-    <li><a href="/blog.html">Blog</a></li>
-    <li><a href="mailto:hello@weldai.uk" style="font-size:0.85rem;color:#3D5166">hello@weldai.uk</a></li>
-    <li><a href="https://weldai.uk#contact" class="nav-cta">Book a demo</a></li>
+    <li><a href="/#security">Security</a></li>
+    <li><a href="/#how">How it works</a></li>
+    <li><a href="/systemcheck.html">System check</a></li>
+    <li><a href="/blog.html">Guides</a></li>
+    <li><a href="/#contact" class="nav-cta">Book a demo</a></li>
   </ul>
 </nav>
 
-<div class="page">
+<main id="main" class="prose">
 
-  <div class="page-header">
-    <div class="label">For IT Teams</div>
-    <h1>IT Setup Guide</h1>
-    <p>Step-by-step instructions for preparing your server <strong>before</strong> the Weld AI installation call. All steps in this guide should be completed by your IT team in advance. The installation call itself is short — but only if prerequisites are in place on the day.</p>
-    <p style="font-size:0.88rem;color:var(--ink-mid);">Not sure which section applies? Email <a href="mailto:hello@weldai.uk">hello@weldai.uk</a> and we'll advise.</p>
-  </div>
+  <h1>IT setup guide</h1>
+  <p class="meta">For IT staff and IT support companies · Updated November 2026</p>
 
-  <div class="callout info">
-    <span class="callout-icon">ℹ️</span>
-    <div class="callout-body">
-      <strong>Before you start</strong>
-      Complete the <a href="/systemcheck.html">System Check</a> first to confirm your hardware meets the requirements and identify which install type applies to you.
-    </div>
-  </div>
+  <p>Weld AI is a document question-answering system that runs entirely on one Windows PC. The language model, the search index and the documents all stay on that machine. This guide covers how it is built, what to prepare, and what you can verify for yourself.</p>
 
-  <!-- JUMP NAV -->
-  <div class="install-nav" style="margin-top:24px">
-    <a href="#windows-pc">Windows PC</a>
-    <a href="#ubuntu-vm">Windows Server + Ubuntu VM</a>
-    <a href="#windows-direct">Windows Server Direct</a>
-    <a href="#linux">Linux Server</a>
-    <a href="#path-support">Path Support</a>
-  </div>
+  <div class="note"><strong>Start with the system check.</strong> The <a href="/systemcheck.html">free system check</a> script confirms the PC meets the requirements below. It makes no changes and no network connections.</div>
 
-  <!-- ═══════════════════════════════════════════════════ -->
-  <!-- WINDOWS PC -->
-  <!-- ═══════════════════════════════════════════════════ -->
-  <div class="install-section" id="windows-pc">
-    <div class="install-section-header">
-      <span class="icon">🪟</span>
-      <div>
-        <h2>Windows PC or Workstation</h2>
-        <p>Windows 10 (21H2+) or Windows 11 — most common for small firms</p>
-        <span class="badge">✓ Most common install</span>
-      </div>
-    </div>
+  <h2 id="architecture">How it is built</h2>
+  <p>Weld AI runs as a small set of Docker containers under Docker Desktop with the WSL2 backend.</p>
 
-    <div class="req-box">
-      <h4>Requirements</h4>
-      <ul class="req-list">
-        <li>Windows 10 (21H2 or later) or Windows 11</li>
-        <li>8GB RAM minimum — 16GB recommended</li>
-        <li>20GB free disk space</li>
-        <li>Outbound internet access (HTTPS port 443) to api.anthropic.com</li>
-        <li>Administrator account for installation</li>
-      </ul>
-    </div>
-
-    <div class="callout success">
-      <span class="callout-icon">✅</span>
-      <div class="callout-body">
-        <strong>Minimal IT preparation needed</strong>
-        On most Windows 10/11 PCs, IT enables WSL2 in advance with a single command (Step 2 below). We then handle Docker Desktop install, Weld AI setup, and SSL during the installation call.
-      </div>
-    </div>
-
-    <div class="steps">
-      <div class="step">
-        <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Confirm Administrator access</h3>
-          <p>Weld AI installation requires Administrator rights. Confirm an Administrator account will be available during the installation call.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Confirm WSL2 is enabled <span style="background:#fde8e8;color:#c0392b;font-size:0.75rem;font-weight:700;padding:2px 8px;border-radius:4px;margin-left:6px;">Required before install call</span></h3>
-          <p>Open PowerShell as Administrator and run:</p>
-          <pre>wsl --status</pre>
-          <p>Must show <code>Default Version: 2</code>. Also run:</p>
-          <pre>wsl</pre>
-          <p>You should get a Linux prompt (e.g. <code>user@hostname:~$</code>). Type <code>exit</code> to return. If WSL2 is not working, enable it before booking the installation call — we cannot proceed without it.</p>
-          <div class="callout info" style="margin-top:8px;">
-            <span class="callout-icon">💡</span>
-            <div class="callout-body" style="font-size:0.85rem;">On most Windows 10/11 PCs, WSL2 just needs enabling. Run <code>wsl --install</code> in PowerShell as Administrator and restart. If you have issues, <a href="mailto:hello@weldai.uk">email us</a> and we will help.</div>
-          </div>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-left"><div class="step-num">3</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Open firewall ports (multi-user only)</h3>
-          <p>Only needed if staff will access Weld AI from other PCs on the network. Open inbound TCP ports 80 and 443 in Windows Firewall:</p>
-          <pre>New-NetFirewallRule -DisplayName "Weld AI HTTP" -Direction Inbound -Protocol TCP -LocalPort 80 -Action Allow
-New-NetFirewallRule -DisplayName "Weld AI HTTPS" -Direction Inbound -Protocol TCP -LocalPort 443 -Action Allow</pre>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-left"><div class="step-num">4</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Confirm static IP or DHCP reservation</h3>
-          <p>For staff to reliably reach Weld AI, the PC should have a fixed IP address. Ask your network administrator to assign a static IP or create a DHCP reservation for this machine.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <hr class="section-divider">
-
-  <!-- ═══════════════════════════════════════════════════ -->
-  <!-- WINDOWS SERVER + UBUNTU VM -->
-  <!-- ═══════════════════════════════════════════════════ -->
-  <div class="install-section" id="ubuntu-vm">
-    <div class="install-section-header">
-      <span class="icon">🖥️🐧</span>
-      <div>
-        <h2>Windows Server + Ubuntu VM</h2>
-        <p>Recommended for Windows Server — full network share support, simpler than direct install</p>
-        <span class="badge">★ Recommended for servers</span>
-      </div>
-    </div>
-
-    <div class="callout info">
-      <span class="callout-icon">💡</span>
-      <div class="callout-body">
-        <strong>What is a Ubuntu VM?</strong>
-        A virtual machine (VM) is a self-contained computer running inside your Windows Server, managed by Hyper-V — Microsoft's built-in virtualisation platform. The Ubuntu VM runs Linux, where Docker works natively and can access your network shares directly. It is completely isolated from your main server and can be removed at any time without affecting anything else.
-      </div>
-    </div>
-
-    <div class="req-box">
-      <h4>Requirements</h4>
-      <ul class="req-list">
-        <li>Windows Server 2022 (any edition)</li>
-        <li>Hyper-V role enabled</li>
-        <li>16GB RAM on the host server (4GB allocated to Ubuntu VM)</li>
-        <li>40GB free disk space for the VM</li>
-        <li>Outbound internet access (HTTPS port 443)</li>
-        <li>Administrator access to Hyper-V Manager</li>
-      </ul>
-    </div>
-
-    <h4>Part A — Enable Hyper-V</h4>
-    <div class="steps">
-      <div class="step">
-        <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Check if Hyper-V is already enabled</h3>
-          <p>Open PowerShell as Administrator and run:</p>
-          <pre>Get-WindowsFeature Hyper-V</pre>
-          <p>If <code>InstallState</code> shows <code>Installed</code> — skip to Part B. If not, continue.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Install the Hyper-V role</h3>
-          <pre>Install-WindowsFeature -Name Hyper-V -IncludeManagementTools -Restart</pre>
-          <p>The server will restart automatically.</p>
-        </div>
-      </div>
-    </div>
-
-    <h4>Part B — Create the Ubuntu VM</h4>
-    <div class="steps">
-      <div class="step">
-        <div class="step-left"><div class="step-num">3</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Download Ubuntu Server 22.04 LTS ISO</h3>
-          <p>Download from: <a href="https://ubuntu.com/download/server" target="_blank">ubuntu.com/download/server</a></p>
-          <p>Choose <strong>Ubuntu Server 22.04.x LTS</strong> — approximately 1.5GB.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-left"><div class="step-num">4</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Create the VM in Hyper-V Manager</h3>
-          <p>Open <strong>Hyper-V Manager</strong> as Administrator. Right-click your server name → <strong>New → Virtual Machine</strong> and use these settings:</p>
-          <ul>
-            <li>Name: <code>WeldAI-Ubuntu</code></li>
-            <li>Generation: <strong>Generation 1</strong></li>
-            <li>RAM: <strong>4096 MB</strong> — tick Use Dynamic Memory</li>
-            <li>Networking: <strong>Default Switch</strong></li>
-            <li>Hard disk: Create new — <strong>40GB</strong></li>
-            <li>Installation: Install from ISO — browse to Ubuntu ISO</li>
-          </ul>
-          <div class="callout warning" style="margin-top:10px;">
-            <span class="callout-icon">⚠️</span>
-            <div class="callout-body">
-              <strong>Set boot order before first start</strong>
-              Before starting the VM, right-click it → <strong>Settings → BIOS</strong>. Move <strong>DVD Drive</strong> to the top of the boot order so the VM boots from the Ubuntu ISO. After Ubuntu is installed you can move it back — the VM will then boot from the hard disk automatically.
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-left"><div class="step-num">5</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Install Ubuntu</h3>
-          <p>Start the VM and connect via Hyper-V Manager. Follow the Ubuntu Server installer — accept defaults. When asked:</p>
-          <ul>
-            <li>Install OpenSSH server — <strong>Yes</strong> (enables remote access)</li>
-            <li>Additional snaps — skip</li>
-          </ul>
-          <p>Set a memorable username and password — you'll need these for the installation call.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-left"><div class="step-num">6</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Note the VM's IP address</h3>
-          <p>Once Ubuntu has booted, log in and run:</p>
-          <pre>ip addr show</pre>
-          <p>Note the IP address shown next to <code>eth0</code> — we'll need this for the installation call.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-left"><div class="step-num">7</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Open firewall ports (multi-user only)</h3>
-          <p>If staff will access Weld AI from other PCs, open ports 80 and 443 on the Windows Server firewall for the Ubuntu VM's IP address. We will advise on the exact rule during the installation call.</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="callout success">
-      <span class="callout-icon">✅</span>
-      <div class="callout-body">
-        <strong>That's all IT needs to do</strong>
-        Once the Ubuntu VM is created and running, we handle everything else remotely — Docker, Weld AI, SSL certificates, and network share mounting.
-      </div>
-    </div>
-
-    <h4>Part C — Network Share Access (if documents are on a file server)</h4>
-
-    <div class="callout success">
-      <span class="callout-icon">✅</span>
-      <div class="callout-body">
-        <strong>Tested and working — Ubuntu can mount Windows file server shares directly</strong>
-        Unlike the Windows Direct install, the Ubuntu VM can connect to Windows SMB/Samba shares. Weld AI indexes documents live from the share — no copying or nightly sync required. Tested with corporate domain credentials.
-      </div>
-    </div>
-
-    <div class="steps">
-      <div class="step">
-        <div class="step-left"><div class="step-num">8</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Confirm share details with IT</h3>
-          <p>Before the installation call, confirm:</p>
-          <ul>
-            <li>The UNC share path (e.g. <code>\\fileserver\documents</code>)</li>
-            <li>A Windows username with read access to the share</li>
-            <li>Whether it is a domain account (e.g. <code>CORP\username</code>) or local account</li>
-            <li>The Ubuntu VM can reach the file server on TCP port 445 (SMB)</li>
-          </ul>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-left"><div class="step-num">9</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Install CIFS utilities (we do this during install call)</h3>
-          <pre>sudo apt install cifs-utils -y</pre>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-left"><div class="step-num">10</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Mount the share</h3>
-          <p>Create the mount point and mount the share. For a <strong>domain account</strong>:</p>
-          <pre>sudo mkdir -p /mnt/weldai-docs
-sudo mount -t cifs //fileserver/documents /mnt/weldai-docs -o username=jamesw,domain=corp,vers=3.0</pre>
-          <p>For a <strong>local/workgroup account</strong>:</p>
-          <pre>sudo mount -t cifs //fileserver/documents /mnt/weldai-docs -o username=jamesw,vers=3.0</pre>
-          <p>Verify the share is mounted:</p>
-          <pre>df -h | grep weldai-docs</pre>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-left"><div class="step-num">11</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Make the mount permanent (survives reboot)</h3>
-          <p>Create a credentials file to store the password securely:</p>
-          <pre>sudo nano /etc/samba-creds</pre>
-          <p>Add these lines (replace with actual values):</p>
-          <pre>username=jamesw
-password=yourpassword
-domain=corp</pre>
-          <p>Secure the file:</p>
-          <pre>sudo chmod 600 /etc/samba-creds</pre>
-          <p>Add to <code>/etc/fstab</code> for automatic mount on boot:</p>
-          <pre>sudo nano /etc/fstab</pre>
-          <p>Add this line at the bottom:</p>
-          <pre>//fileserver/documents /mnt/weldai-docs cifs credentials=/etc/samba-creds,vers=3.0,_netdev 0 0</pre>
-          <p>Test it:</p>
-          <pre>sudo mount -a</pre>
-        </div>
-      </div>
-    </div>
-
-    <div class="callout info">
-      <span class="callout-icon">💡</span>
-      <div class="callout-body">
-        <strong>Performance note</strong>
-        Indexing documents over a network share is slightly slower than indexing from a local folder — acceptable for most use cases. For very large document sets (500+ files), consider a nightly robocopy sync to a local folder instead. We will advise during the installation call.
-      </div>
-    </div>
-
-  </div>
-
-  <hr class="section-divider">
-
-  <!-- ═══════════════════════════════════════════════════ -->
-  <!-- WINDOWS SERVER DIRECT -->
-  <!-- ═══════════════════════════════════════════════════ -->
-  <div class="install-section" id="windows-direct">
-    <div class="install-section-header">
-      <span class="icon">🪟🖥️</span>
-      <div>
-        <h2>Windows Server Direct</h2>
-        <p>Weld AI installed directly on Windows Server 2022 — only when Ubuntu VM is not possible</p>
-        <span class="badge">⚠ Alternative only — Ubuntu VM preferred</span>
-      </div>
-    </div>
-
-    <div class="callout warning">
-      <span class="callout-icon">⚠️</span>
-      <div class="callout-body">
-        <strong>Consider the Ubuntu VM approach first</strong>
-        Installing directly on Windows Server requires significant manual WSL2 configuration and does not support network shares. If Hyper-V is available on your server, the <a href="#ubuntu-vm">Ubuntu VM approach</a> is strongly recommended instead.
-      </div>
-    </div>
-
-    <div class="req-box">
-      <h4>Requirements</h4>
-      <ul class="req-list">
-        <li>Windows Server 2022 <strong>with Desktop Experience</strong> (not Core)</li>
-        <li>16GB RAM minimum</li>
-        <li>20GB free disk space</li>
-        <li>Outbound internet access (HTTPS port 443)</li>
-        <li>Windows Update fully applied before starting</li>
-        <li>Administrator access</li>
-      </ul>
-    </div>
-
-    <div class="callout warning">
-      <span class="callout-icon">⚠️</span>
-      <div class="callout-body">
-        <strong>Windows Update is mandatory before starting</strong>
-        The inbox WSL on the Windows Server 2022 evaluation ISO is too old to support WSL2. Windows Update must be run to completion before WSL2 can be configured. This can take 30–60 minutes and multiple reboots.
-      </div>
-    </div>
-
-    <div class="steps">
-      <div class="step">
-        <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Fix DNS (if needed)</h3>
-          <p>If internet access works but domain names don't resolve, run this in PowerShell as Administrator:</p>
-          <pre>Set-DnsClientServerAddress -InterfaceAlias "Ethernet" -ServerAddresses "8.8.8.8","8.8.4.4"</pre>
-          <p>Test with <code>ping google.com</code> — should return replies.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Run Windows Update to completion</h3>
-          <p>This is the critical step that updates <code>wsl.exe</code> to a version that supports WSL2. Open PowerShell as Administrator:</p>
-          <pre>Install-Module PSWindowsUpdate -Force
-Import-Module PSWindowsUpdate
-Get-WindowsUpdate -Install -AcceptAll -AutoReboot</pre>
-          <p>Allow all reboots. Run again after each reboot until no more updates are available.</p>
-          <div class="callout tip" style="margin-top:10px">
-            <span class="callout-icon">💡</span>
-            <div class="callout-body">This step alone can take 30–60 minutes. The server may reboot 2–3 times. This is normal.</div>
-          </div>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-left"><div class="step-num">3</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Enable WSL and Virtual Machine Platform features</h3>
-          <p>Open PowerShell as Administrator:</p>
-          <pre>dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
-dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart</pre>
-          <p>Restart the server:</p>
-          <pre>Restart-Computer</pre>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-left"><div class="step-num">4</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Update WSL</h3>
-          <p>After restart, open PowerShell as Administrator. This should now download the full new WSL:</p>
-          <pre>wsl.exe --update</pre>
-          <p>You should see <code>Downloading: Windows Subsystem for Linux</code> followed by <code>Windows Subsystem for Linux has been installed.</code></p>
-          <div class="callout warning" style="margin-top:10px">
-            <span class="callout-icon">⚠️</span>
-            <div class="callout-body">If it only shows a warning about automatic updates with no download — Windows Update has not been completed. Go back to Step 2.</div>
-          </div>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-left"><div class="step-num">5</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Set WSL2 as default</h3>
-          <pre>wsl --set-default-version 2</pre>
-          <p>Should return: <code>The operation completed successfully.</code></p>
-          <p>Verify with:</p>
-          <pre>wsl --status</pre>
-          <p>Should show <code>Default Version: 2</code>.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-left"><div class="step-num">6</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Install Ubuntu (Linux distribution for WSL2)</h3>
-          <pre>wsl --install -d Ubuntu</pre>
-          <p>When prompted, set a username and password. Once you see the Linux prompt, type <code>exit</code> to return to PowerShell.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-left"><div class="step-num">7</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Open firewall ports (multi-user only)</h3>
-          <pre>New-NetFirewallRule -DisplayName "Weld AI HTTP" -Direction Inbound -Protocol TCP -LocalPort 80 -Action Allow
-New-NetFirewallRule -DisplayName "Weld AI HTTPS" -Direction Inbound -Protocol TCP -LocalPort 443 -Action Allow</pre>
-        </div>
-      </div>
-    </div>
-
-    <div class="callout success">
-      <span class="callout-icon">✅</span>
-      <div class="callout-body">
-        <strong>Ready to book — email us once WSL2 is confirmed working</strong>
-        Once <code>wsl --status</code> shows Default Version: 2 and <code>wsl</code> gives a Linux prompt, email <a href="mailto:hello@weldai.uk">hello@weldai.uk</a> to book. We handle Docker Desktop install, Weld AI setup, and SSL certificates remotely during the call.
-      </div>
-    </div>
-
-  </div>
-
-  <hr class="section-divider">
-
-  <!-- ═══════════════════════════════════════════════════ -->
-  <!-- LINUX SERVER -->
-  <!-- ═══════════════════════════════════════════════════ -->
-  <div class="install-section" id="linux">
-    <div class="install-section-header">
-      <span class="icon">🐧</span>
-      <div>
-        <h2>Linux Server</h2>
-        <p>Ubuntu 22.04 LTS or Debian 12 — simplest install, full network share support</p>
-        <span class="badge">✓ Recommended where possible</span>
-      </div>
-    </div>
-
-    <div class="req-box">
-      <h4>Requirements</h4>
-      <ul class="req-list">
-        <li>Ubuntu 22.04 LTS or Debian 12</li>
-        <li>8GB RAM minimum — 16GB recommended</li>
-        <li>20GB free disk space</li>
-        <li>Outbound internet access (HTTPS port 443)</li>
-        <li>sudo access for installation</li>
-      </ul>
-    </div>
-
-    <div class="callout success">
-      <span class="callout-icon">✅</span>
-      <div class="callout-body">
-        <strong>Minimal IT preparation needed</strong>
-        Docker Engine installs natively on Linux with no WSL2 complexity. We handle the full installation remotely. IT just needs to confirm the requirements above and provide SSH or screen-share access.
-      </div>
-    </div>
-
-    <div class="steps">
-      <div class="step">
-        <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Confirm Ubuntu 22.04 or Debian 12</h3>
-          <p>Check the OS version:</p>
-          <pre>lsb_release -a</pre>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Ensure system is up to date</h3>
-          <pre>sudo apt update && sudo apt upgrade -y</pre>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-left"><div class="step-num">3</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Open firewall ports (multi-user only)</h3>
-          <pre>sudo ufw allow 80/tcp
-sudo ufw allow 443/tcp
-sudo ufw reload</pre>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-left"><div class="step-num">4</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Network share access — confirm details (if applicable)</h3>
-          <p>If documents are stored on a Windows file server, Linux can mount the share directly. Please confirm:</p>
-          <ul>
-            <li>The UNC path to the share (e.g. <code>\\fileserver\documents</code>)</li>
-            <li>A username with read access (domain account e.g. <code>CORP\username</code>, or local account)</li>
-            <li>TCP port 445 is open between this server and the file server</li>
-          </ul>
-          <p>We will install <code>cifs-utils</code>, configure the Samba mount, and add it to <code>/etc/fstab</code> during the installation call.</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="callout success">
-      <span class="callout-icon">✅</span>
-      <div class="callout-body">
-        <strong>Ready for the installation call</strong>
-        Once these steps are done, we handle Docker, Weld AI, SSL certificates, and network share mounting remotely.
-      </div>
-    </div>
-
-  </div>
-
-  <!-- PATH SUPPORT REFERENCE TABLE -->
-  <hr class="section-divider">
-  <div class="install-section" id="path-support">
-    <div class="install-section-header">
-      <span class="icon">📂</span>
-      <div>
-        <h2>Document Path Support Reference</h2>
-        <p>Which document locations work with each install type — tested results</p>
-      </div>
-    </div>
-
-    <p style="font-size:0.88rem;color:var(--ink-mid);margin-bottom:16px">This table summarises where your documents can live and which install type supports each location. All results are from real-world testing.</p>
-
-    <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
-    <table style="width:100%;border-collapse:collapse;font-size:0.85rem;min-width:520px;">
-      <thead>
-        <tr style="background:var(--surface-2);">
-          <th style="padding:10px 12px;text-align:left;border:1px solid var(--border);font-weight:700;">Document Location</th>
-          <th style="padding:10px 12px;text-align:center;border:1px solid var(--border);font-weight:700;">Windows PC</th>
-          <th style="padding:10px 12px;text-align:center;border:1px solid var(--border);font-weight:700;">Win Server + Ubuntu VM</th>
-          <th style="padding:10px 12px;text-align:center;border:1px solid var(--border);font-weight:700;">Win Server Direct</th>
-          <th style="padding:10px 12px;text-align:center;border:1px solid var(--border);font-weight:700;">Linux Server</th>
-        </tr>
-      </thead>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Component</th><th>What it does</th></tr></thead>
       <tbody>
-        <tr>
-          <td style="padding:9px 12px;border:1px solid var(--border);"><strong>Local drive</strong><br><span style="color:var(--ink-light);font-size:0.8rem;">C:\docs or /home/user/docs</span></td>
-          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#059669;font-weight:700;">✅</td>
-          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#059669;font-weight:700;">✅</td>
-          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#059669;font-weight:700;">✅</td>
-          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#059669;font-weight:700;">✅</td>
-        </tr>
-        <tr style="background:var(--surface-2);">
-          <td style="padding:9px 12px;border:1px solid var(--border);"><strong>USB / external drive</strong><br><span style="color:var(--ink-light);font-size:0.8rem;">Must stay connected</span></td>
-          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#059669;font-weight:700;">✅</td>
-          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#059669;font-weight:700;">✅</td>
-          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#059669;font-weight:700;">✅</td>
-          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#059669;font-weight:700;">✅</td>
-        </tr>
-        <tr>
-          <td style="padding:9px 12px;border:1px solid var(--border);"><strong>Windows file server share</strong><br><span style="color:var(--ink-light);font-size:0.8rem;">\\server\documents</span></td>
-          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#c0392b;font-weight:700;">❌</td>
-          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#059669;font-weight:700;">✅ <span style="font-size:0.75rem;font-weight:400;">Tested</span></td>
-          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#c0392b;font-weight:700;">❌</td>
-          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#059669;font-weight:700;">✅ <span style="font-size:0.75rem;font-weight:400;">Tested</span></td>
-        </tr>
-        <tr style="background:var(--surface-2);">
-          <td style="padding:9px 12px;border:1px solid var(--border);"><strong>Mapped network drive</strong><br><span style="color:var(--ink-light);font-size:0.8rem;">Z:\docs</span></td>
-          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#c0392b;font-weight:700;">❌</td>
-          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#059669;font-weight:700;">✅ <span style="font-size:0.75rem;font-weight:400;">via Samba</span></td>
-          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#c0392b;font-weight:700;">❌</td>
-          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#059669;font-weight:700;">✅ <span style="font-size:0.75rem;font-weight:400;">via Samba</span></td>
-        </tr>
-        <tr>
-          <td style="padding:9px 12px;border:1px solid var(--border);"><strong>OneDrive / SharePoint synced folder</strong><br><span style="color:var(--ink-light);font-size:0.8rem;">Must be set to "Always keep on device"</span></td>
-          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#059669;font-weight:700;">✅</td>
-          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#d97706;font-weight:700;">⚠️ <span style="font-size:0.75rem;font-weight:400;">Complex</span></td>
-          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#d97706;font-weight:700;">⚠️ <span style="font-size:0.75rem;font-weight:400;">Complex</span></td>
-          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#d97706;font-weight:700;">⚠️ <span style="font-size:0.75rem;font-weight:400;">Complex</span></td>
-        </tr>
-        <tr style="background:var(--surface-2);">
-          <td style="padding:9px 12px;border:1px solid var(--border);"><strong>NFS mount</strong><br><span style="color:var(--ink-light);font-size:0.8rem;">Linux-to-Linux file servers</span></td>
-          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#c0392b;font-weight:700;">❌</td>
-          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#059669;font-weight:700;">✅ <span style="font-size:0.75rem;font-weight:400;">Not tested</span></td>
-          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#c0392b;font-weight:700;">❌</td>
-          <td style="padding:9px 12px;border:1px solid var(--border);text-align:center;color:#059669;font-weight:700;">✅ <span style="font-size:0.75rem;font-weight:400;">Not tested</span></td>
-        </tr>
+        <tr><td>Web proxy (nginx)</td><td>Serves the web interface over HTTPS. The only container with published ports.</td></tr>
+        <tr><td>API and worker</td><td>Sign-in, search, and reading and indexing documents.</td></tr>
+        <tr><td>Database (PostgreSQL with pgvector)</td><td>Users, groups, document text and the search index.</td></tr>
+        <tr><td>Model runtime (Ollama)</td><td>Runs the language model and the search model locally, on the graphics card or the processor.</td></tr>
       </tbody>
     </table>
-    </div>
-
-    <div class="callout info" style="margin-top:16px;">
-      <span class="callout-icon">💡</span>
-      <div class="callout-body">
-        <strong>Documents on a Windows file server?</strong>
-        The <strong>Windows Server + Ubuntu VM</strong> or <strong>Linux Server</strong> install types support live Samba mounts — no copying or syncing required. Corporate domain accounts (e.g. <code>CORP\username</code>) are supported. We configure the mount during the installation call.
-      </div>
-    </div>
-
-    <div class="callout warning" style="margin-top:12px;">
-      <span class="callout-icon">⚠️</span>
-      <div class="callout-body">
-        <strong>Windows PC or Windows Server Direct — network shares not supported</strong>
-        Docker on Windows cannot mount network paths. If your documents are on a file server and you are using a Windows PC or Windows Server Direct install, we will set up a nightly robocopy sync to a local folder as a workaround. For best results, consider the Ubuntu VM install type instead.
-      </div>
-    </div>
-
   </div>
 
-  <!-- BOTTOM CTA -->
-  <div style="background:var(--blue-light);border-radius:var(--radius);padding:24px;text-align:center;margin-top:16px">
-    <p style="font-weight:700;font-size:1rem;margin-bottom:6px">Ready to book your installation call?</p>
-    <p style="color:var(--ink-mid);font-size:0.88rem;margin-bottom:16px">Complete the System Check form and email your results to us. We'll confirm your setup is ready and book a time.</p>
-    <a href="/systemcheck.html" style="background:var(--blue);color:#fff;padding:11px 24px;border-radius:8px;font-weight:700;font-size:0.9rem;text-decoration:none;display:inline-block">Go to System Check →</a>
+  <ul>
+    <li><strong>Models:</strong> the answer model is Qwen3 4B (Apache 2.0 licence) and the search model is bge-m3 (MIT licence). Both ship inside the installation bundle. Nothing is downloaded from a model site at install time or afterwards.</li>
+    <li><strong>Network isolation:</strong> the API, worker, database and model runtime sit on an internal Docker network with no route to the internet. Only nginx is reachable, on ports 80 and 443.</li>
+    <li><strong>No telemetry:</strong> Weld AI collects no usage data and has no update check, licence server or crash reporting. Telemetry is switched off in every component that has it.</li>
+    <li><strong>Tested:</strong> every release runs an automated check that the containers cannot reach the internet.</li>
+    <li><strong>Logs:</strong> written locally only. They do not contain document text or the text of questions.</li>
+  </ul>
+
+  <h2 id="requirements">Requirements</h2>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th></th><th>Minimum</th><th>Recommended</th></tr></thead>
+      <tbody>
+        <tr><td>Operating system</td><td>Windows 10 21H2, 64-bit</td><td>Windows 11</td></tr>
+        <tr><td>Processor</td><td>4 cores with AVX2</td><td>8 cores or more</td></tr>
+        <tr><td>RAM</td><td>12 GB</td><td>16 GB or more</td></tr>
+        <tr><td>Disk</td><td>25 GB free</td><td>40 GB or more, plus room for backups</td></tr>
+        <tr><td>GPU</td><td>None (answers take 20 to 60 seconds or more)</td><td>NVIDIA with 8 GB VRAM or more</td></tr>
+        <tr><td>Virtualisation</td><td colspan="2">Enabled in the BIOS (Intel VT-x or AMD-V), WSL2</td></tr>
+        <tr><td>Inbound ports</td><td colspan="2">80 and 443 from staff PCs, if more than one person will use it</td></tr>
+        <tr><td>Outbound internet</td><td colspan="2">None needed to run</td></tr>
+      </tbody>
+    </table>
   </div>
 
-</div>
+  <p>The PC needs to stay on and awake during working hours, so turn off sleep and hibernation. A desktop or small workstation suits this better than someone's laptop.</p>
 
-<div class="footer-links">
-  <a href="https://weldai.uk">🏠 Home</a>
-  <a href="/systemcheck.html">🖥️ System Check</a>
-  <a href="/blog.html">📄 Blog &amp; Guides</a>
-  <a href="/privacy.html">🔒 Privacy Policy</a>
-  <a href="/terms.html">📋 Terms of Service</a>
-  <a href="mailto:hello@weldai.uk">✉️ hello@weldai.uk</a>
-</div>
+  <h2 id="prepare">What to prepare before the install call</h2>
 
-<footer>
-  <div style="display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-bottom:10px">
-    <a href="https://weldai.uk">Home</a>
-    <a href="/systemcheck.html">System Check</a>
-    <a href="/blog.html">Blog</a>
-    <a href="/privacy.html">Privacy Policy</a>
-    <a href="/terms.html">Terms of Service</a>
-    <a href="mailto:hello@weldai.uk">hello@weldai.uk</a>
+  <h3>1. An Administrator account</h3>
+  <p>Someone who can approve Administrator prompts needs to be at the PC during the call.</p>
+
+  <h3>2. WSL2</h3>
+  <p>In PowerShell as Administrator, run the following and restart when asked:</p>
+  <pre><code>wsl --install</code></pre>
+  <p>After the restart, confirm it reports <code>Default Version: 2</code>:</p>
+  <pre><code>wsl --status</code></pre>
+
+  <h3>3. A current NVIDIA driver, if the PC has an NVIDIA card</h3>
+  <p>Install the latest driver from NVIDIA. Current drivers include GPU support for WSL2, which is how the containers reach the card. Confirm the card is visible:</p>
+  <pre><code>nvidia-smi</code></pre>
+
+  <h3>4. A fixed address and a name</h3>
+  <p>If staff will use Weld AI from their own PCs, give this PC a static IP address or a DHCP reservation, and ideally a DNS name such as <code>weldai.yourfirm.local</code>.</p>
+
+  <h3>5. Firewall rules, for more than one user</h3>
+  <p>Allow inbound TCP 80 and 443 from the office network:</p>
+  <pre><code>New-NetFirewallRule -DisplayName "Weld AI HTTP" -Direction Inbound -Protocol TCP -LocalPort 80 -Action Allow
+New-NetFirewallRule -DisplayName "Weld AI HTTPS" -Direction Inbound -Protocol TCP -LocalPort 443 -Action Allow</code></pre>
+  <p>HTTP redirects to HTTPS. If 80 or 443 is already in use on the PC, Weld AI can listen on other ports.</p>
+
+  <h3>6. A TLS certificate (optional)</h3>
+  <p>If you have an internal certificate authority, issue a certificate for the PC's DNS name. Without one, the installer creates a self-signed certificate and browsers show a warning the first time.</p>
+
+  <div class="good"><strong>That is all.</strong> On the call I install Docker Desktop, load the Weld AI bundle, enable the graphics card, create the first administrator account and connect your document folders.</div>
+
+  <h2 id="internet">Internet access</h2>
+  <p>Weld AI makes no outbound connections. The internet is used on install day only, for the screen-share call and to download Docker Desktop.</p>
+  <p>Windows and Docker Desktop are separate products with their own update checks. If your policy is that nothing at all leaves this PC, block its outbound traffic at your firewall once the install is finished. Weld AI carries on working. You would then apply Windows and Docker updates on your own schedule.</p>
+  <p>Docker Desktop is free for small businesses. At the time of writing, Docker requires a paid subscription only for organisations with more than 250 employees or more than US$10 million in annual revenue. Check Docker's current terms if you are close to either limit.</p>
+
+  <h2 id="accounts">Accounts and access control</h2>
+  <ul>
+    <li><strong>Local accounts:</strong> each person has their own sign-in. Passwords are hashed with Argon2id, the minimum length is 12 characters by default, and an account locks for 5 minutes after 5 wrong attempts. There is no default account or password.</li>
+    <li><strong>Active Directory or LDAP:</strong> staff can sign in with their Windows account. You will need the LDAPS address, the CA certificate that signed the directory's certificate, a read-only service account and the OUs that hold staff and groups. The connection is always encrypted and the certificate is always checked.</li>
+    <li><strong>Groups:</strong> a document is visible to its uploader, to administrators and to the groups it is shared with. The rule is enforced inside the database query, so a person outside a group cannot retrieve its text through search or through an answer.</li>
+    <li><strong>Sessions:</strong> held on the PC, with HttpOnly, Secure, SameSite=Strict cookies.</li>
+  </ul>
+
+  <h2 id="documents">Document folders</h2>
+  <p>Weld AI can index up to three folders in place, read-only. It checks them every five minutes for new, changed and deleted files, and it never modifies, copies or moves a file. Staff can also upload individual documents in the browser.</p>
+
+  <div class="warn"><strong>Folder permissions are not inherited.</strong> Weld AI does not read Windows (NTFS) permissions. Each indexed folder is assigned to one or more Weld AI groups, and everyone in those groups can search everything in it. Keep folders with different audiences, such as HR or board papers, as separate folders with their own groups, or exclude them.</div>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Where the documents are</th><th>Supported</th></tr></thead>
+      <tbody>
+        <tr><td>Local drive on the PC</td><td class="check">Yes</td></tr>
+        <tr><td>USB or external drive</td><td class="check">Yes, if it stays connected</td></tr>
+        <tr><td>OneDrive or SharePoint synced folder</td><td class="check">Yes, set to "Always keep on this device"</td></tr>
+        <tr><td>Mapped drive or UNC path</td><td class="part">Not directly. Docker Desktop cannot mount network paths, so I set up a scheduled <code>robocopy</code> mirror to a local folder.</td></tr>
+      </tbody>
+    </table>
   </div>
-  <p>© 2026 Weld AI · weldai.uk · York, England</p>
+
+  <p><strong>Formats:</strong> PDF, Word, PowerPoint, Excel, CSV, HTML, text and Markdown; scanned PDFs and PNG, JPEG and TIFF images through OCR that runs on the PC; and Outlook <code>.msg</code> emails, including supported attachments. Password-protected PDFs cannot be read.</p>
+
+  <h2 id="backups">Backups and upgrades</h2>
+  <ul>
+    <li><strong>Backups:</strong> the bundle includes a backup script. A backup holds the database (users, groups and the search index), uploaded files and the configuration. It contains the database password and the TLS private key, so store it as securely as the PC itself, and keep a copy somewhere other than the PC.</li>
+    <li><strong>Your documents:</strong> files in indexed folders are not part of the Weld AI backup. Carry on backing them up as you do today.</li>
+    <li><strong>Upgrades:</strong> a new version arrives as a new bundle. The upgrade script takes a backup first and the previous version stays on the PC for rollback.</li>
+  </ul>
+
+  <div class="cta-box">
+    <h2>Questions before you commit?</h2>
+    <p>I'm happy to talk to your IT person or IT company directly.</p>
+    <a href="mailto:hello@weldai.uk" class="btn-primary">hello@weldai.uk</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <ul class="footer-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/demo.html">Demo</a></li>
+    <li><a href="/systemcheck.html">System check</a></li>
+    <li><a href="/blog.html">Guides</a></li>
+    <li><a href="/privacy.html">Privacy</a></li>
+    <li><a href="/terms.html">Terms</a></li>
+    <li><a href="/cookies.html">Cookies</a></li>
+  </ul>
+  <p>© 2026 Weld AI · James Weld, sole trader · York, England · <a href="mailto:hello@weldai.uk">hello@weldai.uk</a></p>
 </footer>
-
 </body>
 </html>

@@ -1,128 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Ask your own documents anything and get an answer in seconds, with the source and page. Runs on your server — your files never leave it. From £350, no subscription.">
-<title>Weld AI — AI document search that runs on your own server</title>
+<title>Private AI for Small Business | 100% On-Premise, No Cloud | Weld AI</title>
+<meta name="description" content="Weld AI is private AI document search for UK small businesses. It runs 100% on a PC in your office: no cloud, no internet connection, nothing leaves your premises.">
 <link rel="canonical" href="https://www.weldai.uk/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.weldai.uk/">
-<meta property="og:title" content="Weld AI — AI document search that runs on your own server">
-<meta property="og:description" content="Ask your own documents anything and get an answer in seconds, with the source and page. Your files never leave your server. From £350, no subscription.">
-<meta property="og:image" content="https://www.weldai.uk/screenshot-chat.png">
+<meta property="og:title" content="Private AI for small business. 100% on-premise, nothing goes to the cloud.">
+<meta property="og:description" content="Ask your own documents anything and get an answer with the source and page. Weld AI runs entirely on a PC in your office. No cloud, no internet connection, nothing leaves your premises.">
+<meta property="og:image" content="https://www.weldai.uk/screenshot-summary.png">
 <meta property="og:site_name" content="Weld AI">
 <meta property="og:locale" content="en_GB">
-
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:url" content="https://www.weldai.uk/">
-<meta name="twitter:title" content="Weld AI — AI document search that runs on your own server">
-<meta name="twitter:description" content="Ask your own documents anything and get an answer in seconds, with the source and page. Your files never leave your server. From £350, no subscription.">
-<meta name="twitter:image" content="https://www.weldai.uk/screenshot-chat.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
-<style>
-:root{--blue:#185FA5;--blue-dark:#0F3F72;--blue-light:#EBF3FB;--blue-mid:#D0E6F7;--ink:#0D1B2A;--ink-mid:#3D5166;--ink-light:#7A90A4;--surface:#FFFFFF;--surface-2:#F7FAFD;--border:#DDE8F2;--green:#059669;--green-bg:#ECFDF5;--radius:12px;--radius-lg:20px;--shadow:0 4px 20px rgba(15,63,114,0.08),0 1px 4px rgba(15,63,114,0.05);--shadow-lg:0 12px 48px rgba(15,63,114,0.12),0 4px 12px rgba(15,63,114,0.06)}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'DM Sans',-apple-system,sans-serif;color:var(--ink);background:var(--surface);line-height:1.6;-webkit-font-smoothing:antialiased}
-nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:60px}
-.nav-logo{font-weight:700;font-size:1.15rem;color:var(--blue);letter-spacing:-0.02em;text-decoration:none}.nav-logo span{color:var(--ink)}
-.nav-links{display:flex;align-items:center;gap:2rem;list-style:none}.nav-links a{text-decoration:none;font-size:0.88rem;color:var(--ink-mid);font-weight:500;transition:color .15s}.nav-links a:hover{color:var(--blue)}
-.nav-cta{background:var(--blue);color:#fff!important;padding:8px 18px;border-radius:8px;font-size:0.88rem;font-weight:600}
-.hero{background:linear-gradient(160deg,var(--blue-dark) 0%,var(--blue) 60%,#2980C4 100%);padding:90px 2rem 80px;text-align:center;position:relative;overflow:hidden}
-.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);color:rgba(255,255,255,0.9);border-radius:999px;padding:5px 14px;font-size:0.82rem;font-weight:500;margin-bottom:1.5rem}
-.hero h1{font-family:'DM Serif Display',Georgia,serif;font-size:clamp(2.2rem,5vw,3.4rem);color:#fff;line-height:1.15;letter-spacing:-0.02em;max-width:720px;margin:0 auto 1.25rem}
-.hero h1 em{font-style:italic;color:rgba(255,255,255,0.85)}
-.hero p{font-size:1.1rem;color:rgba(255,255,255,0.8);max-width:540px;margin:0 auto 2.5rem;line-height:1.7}
-.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.btn-primary{background:#fff;color:var(--blue);padding:13px 28px;border-radius:var(--radius);font-weight:700;text-decoration:none;font-size:0.95rem;transition:all .15s;box-shadow:0 4px 12px rgba(0,0,0,0.15)}
-.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,0,0,0.2)}
-.btn-ghost{background:rgba(255,255,255,0.12);color:#fff;border:1px solid rgba(255,255,255,0.3);padding:13px 28px;border-radius:var(--radius);font-weight:600;text-decoration:none;font-size:0.95rem;transition:all .15s}
-.btn-ghost:hover{background:rgba(255,255,255,0.2)}
-.hero-props{display:flex;justify-content:center;gap:2rem;margin-top:3rem;flex-wrap:wrap}
-.hero-prop{color:rgba(255,255,255,0.75);font-size:0.84rem;display:flex;align-items:center;gap:6px}
-.hero-prop::before{content:'✓';color:#4ADE80;font-weight:700}
-.shot-wrap{padding:60px 2rem;text-align:center;border-bottom:1px solid var(--border)}
-.shot{border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:var(--shadow-lg);display:inline-block;max-width:100%}
-.shot img{display:block;max-width:100%;height:auto}
-.shot-caption{color:var(--ink-light);font-size:0.85rem;margin-top:14px}
-section{padding:80px 2rem}
-section:nth-child(even){background:var(--surface-2)}
-.container{max-width:1100px;margin:0 auto}
-.section-label{text-align:center;font-size:0.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:0.75rem}
-h2{font-family:'DM Serif Display',Georgia,serif;font-size:clamp(1.8rem,3.5vw,2.6rem);text-align:center;color:var(--ink);letter-spacing:-0.02em;line-height:1.2;margin-bottom:0.75rem}
-.section-sub{text-align:center;color:var(--ink-mid);font-size:1.05rem;max-width:560px;margin:0 auto 3.5rem;line-height:1.7}
-.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
-.feature-card{background:#fff;border:1px solid var(--border);border-top:3px solid var(--blue);border-radius:var(--radius);padding:24px}
-.feature-card h3{font-size:1rem;font-weight:700;margin-bottom:6px;color:var(--ink)}
-.feature-card p{font-size:0.88rem;color:var(--ink-mid);line-height:1.6}
-.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0}
-.step{padding:2rem}
-.step-num{width:36px;height:36px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9rem;margin-bottom:12px}
-.step h3{font-size:0.95rem;font-weight:700;margin-bottom:6px}
-.step p{font-size:0.85rem;color:var(--ink-mid);line-height:1.6}
-.table-wrap{overflow-x:auto;max-width:820px;margin:0 auto}
-table{width:100%;border-collapse:collapse;font-size:0.88rem}
-th{background:var(--blue);color:#fff;padding:12px 16px;text-align:left;font-weight:600}
-td{padding:11px 16px;border-bottom:1px solid var(--border)}
-tr:nth-child(even) td{background:var(--surface-2)}
-.check{color:var(--green);font-weight:700}.cross{color:#EF4444}.part{color:var(--ink-light)}
-.privacy-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;max-width:900px;margin:0 auto}
-.privacy-card{background:#fff;border:1px solid var(--border);border-left:3px solid var(--blue);border-radius:var(--radius);padding:20px 22px}
-.privacy-card h4{font-size:0.92rem;font-weight:700;margin-bottom:4px}
-.privacy-card p{font-size:0.83rem;color:var(--ink-mid);line-height:1.5}
-.faq-list{max-width:720px;margin:0 auto}
-.faq-list details{border:1px solid var(--border);border-radius:12px;margin-bottom:10px;background:#fff;overflow:hidden}
-.faq-list summary{padding:18px 20px;font-weight:600;font-size:0.95rem;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;color:var(--ink)}
-.faq-list summary::-webkit-details-marker{display:none}
-.faq-list summary::after{content:'+';color:var(--blue);flex-shrink:0;margin-left:12px;font-size:1.2rem}
-.faq-list details[open] summary::after{content:'−'}
-.faq-list .faq-a{padding:0 20px 18px;color:var(--ink-mid);font-size:0.92rem}
-.faq-list .faq-a a{color:var(--blue);font-weight:600;text-decoration:none}
-.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;max-width:900px;margin:0 auto}
-form{display:flex;flex-direction:column;gap:14px}
-label{font-size:0.85rem;font-weight:600;color:var(--ink-mid);margin-bottom:4px;display:block}
-input,select,textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px 14px;font-family:inherit;font-size:0.9rem;color:var(--ink);background:#fff;transition:border-color .15s}
-input:focus,select:focus,textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(24,95,165,0.1)}
-textarea{min-height:100px;resize:vertical}
-.form-submit{background:var(--blue);color:#fff;border:none;padding:13px 28px;border-radius:8px;font-size:0.95rem;font-weight:700;cursor:pointer;transition:opacity .15s;font-family:inherit}
-.form-submit:hover{opacity:0.9}
-.contact-info h3{font-size:1.2rem;font-weight:700;margin-bottom:1rem}
-.contact-info p{color:var(--ink-mid);font-size:0.92rem;line-height:1.7;margin-bottom:1.5rem}
-.contact-detail{margin-bottom:10px;font-size:0.9rem;color:var(--ink-mid)}
-.contact-detail a{color:var(--blue);text-decoration:none}
-footer{background:var(--ink);color:rgba(255,255,255,0.5);padding:28px 2rem;text-align:center;font-size:0.84rem}
-footer a{color:rgba(255,255,255,0.7);text-decoration:none}
-.footer-links{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-bottom:10px}
-.nav-toggle{display:none}
-.nav-burger{display:none}
-@media(max-width:700px){
-.contact-grid{grid-template-columns:1fr}
-section{padding:60px 1.25rem}.hero{padding:60px 1.25rem}.shot-wrap{padding:40px 1.25rem}
-nav{height:auto;min-height:60px;flex-wrap:wrap;padding:0 1.25rem}
-.nav-burger{display:flex;flex-direction:column;justify-content:center;gap:5px;cursor:pointer;padding:10px;margin:-10px -10px -10px 0}
-.nav-burger span{display:block;width:22px;height:2px;background:var(--ink);border-radius:2px;transition:transform .2s,opacity .2s}
-.nav-links{display:none;flex-basis:100%;flex-direction:column;align-items:stretch;gap:0;width:100%;padding:6px 0 14px}
-.nav-links li{width:100%}
-.nav-links a{display:block;width:100%;padding:13px 2px;border-bottom:1px solid var(--border)}
-.nav-links .nav-cta{text-align:center;border-bottom:none;margin-top:10px}
-.nav-toggle:checked ~ .nav-links{display:flex}
-.nav-toggle:checked ~ .nav-burger span:nth-child(1){transform:translateY(7px) rotate(45deg)}
-.nav-toggle:checked ~ .nav-burger span:nth-child(2){opacity:0}
-.nav-toggle:checked ~ .nav-burger span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-}
-</style>
+<meta name="twitter:title" content="Private AI for small business. 100% on-premise, nothing goes to the cloud.">
+<meta name="twitter:description" content="Ask your own documents anything and get an answer with the source and page. Runs entirely on a PC in your office. Nothing leaves your premises.">
+<meta name="twitter:image" content="https://www.weldai.uk/screenshot-summary.png">
+
+<link rel="stylesheet" href="/styles.css">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "Organization",
+      "@type": "WebSite",
+      "@id": "https://www.weldai.uk/#website",
+      "url": "https://www.weldai.uk/",
+      "name": "Weld AI",
+      "inLanguage": "en-GB",
+      "publisher": {"@id": "https://www.weldai.uk/#organization"}
+    },
+    {
+      "@type": "ProfessionalService",
       "@id": "https://www.weldai.uk/#organization",
       "name": "Weld AI",
       "url": "https://www.weldai.uk/",
+      "image": "https://www.weldai.uk/screenshot-summary.png",
       "founder": {"@type": "Person", "name": "James Weld"},
       "email": "hello@weldai.uk",
       "address": {
@@ -131,20 +48,20 @@ nav{height:auto;min-height:60px;flex-wrap:wrap;padding:0 1.25rem}
         "addressCountry": "GB"
       },
       "areaServed": {"@type": "Country", "name": "United Kingdom"},
-      "description": "Self-hosted AI document search for UK accountancy practices and solicitors."
+      "description": "On-premise private AI document search for UK small businesses. Installed on a PC in your office; nothing is sent to the cloud."
     },
     {
       "@type": "SoftwareApplication",
-      "name": "Weld AI Document Assistant",
+      "name": "Weld AI",
       "applicationCategory": "BusinessApplication",
-      "operatingSystem": "Windows, Linux",
-      "description": "Self-hosted AI document search. Ask questions in plain English across your firm's documents and get answers with exact source citations. Your files never leave your server.",
-      "offers": {
-        "@type": "Offer",
-        "price": "350",
-        "priceCurrency": "GBP",
-        "description": "One-time remote installation, includes 30 days support. Plus £2 to £5 per month in AI usage."
-      },
+      "operatingSystem": "Windows 10, Windows 11",
+      "description": "On-premise AI document search. Staff ask questions in plain English and get answers with the source document and page. The AI model, the search index and the documents all stay on a PC in the customer's office, with no internet connection required.",
+      "featureList": [
+        "Runs fully offline on the customer's own PC",
+        "Answers cite the source document and page",
+        "Reads PDF, Word, Excel, PowerPoint, scanned documents and Outlook emails",
+        "User accounts, groups and Active Directory sign-in"
+      ],
       "provider": {"@id": "https://www.weldai.uk/#organization"}
     }
   ]
@@ -158,42 +75,66 @@ nav{height:auto;min-height:60px;flex-wrap:wrap;padding:0 1.25rem}
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "Do my documents leave my server?",
+      "name": "Does anything leave our office?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No. Your documents, the search index and your chat history stay on your server. To write an answer, Weld AI sends Anthropic's Claude your question, the recent conversation, the names of the files it quotes, and up to eight short excerpts with identifiers such as NI numbers, UTRs, bank details, emails and phone numbers removed. Anthropic does not use this data to train its models and deletes it within 30 days."
+        "text": "No. The AI model, the search index, your documents, your questions and the answers all stay on the PC in your office. Weld AI makes no internet connections and sends no usage data to anyone, including me. There is no cloud AI provider involved at all."
       }
     },
     {
       "@type": "Question",
-      "name": "What does it run on?",
+      "name": "Does it need an internet connection?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "A Windows 10 or 11 PC, a Windows Server, or a Linux server you already have, with at least 8GB of RAM. We check compatibility with you before installing."
+        "text": "Not to run. Once installed, Weld AI works with the internet unplugged, and your IT person can block the PC from the internet at the firewall. An internet connection is used on install day only, for the screen-share call and to download Docker Desktop."
       }
     },
     {
       "@type": "Question",
-      "name": "Do we need IT staff?",
+      "name": "What computer does it need?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No. We install remotely over a Teams or Zoom screen-share, usually in under an hour. Day-to-day use needs no technical skill: staff open a browser and type a question."
+        "text": "A Windows 10 or 11 PC that stays switched on, with 16 GB of memory and 40 GB of free disk space. An NVIDIA graphics card with 8 GB of memory or more is recommended for quick answers. The free system check tells you in a few minutes whether a PC you already own will do."
       }
     },
     {
       "@type": "Question",
-      "name": "What files does it read, and how do I add new ones?",
+      "name": "How fast are the answers?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "PDF, Word, Excel, PowerPoint, CSV and plain text. To add a document, copy it into your documents folder and click Refresh. Only new or changed files are re-read, so it takes seconds."
+        "text": "It depends on the graphics card, because the AI runs on your PC rather than in a data centre. On a PC with a 4 GB NVIDIA card, measured on real company documents, the first words appear after about 10 seconds and a full answer takes about 14 seconds. A card with 8 GB or more is recommended. Without a graphics card it still works, but answers take 20 to 60 seconds or more."
       }
     },
     {
       "@type": "Question",
-      "name": "Can it read our file server, OneDrive or SharePoint?",
+      "name": "Can I trust the answers?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. Documents can be on a local drive, a synced OneDrive or SharePoint folder, or a file server. Where your files live decides which machine we install on, and we agree that with you before the install."
+        "text": "Every answer names the document and page it came from, so staff can check it before relying on it. If your documents do not cover the question, Weld AI says so instead of guessing. Like any AI it can still make mistakes, so important answers should be checked against the source."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What files can it read?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "PDF, Word, Excel, PowerPoint, CSV, HTML and plain text, plus scanned documents and images (read with OCR on your PC) and Outlook emails with their attachments. It can watch up to three folders and pick up new, changed and deleted files automatically."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can we control who sees which documents?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Each person signs in with their own account. Documents are shared with groups, such as Partners or HR, and someone outside a group cannot search or get answers from its documents. Staff can also sign in with their existing Windows (Active Directory) account."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this help with UK GDPR and client confidentiality?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It removes the hardest part. Because nothing is sent to a third party, there is no AI provider acting as a data processor, no transfer of data outside the UK, and no question about your files being used to train someone else's model. You are still responsible for who has access and how you use it, so check it against your own policies."
       }
     },
     {
@@ -201,62 +142,95 @@ nav{height:auto;min-height:60px;flex-wrap:wrap;padding:0 1.25rem}
       "name": "How much does it cost?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Installation is £350, done remotely and including 30 days of support. The only ongoing cost is AI usage, typically £2 to £5 per month for a small firm, paid directly to the AI provider. There is no monthly subscription to Weld AI."
+        "text": "It depends on your setup, so I quote after a short call and the free system check. Because there is no cloud AI provider, there are no per-question or per-user AI fees to pay anyone."
       }
     }
   ]
 }
 </script>
-
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 
-<nav>
-  <a class="nav-logo" href="#"><span>Weld</span>AI</a>
-  <input type="checkbox" id="nav-toggle" class="nav-toggle">
+<nav class="site-nav" aria-label="Main">
+  <a class="nav-logo" href="/"><span>Weld</span>AI</a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-hidden="true">
   <label for="nav-toggle" class="nav-burger" aria-label="Open menu"><span></span><span></span><span></span></label>
   <ul class="nav-links">
+    <li><a href="#security">Security</a></li>
     <li><a href="#how">How it works</a></li>
-    <li><a href="#privacy">Privacy</a></li>
+    <li><a href="#requirements">What you need</a></li>
     <li><a href="#faq">FAQ</a></li>
     <li><a href="#contact" class="nav-cta">Book a demo</a></li>
   </ul>
 </nav>
 
-<div class="hero">
-  <div class="hero-badge">For UK firms that can't put client files in the cloud</div>
-  <h1>Ask your documents anything.<br><em>Your files stay on your own server.</em></h1>
-  <p>Weld AI installs on your own server, reads your files, and answers questions in plain English — with the exact document and page number.</p>
+<main id="main">
+
+<header class="hero">
+  <div class="hero-badge">Private AI for UK small businesses</div>
+  <h1>AI that answers from your documents. <em>Nothing leaves your office.</em></h1>
+  <p class="lead">Weld AI runs 100% on a PC on your premises. Your team asks questions in plain English and gets answers with the source document and page. No cloud. No internet connection. No data sent to anyone.</p>
   <div class="hero-btns">
     <a href="#contact" class="btn-primary">Book a free demo</a>
-    <a href="/demo.html" class="btn-ghost">Watch 2-min demo</a>
+    <a href="/demo.html" class="btn-ghost">See how it works</a>
   </div>
-  <div class="hero-props">
-    <span class="hero-prop">£350 one-off install</span>
-    <span class="hero-prop">£2–5/month to run — no subscription</span>
-    <span class="hero-prop">Up and running in a day</span>
+  <ul class="hero-props">
+    <li>100% on-premise</li>
+    <li>Works with the internet unplugged</li>
+    <li>No cloud AI account needed</li>
+    <li>Installed for you</li>
+  </ul>
+</header>
+
+<div class="example-wrap">
+  <div class="example">
+    <div class="example-bar"><span>Your office PC</span><strong>● Offline. Nothing sent anywhere.</strong></div>
+    <div class="example-body">
+      <div class="q-bubble">What is the notice period for senior staff?</div>
+      <div class="a-bubble">
+        <p>Senior staff at Grade 4 and above are entitled to three months' notice from either side. This applies to all fee earners at Associate level or above.</p>
+        <span class="source-chip">Staff_Handbook.docx · page 18</span>
+      </div>
+    </div>
   </div>
-  <p style="color:rgba(255,255,255,0.55);font-size:0.8rem;margin-top:1.5rem">
-    James Weld &middot; York, England &middot; hello@weldai.uk
-  </p>
+  <p class="example-caption">An illustration of a typical answer. Every answer names the document and page it came from.</p>
 </div>
 
-<div class="shot-wrap">
-  <div class="shot">
-    <img src="/screenshot-chat.png" alt="Weld AI answering a question about notice periods, showing a formatted table with source citation">
-  </div>
-  <p class="shot-caption">The real product, answering from a staff handbook — with the source document named.</p>
-</div>
-
-<section id="problem">
+<section id="why">
   <div class="container">
-    <div class="section-label">The problem</div>
-    <h2>Your firm already has the answers. Finding them is the problem.</h2>
-    <p class="section-sub">Staff spend time every day hunting for documents and answers they know are in your files somewhere.</p>
-    <div class="features">
-      <div class="feature-card"><h3>Searching costs real money</h3><p>If ten people each lose 20 minutes a day, that's roughly £25,000 a year in time. At that rate the install pays for itself in under a week.</p></div>
-      <div class="feature-card"><h3>Knowledge leaves when people do</h3><p>What your experienced staff know is buried in your files. Weld AI makes it available to everyone, permanently.</p></div>
-      <div class="feature-card"><h3>Cloud AI isn't an option for you</h3><p>You can't paste client contracts or HR files into ChatGPT. Weld AI keeps every document on your own server.</p></div>
+    <div class="section-label">Why on-premise</div>
+    <h2 class="section-title">Cloud AI means handing your files to someone else</h2>
+    <p class="section-sub">For many small businesses that is the end of the conversation. Weld AI gives you the benefit of AI without the handover.</p>
+    <div class="cards">
+      <div class="card"><h3>Your documents are confidential</h3><p>Client files, contracts, HR records and accounts should not be pasted into ChatGPT or uploaded to a cloud service. With Weld AI they never leave the building.</p></div>
+      <div class="card"><h3>The answers are already in your files</h3><p>Staff lose time every day hunting for things they know are written down somewhere. Weld AI finds the paragraph and answers the question.</p></div>
+      <div class="card"><h3>No third party to worry about</h3><p>There is no AI provider processing your data, so no provider's terms to read, no data leaving the UK, and no risk of your files training someone else's model.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="security" class="alt">
+  <div class="container">
+    <div class="section-label">Security</div>
+    <h2 class="section-title">Where your data goes: nowhere</h2>
+    <p class="section-sub">Most "private" AI tools still send your question and parts of your documents to a cloud AI model. Weld AI does not. The AI model itself runs on your PC.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>What</th><th>Where it lives</th><th>Sent to the cloud</th></tr></thead>
+        <tbody>
+          <tr><td>Your documents</td><td>Your PC</td><td class="check">Never</td></tr>
+          <tr><td>The search index</td><td>Your PC</td><td class="check">Never</td></tr>
+          <tr><td>Questions and answers</td><td>Your PC</td><td class="check">Never</td></tr>
+          <tr><td>The AI model that writes the answers</td><td>Your PC</td><td class="check">Never</td></tr>
+          <tr><td>Usage tracking or telemetry</td><td>None collected</td><td class="check">Never</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="cards" style="margin-top:2.5rem">
+      <div class="card"><h3>You can check it yourself</h3><p>Unplug the internet and ask a question. It still answers. Your IT person can block the PC from the internet at the firewall and nothing stops working.</p></div>
+      <div class="card"><h3>Tested on every release</h3><p>Every version goes through an automated test that confirms the software cannot reach the internet. Nothing phones home, not even to me.</p></div>
+      <div class="card"><h3>Each person sees only what they should</h3><p>Everyone signs in with their own account. Documents are shared with groups, so HR files stay with HR and partner files stay with partners.</p></div>
     </div>
   </div>
 </section>
@@ -264,171 +238,227 @@ nav{height:auto;min-height:60px;flex-wrap:wrap;padding:0 1.25rem}
 <section id="how">
   <div class="container">
     <div class="section-label">How it works</div>
-    <h2>Four steps, no IT project</h2>
-    <p class="section-sub">No site visit. We install remotely and your team can start asking questions straight away.</p>
-    <div class="steps">
-      <div class="step"><div class="step-num">1</div><h3>We install on your server</h3><p>Remotely, over a screen-share call, on the Windows or Linux machine you already have. Under an hour.</p></div>
-      <div class="step"><div class="step-num">2</div><h3>Point it at your files</h3><p>Copy your policies, contracts and manuals into one folder. PDF, Word, Excel, PowerPoint.</p></div>
-      <div class="step"><div class="step-num">3</div><h3>Click index, once</h3><p>Weld AI reads everything. After that it only re-reads what has changed.</p></div>
-      <div class="step"><div class="step-num">4</div><h3>Ask anything</h3><p>Open a browser on any device and type a question, like you would to a colleague.</p></div>
+    <h2 class="section-title">Three steps, no IT project</h2>
+    <p class="section-sub">You do not need IT staff, an AI account or any technical knowledge.</p>
+    <div class="steps-row">
+      <div class="step"><div class="step-num">1</div><h3>Free system check</h3><p>Run a small script on the PC you would like to use. It takes a few minutes and tells us both whether the PC is up to the job.</p></div>
+      <div class="step"><div class="step-num">2</div><h3>I install it with you</h3><p>Over a screen-share call, with you watching. The AI model arrives with the software, so nothing is downloaded from the internet afterwards.</p></div>
+      <div class="step"><div class="step-num">3</div><h3>Your team asks questions</h3><p>Point Weld AI at your document folders. Staff open a browser on the office network, sign in and type a question, as they would to a colleague.</p></div>
     </div>
   </div>
 </section>
 
-<section id="features">
+<section id="features" class="alt">
   <div class="container">
     <div class="section-label">What you get</div>
-    <h2>Simple enough to use without training</h2>
-    <p class="section-sub">Six things your team will actually use every day.</p>
-    <div class="features">
-      <div class="feature-card"><h3>Every answer shows its source</h3><p>Document name and page number, every time. Your staff can check it before they rely on it.</p></div>
-      <div class="feature-card"><h3>Search by client or matter</h3><p>Name the folder in your question and Weld AI looks only there. Built for firms that file by client.</p></div>
-      <div class="feature-card"><h3>Summarise a whole document</h3><p>A summary drawn from the entire file, not just the first few pages, and it tells you how much it covered.</p></div>
-      <div class="feature-card"><h3>Follow-up questions work</h3><p>"More detail on the first one?" It remembers the conversation, and picks it up again after you close the tab.</p></div>
-      <div class="feature-card"><h3>Adding documents takes seconds</h3><p>Drop a file in the folder, click Refresh. Only the new and changed files get re-read.</p></div>
-      <div class="feature-card"><h3>It looks like yours</h3><p>Your firm's name, colours and tagline on a clean, modern interface.</p></div>
+    <h2 class="section-title">Simple enough to use without training</h2>
+    <p class="section-sub">Six things your team will use every day.</p>
+    <div class="cards">
+      <div class="card"><h3>Every answer shows its source</h3><p>Document name and page, every time, so staff can check an answer before they rely on it.</p></div>
+      <div class="card"><h3>It says when it doesn't know</h3><p>If your documents don't cover the question, Weld AI tells you so. It does not fill the gap with a guess.</p></div>
+      <div class="card"><h3>Reads the files you already have</h3><p>PDF, Word, Excel and PowerPoint, plus scanned documents and Outlook emails with their attachments.</p></div>
+      <div class="card"><h3>Keeps itself up to date</h3><p>Point it at up to three folders. New, changed and deleted files are picked up automatically every few minutes.</p></div>
+      <div class="card"><h3>Summaries and follow-ups</h3><p>Summarise a long document in one click, or ask "more detail on the second point?" and it follows the conversation.</p></div>
+      <div class="card"><h3>Search one client or folder</h3><p>Click a folder or a single document and the answers come only from there. Handy for firms that file by client or matter.</p></div>
     </div>
-  </div>
-</section>
-
-<section id="privacy">
-  <div class="container">
-    <div class="section-label">Data privacy</div>
-    <h2>We bring the AI to your data, not your data to the AI</h2>
-    <p class="section-sub">Your files never leave your server. To write each answer, only your question and a few short excerpts, with identifiers removed, are sent out.</p>
-    <div class="privacy-grid">
-      <div class="privacy-card"><h4>Your files stay where they are</h4><p>Documents are indexed on your own server and never stored anywhere else. Access is over HTTPS, encrypted in transit.</p></div>
-      <div class="privacy-card"><h4>Answers written by Claude</h4><p>Anthropic's Claude API is SOC 2 Type II certified and its terms prohibit training on your data. Anthropic deletes what it receives within 30 days.</p></div>
-    </div>
+    <figure class="shot">
+      <img src="/screenshot-summary.png" width="1237" height="606" loading="lazy" alt="Weld AI summarising a client onboarding procedure document, with a numbered reference to the source passage after each point">
+      <figcaption>The real product summarising a document on an office PC. Each numbered box is a reference to the source passage.</figcaption>
+    </figure>
   </div>
 </section>
 
 <section id="compare">
   <div class="container">
-    <div class="section-label">Why not ChatGPT?</div>
-    <h2>ChatGPT knows the world. Weld AI knows your firm.</h2>
-    <p class="section-sub">The difference that matters most: where your documents end up.</p>
+    <div class="section-label">Weld AI or cloud AI?</div>
+    <h2 class="section-title">ChatGPT knows the world. Weld AI knows your business.</h2>
+    <p class="section-sub">Cloud tools such as ChatGPT and Microsoft Copilot are excellent. The difference is where your documents are processed.</p>
     <div class="table-wrap">
       <table>
-        <thead><tr><th></th><th>Weld AI</th><th>General AI tools</th></tr></thead>
+        <thead><tr><th></th><th>Weld AI</th><th>Cloud AI tools</th></tr></thead>
         <tbody>
-          <tr><td>Where your documents live</td><td class="check">✓ Your server</td><td class="cross">✗ Uploaded to the cloud</td></tr>
-          <tr><td>Source and page on every answer</td><td class="check">✓ Always</td><td class="part">~ Sometimes</td></tr>
-          <tr><td>Cost</td><td class="check">✓ One-off, then £2–5/month</td><td class="cross">✗ Per user, every month</td></tr>
+          <tr><td>Where your documents are processed</td><td class="check">On a PC in your office</td><td>On the provider's servers</td></tr>
+          <tr><td>Works without internet</td><td class="check">Yes</td><td class="cross">No</td></tr>
+          <tr><td>A third party handles your data</td><td class="check">No</td><td class="cross">Yes</td></tr>
+          <tr><td>Your files used to train AI</td><td class="check">Not possible. Nothing leaves.</td><td class="part">Depends on plan and settings</td></tr>
+          <tr><td>Source and page on every answer</td><td class="check">Always</td><td class="part">Sometimes</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="section-sub" style="margin:2rem auto 0;font-size:0.95rem">Built for <strong>accountancy practices</strong> and <strong>solicitors</strong>, and any firm with a lot of confidential documents.</p>
+  </div>
+</section>
+
+<section id="who" class="alt">
+  <div class="container">
+    <div class="section-label">Who it's for</div>
+    <h2 class="section-title">Small businesses with documents worth protecting</h2>
+    <p class="section-sub">If you would not be comfortable uploading your files to a website, Weld AI is built for you.</p>
+    <ul class="pills">
+      <li>Accountancy practices</li>
+      <li>Solicitors and legal firms</li>
+      <li>Financial advisers</li>
+      <li>HR consultancies</li>
+      <li>Medical and dental practices</li>
+      <li>Engineering and manufacturing firms</li>
+      <li>Property and letting agents</li>
+      <li>Charities and schools</li>
+    </ul>
+  </div>
+</section>
+
+<section id="requirements">
+  <div class="container">
+    <div class="section-label">What you need</div>
+    <h2 class="section-title">One capable Windows PC</h2>
+    <p class="section-sub">Because the AI runs in your office and not in a data centre, the PC matters. Here is the honest specification.</p>
+    <div class="spec">
+      <div><h3>Computer</h3><p>Windows 10 or 11 PC<small>One that stays switched on during office hours.</small></p></div>
+      <div><h3>Memory and disk</h3><p>16 GB RAM, 40 GB free disk<small>12 GB and 25 GB are the minimum.</small></p></div>
+      <div><h3>Graphics card</h3><p>NVIDIA, 8 GB or more, recommended<small>It works without one, but answers are slow.</small></p></div>
+    </div>
+    <p class="section-sub" style="margin:2rem auto 1.5rem">With a 4 GB NVIDIA card, measured on real company documents, the first words appear after about 10 seconds. Without a graphics card, expect 20 to 60 seconds.</p>
+    <p style="text-align:center"><a class="btn-solid" href="/systemcheck.html">Check your PC for free</a></p>
+  </div>
+</section>
+
+<section id="about" class="alt">
+  <div class="container">
+    <div class="section-label">Who you deal with</div>
+    <h2 class="section-title">One person, start to finish</h2>
+    <p class="section-sub">Weld AI is a one-person business, and that is deliberate.</p>
+    <div class="about">
+      <p>I'm James Weld, a sole trader based in York. I build Weld AI, I install it, and I answer the support emails.</p>
+      <p>For a small business that means no sales team, no call centre and no account manager. You talk to the person who knows exactly how the software works and exactly what it does with your data, which is nothing beyond your own four walls.</p>
+    </div>
   </div>
 </section>
 
 <section id="faq">
   <div class="container">
     <div class="section-label">Common questions</div>
-    <h2>Frequently asked questions</h2>
-    <p class="section-sub">The things people ask before booking a demo.</p>
+    <h2 class="section-title">Frequently asked questions</h2>
+    <p class="section-sub">What people ask before booking a demo.</p>
     <div class="faq-list">
 
       <details>
-        <summary>Do my documents leave my server?</summary>
-        <p class="faq-a">No. Your documents, the search index and your chat history stay on your server. To write an answer, Weld AI sends Anthropic's Claude your question, the recent conversation, the names of the files it quotes, and up to eight short excerpts with identifiers such as NI numbers, UTRs, bank details, emails and phone numbers removed. Anthropic does not use this data to train its models and deletes it within 30 days.</p>
+        <summary>Does anything leave our office?</summary>
+        <div class="faq-a"><p>No. The AI model, the search index, your documents, your questions and the answers all stay on the PC in your office. Weld AI makes no internet connections and sends no usage data to anyone, including me. There is no cloud AI provider involved at all.</p></div>
       </details>
 
       <details>
-        <summary>What does it run on?</summary>
+        <summary>Does it need an internet connection?</summary>
+        <div class="faq-a"><p>Not to run. Once installed, Weld AI works with the internet unplugged, and your IT person can block the PC from the internet at the firewall. An internet connection is used on install day only, for the screen-share call and to download Docker Desktop.</p></div>
+      </details>
+
+      <details>
+        <summary>What computer does it need?</summary>
         <div class="faq-a">
-          <p style="margin:0 0 10px">A Windows 10 or 11 PC, a Windows Server, or a Linux server you already have, with at least 8GB of RAM. We check compatibility with you before installing.</p>
-          <a href="/it-setup.html">IT team? Full requirements are in the IT Setup Guide →</a>
+          <p>A Windows 10 or 11 PC that stays switched on, with 16 GB of memory and 40 GB of free disk space. An NVIDIA graphics card with 8 GB of memory or more is recommended for quick answers. The free system check tells you in a few minutes whether a PC you already own will do.</p>
+          <p><a href="/systemcheck.html">Run the free system check →</a> &nbsp; <a href="/it-setup.html">IT setup guide →</a></p>
         </div>
       </details>
 
       <details>
-        <summary>Do we need IT staff?</summary>
-        <p class="faq-a">No. We install remotely over a Teams or Zoom screen-share, usually in under an hour. Day-to-day use needs no technical skill: staff open a browser and type a question.</p>
+        <summary>How fast are the answers?</summary>
+        <div class="faq-a"><p>It depends on the graphics card, because the AI runs on your PC rather than in a data centre. On a PC with a 4 GB NVIDIA card, measured on real company documents, the first words appear after about 10 seconds and a full answer takes about 14 seconds. A card with 8 GB or more is recommended. Without a graphics card it still works, but answers take 20 to 60 seconds or more.</p></div>
       </details>
 
       <details>
-        <summary>What files does it read, and how do I add new ones?</summary>
-        <p class="faq-a">PDF, Word, Excel, PowerPoint, CSV and plain text. To add a document, copy it into your documents folder and click Refresh. Only new or changed files are re-read, so it takes seconds.</p>
+        <summary>Can I trust the answers?</summary>
+        <div class="faq-a"><p>Every answer names the document and page it came from, so staff can check it before relying on it. If your documents do not cover the question, Weld AI says so instead of guessing. Like any AI it can still make mistakes, so important answers should be checked against the source.</p></div>
       </details>
 
       <details>
-        <summary>Can it read our file server, OneDrive or SharePoint?</summary>
-        <p class="faq-a">Yes. Documents can be on a local drive, a synced OneDrive or SharePoint folder, or a file server. Where your files live decides which machine we install on, and we agree that with you before the install.</p>
+        <summary>What files can it read?</summary>
+        <div class="faq-a"><p>PDF, Word, Excel, PowerPoint, CSV, HTML and plain text, plus scanned documents and images (read with OCR on your PC) and Outlook emails with their attachments. It can watch up to three folders and pick up new, changed and deleted files automatically.</p></div>
+      </details>
+
+      <details>
+        <summary>Can we control who sees which documents?</summary>
+        <div class="faq-a"><p>Yes. Each person signs in with their own account. Documents are shared with groups, such as Partners or HR, and someone outside a group cannot search or get answers from its documents. Staff can also sign in with their existing Windows (Active Directory) account.</p></div>
+      </details>
+
+      <details>
+        <summary>Does this help with UK GDPR and client confidentiality?</summary>
+        <div class="faq-a"><p>It removes the hardest part. Because nothing is sent to a third party, there is no AI provider acting as a data processor, no transfer of data outside the UK, and no question about your files being used to train someone else's model. You are still responsible for who has access and how you use it, so check it against your own policies.</p></div>
       </details>
 
       <details>
         <summary>How much does it cost?</summary>
-        <p class="faq-a">Installation is £350, done remotely and including 30 days of support. The only ongoing cost is AI usage, typically £2–5 per month for a small firm, paid directly to the AI provider. There is no monthly subscription to Weld AI.</p>
+        <div class="faq-a"><p>It depends on your setup, so I quote after a short call and the free system check. Because there is no cloud AI provider, there are no per-question or per-user AI fees to pay anyone.</p></div>
       </details>
 
     </div>
   </div>
 </section>
 
-<section id="contact">
+<section id="contact" class="alt">
   <div class="container">
     <div class="section-label">Get in touch</div>
-    <h2>See it running on your own documents</h2>
-    <p class="section-sub">A free remote demo over Teams or Zoom, using your files rather than a demo set.</p>
+    <h2 class="section-title">See it working before you decide</h2>
+    <p class="section-sub">A free demo over Teams or Zoom. No obligation, and you never need to send me a single document.</p>
     <div class="contact-grid">
       <form id="demo-form" action="https://formspree.io/f/xgoqlozb" method="POST">
-        <div><label>Your name</label><input type="text" name="name" placeholder="Jane Smith" required></div>
-        <div><label>Email address</label><input type="email" name="email" placeholder="jane@example.com" required></div>
-        <div><label>Company name</label><input type="text" name="company" placeholder="Smith &amp; Jones Ltd"></div>
-        <div><label>Industry</label><select name="industry"><option value="">Select...</option><option>Accountancy</option><option>Legal / Solicitors</option><option>HR / Recruitment</option><option>Healthcare</option><option>Engineering</option><option>Insurance</option><option>Other</option></select></div>
-        <div><label>What documents would you like to search?</label><textarea name="documents" placeholder="e.g. Client contracts, HR policies, technical manuals..."></textarea></div>
-        <button type="submit" class="form-submit">Get a live demo with your documents →</button>
-        <p id="demo-form-status" style="font-size:0.9rem;margin-top:4px;display:none"></p>
+        <div><label for="f-name">Your name</label><input id="f-name" type="text" name="name" autocomplete="name" required></div>
+        <div><label for="f-email">Email address</label><input id="f-email" type="email" name="email" autocomplete="email" required></div>
+        <div><label for="f-company">Business name</label><input id="f-company" type="text" name="company" autocomplete="organization"></div>
+        <div><label for="f-docs">What kind of documents would you like to search? (optional)</label><textarea id="f-docs" name="documents" placeholder="For example: client files, HR policies, contracts, technical manuals"></textarea></div>
+        <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button type="submit" class="form-submit">Book my free demo</button>
+        <p id="demo-form-status" class="form-note" role="status" style="display:none"></p>
+        <p class="form-note">I only use your details to reply to you. See the <a href="/privacy.html">privacy policy</a>.</p>
       </form>
       <div class="contact-info">
-        <h3>We reply within one working day</h3>
-        <p>Tell us what documents you work with and we’ll show you how Weld AI handles them.</p>
-        <p>No engineer visit, available UK-wide.</p>
-        <div class="contact-detail"><a href="mailto:hello@weldai.uk">hello@weldai.uk</a></div>
-        <div class="contact-detail">York, England</div>
+        <h3>I reply within one working day</h3>
+        <ul>
+          <li>Free demo, no obligation</li>
+          <li>Free check of your PC before you commit</li>
+          <li>Installed remotely, anywhere in the UK</li>
+          <li>You deal with me directly</li>
+        </ul>
+        <p>Prefer email? <a href="mailto:hello@weldai.uk">hello@weldai.uk</a></p>
+        <p>James Weld, Weld AI<br>York, England</p>
       </div>
     </div>
   </div>
 </section>
 
-<footer>
-  <div class="footer-links">
-    <a href="/blog.html">Blog</a>
-    <a href="/systemcheck.html">System Check</a>
-    <a href="/it-setup.html">IT Setup Guide</a>
-    <a href="/privacy.html">Privacy Policy</a>
-    <a href="/terms.html">Terms of Service</a>
-    <a href="/cookies.html">Cookie Policy</a>
-    <a href="mailto:hello@weldai.uk">hello@weldai.uk</a>
-  </div>
-  <p>© 2026 Weld AI · weldai.uk · York, England</p>
+</main>
+
+<footer class="site-footer">
+  <ul class="footer-links">
+    <li><a href="/demo.html">Demo</a></li>
+    <li><a href="/systemcheck.html">System check</a></li>
+    <li><a href="/it-setup.html">IT setup guide</a></li>
+    <li><a href="/blog.html">Guides</a></li>
+    <li><a href="/privacy.html">Privacy</a></li>
+    <li><a href="/terms.html">Terms</a></li>
+    <li><a href="/cookies.html">Cookies</a></li>
+  </ul>
+  <p>© 2026 Weld AI · James Weld, sole trader · York, England · <a href="mailto:hello@weldai.uk">hello@weldai.uk</a></p>
 </footer>
+
 <script>
 document.querySelectorAll('.nav-links a').forEach(function(a){
   a.addEventListener('click',function(){document.getElementById('nav-toggle').checked=false});
 });
-
 (function(){
   var form=document.getElementById('demo-form');
   if(!form)return;
   var status=document.getElementById('demo-form-status');
   var btn=form.querySelector('.form-submit');
-  function show(msg,ok){status.textContent=msg;status.style.display='block';status.style.color=ok?'#059669':'#EF4444';}
+  var fallback='Something went wrong. Please email hello@weldai.uk.';
+  function show(msg,ok){status.textContent=msg;status.style.display='block';status.style.color=ok?'#059669':'#DC2626';}
   form.addEventListener('submit',function(e){
     e.preventDefault();
     var original=btn.textContent;
     btn.disabled=true;btn.style.opacity='0.6';btn.textContent='Sending...';
     fetch(form.action,{method:'POST',body:new FormData(form),headers:{'Accept':'application/json'}})
       .then(function(r){
-        if(r.ok){
-          form.reset();
-          show("Thanks — we'll be in touch within one working day.",true);
-        }else{
-          r.json().then(function(d){
-            show((d.errors&&d.errors.length)?d.errors.map(function(x){return x.message}).join(', '):'Something went wrong. Please email hello@weldai.uk.',false);
-          }).catch(function(){show('Something went wrong. Please email hello@weldai.uk.',false);});
-        }
+        if(r.ok){form.reset();show("Thanks. I'll be in touch within one working day.",true);return;}
+        return r.json().then(function(d){
+          show((d.errors&&d.errors.length)?d.errors.map(function(x){return x.message}).join(', '):fallback,false);
+        }).catch(function(){show(fallback,false);});
       })
       .catch(function(){show('Network error. Please email hello@weldai.uk.',false);})
       .finally(function(){btn.disabled=false;btn.style.opacity='';btn.textContent=original;});
